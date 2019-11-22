@@ -1,0 +1,22 @@
+{
+   "compilerOptions": {
+      "lib": [
+         "es5",
+         "es6",
+         "dom"
+      ],
+      "target": "es6",
+      "module": "commonjs",
+      "outDir": "./dist",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "allowJs": true,
+      "jsx": "react",
+      "resolveJsonModule": true,
+      "strict": true,
+      "strictFunctionTypes": false,
+      "strictPropertyInitialization": false,
+      "importHelpers": true
+   }
+}

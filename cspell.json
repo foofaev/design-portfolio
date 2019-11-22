@@ -1,0 +1,16 @@
+{
+    "language": "en",
+    "dictionaryDefinitions": [
+        {
+            "name": "russian",
+            "file": "./node_modules/cspell-dict-russian/Russian.trie.gz",
+            "description": "Russian Dictionary"
+          }
+    ],
+    "ignorePaths": ["node_modules/**"],
+    "dictionaries": [
+        "russian"
+    ],
+    "words": [
+   ]
+  }

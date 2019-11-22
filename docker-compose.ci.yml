@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10.4-alpine
+    container_name: db
+    environment:
+      - POSTGRES_DB=design
+      - POSTGRES_USER=design
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - 5432
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: server
+    volumes:
+      - ./.env.ci:/srv/app/.env.ci:ro
+    depends_on:
+      - starbyte2-db
+    command: ["npm", "run", "server"]

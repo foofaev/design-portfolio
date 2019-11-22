@@ -1,0 +1,27 @@
+env:
+  global:
+    # repository id on Code Climate, individual for every repository
+    - CC_TEST_REPORTER_ID=e96c1f1ec9fec8d2710c9983c93c1b418e0d18b7147cc9f8363579e70839015f
+services:
+  - docker
+language: node_js
+node_js:
+  - node
+
+before_install:
+  - docker-compose -f docker-compose.ci.yml up --build -d
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - docker-compose -f docker-compose.ci.yml exec -T make lint
+  - docker-compose -f docker-compose.ci.yml exec -T make spellcheck
+  - docker-compose -f docker-compose.ci.yml exec -T make migrate
+  - docker-compose -f docker-compose.ci.yml exec -T make test
+
+after_script:
+  - docker-compose -f backend/docker-compose.ci.yml down -v
+  - ./cc-test-reporter after-build --debug -t lcov --exit-code $TRAVIS_TEST_RESULT
