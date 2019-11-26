@@ -1,23 +1,27 @@
 import * as _ from 'lodash';
-import { Repository, Not, EntityRepository } from 'typeorm';
-import { toURI } from './translit';
+import {
+  Repository,
+  Not,
+  EntityRepository,
+  DeepPartial,
+} from 'typeorm';
+import { toURI } from '../libs/translit';
+import Project from '../entities/Project'; // #TODO: use generic
 
 const toUrl = (str: string) => _.truncate(
   toURI(_.replace(str, /[$&_+.]/g, ' ')),
   { length: 255, omission: '' },
 );
 
-type Instance = {
-  name: string,
-  id: string,
-  urlKey: string,
-};
+interface Instance extends DeepPartial<Project> {
+  name?: string,
+}
 
-export default (entity: Instance) => {
+export default (entity: typeof Project) => {
   @EntityRepository(entity)
-  class RepoBase<T extends Instance> extends Repository<T> {
+  class CustomRepository<T extends Instance> extends Repository<T> {
     public generateUrlKey = async (item: T, uriPart = -1, actuallyUpdateUrlKey: boolean | void): Promise<any> => {
-      const urlKey = toUrl(`${uriPart === -1 ? '' : `${uriPart}-`}${item.name || item.id}`);
+      const urlKey = toUrl(`${uriPart === -1 ? '' : `${uriPart}-`}${item.title || item.name || item.id}`);
 
       const instanceWithSameUrlKey = await this.findOne({ where: { urlKey, id: Not(item.id) } });
       if (instanceWithSameUrlKey) return this.generateUrlKey(item, uriPart + 1);
@@ -26,5 +30,5 @@ export default (entity: Instance) => {
     };
   }
 
-  return RepoBase;
+  return CustomRepository;
 };

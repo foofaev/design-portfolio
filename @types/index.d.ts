@@ -1,8 +1,8 @@
 import { ServerResponse, IncomingMessage, Server } from 'http';
-import { Db, Repository } from 'typeorm';
-import Project from './entities/Project';
-import User from './entities/User';
-import Session from './entities/Session';
+import { Connection, Repository } from 'typeorm';
+import Project from '../backend/entities/Project';
+import User from '../backend/entities/User';
+import Session from '../backend/entities/Session';
 
 type SessionRequestType = Omit<Session, 'user'>;
 
@@ -12,7 +12,7 @@ declare module 'fastify' {
     HttpRequest = IncomingMessage,
     HttpResponse = ServerResponse
   > {
-    db: Db,
+    db: Connection,
     projectRepository: Repository<Project>,
     userRepository: Repository<User>,
     sessionRepository: Repository<Session>,
@@ -29,3 +29,10 @@ declare module 'fastify' {
     user: User
   }
 }
+
+// declare module 'fastify-csrf' {
+
+// }
+
+
+export type EntityWithUrlKey = Project;

@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import * as cookieSigner from 'cookie-signature';
+import * as bcrypt from 'bcryptjs';
 
 const timestampFormat = 'YYYY-MM-DD HH:mm:ss.SSS';
 
@@ -23,10 +24,20 @@ function unsignCookie(uuid: string, secret: string) {
   return cookieSigner.unsign(uuid, secret);
 }
 
+function hashPassword(value:string) {
+  return bcrypt.hashSync(value, 8);
+}
+
+function verifyPassword(unencryptedPassword: string, encryptedPassword: string) {
+  return bcrypt.compareSync(unencryptedPassword, encryptedPassword);
+}
+
 export default {
   parseTimestamp,
   formatTimestamp,
   generateTimestamp,
   signCookie,
   unsignCookie,
+  hashPassword,
+  verifyPassword,
 };

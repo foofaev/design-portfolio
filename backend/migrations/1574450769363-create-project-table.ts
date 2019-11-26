@@ -11,7 +11,7 @@ export default class createProjectTable1574450769363 implements MigrationInterfa
     `);
 
     const projectTable = new Table({
-      name: 'project',
+      name: 'projects',
       columns: [
         {
           name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
@@ -38,6 +38,6 @@ export default class createProjectTable1574450769363 implements MigrationInterfa
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('project');
+    await queryRunner.dropTable('projects');
   }
 }

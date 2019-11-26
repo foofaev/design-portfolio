@@ -1,21 +1,21 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage } from 'http';
 import {
-  FastifyInstance, FastifyRequest, FastifyReply, FastifyMiddlewareWithPayload,
+  FastifyInstance, FastifyRequest, FastifyMiddlewareWithPayload,
 } from 'fastify';
 import * as fp from 'fastify-plugin';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
 import * as fastifyCookie from 'fastify-cookie';
-import fastifyCsurf from 'fastify-csrf';
+// import fastifyCsurf from 'fastify-csrf';
 
-import helpers from '../helpers';
+import helpers from '../libs/helpers';
 
 const cookieSecret = process.env.SESSION_COOKIE_SECRET || 'mySecretCookieRecepy';
 const cookiePath = process.env.SESSION_COOKIE_PATH || '/';
 const cookieSessionName = process.env.SESSION_COOKIE_NAME || '_sess';
 const sessionExpiresHH = process.env.SESSION_EXPIRES_HH || 1;
-const cookieCSRFName = process.env.CSRF_COOKIE_NAME || '_csrf';
+// const cookieCSRFName = process.env.CSRF_COOKIE_NAME || '_csrf';
 
 const checkSession = (fastify: FastifyInstance) => async (request: FastifyRequest<IncomingMessage>) => {
   const { url } = request.raw;
@@ -59,13 +59,11 @@ const shouldSetSession = (request: FastifyRequest<IncomingMessage>) => {
   */
 };
 
-const setSession: FastifyMiddlewareWithPayload = (
-  request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>,
-) => {
+const setSession: FastifyMiddlewareWithPayload = (request, reply, __, next) => {
   try {
     const { session } = request;
     if (!shouldSetSession(request)) {
-      return;
+      return next();
     }
     const encryptedSessionId = helpers.signCookie(session.id, cookieSecret);
     const expires = new Date(session.expiresAt);
@@ -80,18 +78,24 @@ const setSession: FastifyMiddlewareWithPayload = (
         secure: false, // enable when using https
       },
     );
+    return next();
   } catch (error) {
     request.log.error(`Error setting session to cookie, reason: ${error.toString()} ${error.stack}`);
-    throw error;
+    return next(error);
   }
 };
 
-export default fp(async (fastify: FastifyInstance) => {
-  fastify
-    .register(fastifyCookie)
-    .decorateRequest('session', {})
-    .decorateRequest('user', {})
-    .decorate('checkSession', checkSession(fastify))
-    .addHook('onSend', setSession)
-    .register(fastifyCsurf, { key: cookieCSRFName, ignoreMethods: ['GET', 'HEAD', 'OPTIONS'] });
+export default fp((fastify, __, next) => {
+  try {
+    fastify
+      .register(fastifyCookie)
+      .decorateRequest('session', {})
+      .decorateRequest('user', {})
+      .decorate('checkSession', checkSession(fastify))
+      .addHook('onSend', setSession);
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
+// .register(fastifyCsurf, { key: cookieCSRFName, ignoreMethods: ['GET', 'HEAD', 'OPTIONS'] });

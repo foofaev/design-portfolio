@@ -1,28 +1,35 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, CreateDateColumn, UpdateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  OneToMany,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import File from './File'; // eslint-disable-line import/no-cycle
+import FileReference from './FileReference'; // eslint-disable-line import/no-cycle
 
 const PROJECT_TYPES = ['render'];
 
 // ProjectType = 'render' | 'project' | 'schema' | 'art';
 export type ProjectType = 'render';
 
-@Entity()
+@Entity('projects')
 export default class Project {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar')
   title: string;
 
-  @Column()
+  @Column('varchar')
   description: string;
 
-  @Column()
+  @Column('varchar')
   urlKey: string;
 
-  @Column()
+  @Column('boolean')
   isVisible: boolean;
 
   @Column({ type: 'enum', enum: PROJECT_TYPES, default: 'render' })
@@ -31,14 +38,17 @@ export default class Project {
   @Column('timestamptz')
   publishedAt: string;
 
-  @OneToOne(() => File)
-  previewImage: File;
+  @OneToOne(() => FileReference)
+  @JoinColumn()
+  previewImage: FileReference;
 
-  @OneToOne(() => File)
-  image: File;
+  @OneToOne(() => FileReference)
+  @JoinColumn()
+  image: FileReference;
 
-  @OneToMany(() => File, (file: File) => file.item)
-  files: File[];
+  @OneToMany(() => FileReference, (fileRef: FileReference) => fileRef.item)
+  @JoinColumn()
+  files: FileReference[];
 
   @CreateDateColumn()
   createdAt: string;

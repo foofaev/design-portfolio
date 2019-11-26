@@ -1,32 +1,38 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, OneToOne, CreateDateColumn, UpdateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
-import File from './File'; // eslint-disable-line import/no-cycle
+import helpers from '../libs/helpers';
+import FileReference from './FileReference'; // eslint-disable-line import/no-cycle
 
-const hashPassword = (value:string) => bcrypt.hashSync(value, 8);
 
-@Entity()
+@Entity('users')
 export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar')
   firstName: string;
 
-  @Column()
+  @Column('varchar')
   lastName: string;
 
-  @OneToOne(() => File)
-  image: File;
+  @OneToOne(() => FileReference)
+  @JoinColumn()
+  image: FileReference;
 
-  set password(value: string) {
-    this.password = hashPassword(value);
-  }
-
-  @Column()
+  @Column('varchar')
   get password(): string {
     return this.password;
+  }
+
+  set password(value: string) {
+    this.password = helpers.hashPassword(value);
   }
 
   @CreateDateColumn()
@@ -34,8 +40,4 @@ export default class User {
 
   @UpdateDateColumn()
   updatedAt: string;
-
-  verifyPassword(unencryptedPassword: string) {
-    return bcrypt.compareSync(unencryptedPassword, this.password);
-  }
 }

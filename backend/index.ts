@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import * as path from 'path';
 
 import * as Fastify from 'fastify';
@@ -19,7 +20,7 @@ const rollbar = new Rollbar({
   captureUnhandledRejections: true,
 });
 
-export default async () => {
+export default async (): Promise<Fastify.FastifyInstance> => {
   dotenv.config({ path: '../.env' });
 
   const fastify = Fastify({
@@ -31,31 +32,24 @@ export default async () => {
 
   fastify
     .register(fastifySensible)
-    .register(fastifyStatic, {
-      root: path.join(__dirname, '..', 'public', 'assets'),
-      prefix: '/assets/',
-    })
+    // .register(fastifyStatic, {
+    //   root: path.join(__dirname, '..', 'public', 'assets'),
+    //   prefix: '/assets/',
+    // })
     .register(fastifyHelmet, {
       hidePoweredBy: { setTo: 'PHP 4.2.0' },
     })
     .register(dbPlugin)
     .register(authPlugin)
-    .addHook('onClose', (instance, done) => {
-      instance.db.close();
-      done();
-    })
+    .register(routesPlugin)
     .addHook('onError', (request, __, error) => {
       rollbar.error(error, request);
     })
-    .register(routesPlugin)
     .get('/status', (__, reply) => {
-      reply.status(200).send('OK');
-    })
-    .ready(() => {
-      console.log(fastify.printRoutes());
+      reply.send('OK');
     });
 
-  fastify.after(console.log);
+  await fastify.ready();
 
   return fastify;
 };

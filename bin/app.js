@@ -25,7 +25,7 @@ program
         const replServer = repl.start({
             prompt: 'Application console > ',
         });
-        const container = await getServer();
+        const container = getServer();
         Object.keys(container.repositories).forEach((key) => {
             replServer.context[key] = container.repositories[key];
         });
@@ -37,7 +37,7 @@ program.command('server')
     .action(async () => {
         try {
             const server = await getServer();
-            await server.db.syncronyze();
+            await server.db.synchronize();
             await server.listen(process.env.PORT || 4000);
         } catch (error) {
             console.error(error);

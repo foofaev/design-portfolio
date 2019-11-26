@@ -7,7 +7,7 @@ import {
 export default class createUserTable1574450733448 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const userTable = new Table({
-      name: 'user',
+      name: 'users',
       columns: [
         {
           name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
@@ -25,6 +25,6 @@ export default class createUserTable1574450733448 implements MigrationInterface 
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('users');
   }
 }

@@ -8,7 +8,7 @@ import {
 export default class createSessionTable1574450753370 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const sessionTable = new Table({
-      name: 'session',
+      name: 'sessions',
       columns: [
         {
           name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
@@ -21,16 +21,16 @@ export default class createSessionTable1574450753370 implements MigrationInterfa
     });
     await queryRunner.createTable(sessionTable, true);
 
-    await queryRunner.createForeignKey('session', new TableForeignKey({
+    await queryRunner.createForeignKey('sessions', new TableForeignKey({
       columnNames: ['userId'],
       referencedColumnNames: ['id'],
-      referencedTableName: 'user',
+      referencedTableName: 'users',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('session');
+    await queryRunner.dropTable('sessions');
   }
 }

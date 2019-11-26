@@ -8,21 +8,18 @@
    "scripts": {
       "front:dev": "NODE_ENV=development HOT=true webpack-dev-server --hot",
       "start": "ts-node bin/app.js server",
-      "back:dev": "NODE_ENV=development ts-node bin/app.js server",
+      "back:dev": "NODE_ENV=development ts-node-dev bin/app.js server",
       "start:dev": "npm run front:dev && npm run back:dev",
       "start:hot": "npm run front:dev && npm run back:dev",
       "repl": "ts-node bin/app.js repl",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
-      "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n table"
+      "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n table",
+      "typecheck": "npx tsc",
+      "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --no-cache --detectOpenHandles"
    },
    "jest": {
       "testEnvironment": "node",
-      "collectCoverage": true,
-      "collectCoverageFrom": [
-         "lib/*.js",
-         "routes/*.js",
-         "models/*.js"
-      ],
+      "preset": "ts-jest",
       "testPathIgnorePatterns": [
          "/node_modules/",
          "/__tests__/__fixtures__",
@@ -33,8 +30,7 @@
       "verbose": true,
       "ignore": [
          "dist",
-         "node_modules",
-         "flow-typed"
+         "node_modules"
       ]
    },
    "devDependencies": {
@@ -49,6 +45,7 @@
       "@types/dotenv": "^6.1.1",
       "@types/jest": "^24.0.23",
       "@types/lodash": "^4.14.138",
+      "@types/mime-types": "^2.1.0",
       "@types/node": "^12.7.8",
       "@types/pino": "^5.8.10",
       "@types/pug": "^2.0.4",
@@ -58,12 +55,14 @@
       "@types/react-router-dom": "^4.3.5",
       "@types/reactstrap": "^8.0.4",
       "@types/redux-actions": "^2.6.1",
+      "@types/supertest": "^2.0.8",
       "@types/webpack": "^4.39.1",
       "@typescript-eslint/eslint-plugin": "^2.2.0",
       "@typescript-eslint/parser": "^2.2.0",
       "autoprefixer": "^9.6.1",
       "awesome-typescript-loader": "^5.2.1",
       "babel-eslint": "^10.0.3",
+      "babel-jest": "^24.9.0",
       "babel-loader": "^8.0.6",
       "babel-plugin-dynamic-import-node": "^2.3.0",
       "babel-plugin-lodash": "^3.3.4",
@@ -92,13 +91,14 @@
       "should": "^13.2.3",
       "style-loader": "^1.0.0",
       "stylelint": "^11.0.0",
-      "stylelint-config-standard": "19.0.0",
+      "stylelint-config-standard": "^19.0.0",
       "stylelint-order": "^3.1.1",
       "stylelint-scss": "^3.11.1",
       "supertest": "^4.0.2",
-      "ts-jest": "^24.1.0",
+      "ts-jest": "^24.2.0",
       "ts-loader": "^6.1.2",
       "ts-node": "3.3.0",
+      "ts-node-dev": "^1.0.0-pre.44",
       "typescript": "^3.7.2",
       "url-loader": "^2.1.0",
       "webpack-cli": "^3.3.9",
@@ -111,6 +111,7 @@
       "@types/bcryptjs": "^2.4.2",
       "@types/cookie-signature": "^1.0.3",
       "@types/jsonwebtoken": "^8.3.5",
+      "axios": "^0.19.0",
       "bcryptjs": "^2.4.3",
       "bluebird": "^3.5.5",
       "bootstrap": "^4.3.1",
@@ -130,10 +131,12 @@
       "fastify-session": "^3.1.1",
       "fastify-static": "^2.5.0",
       "fork-ts-checker-webpack-plugin": "^1.5.0",
+      "handlebars": "^4.5.3",
       "history": "^4.10.1",
       "html-webpack-plugin": "^3.2.0",
       "jsonwebtoken": "^8.5.1",
       "lodash": "^4.17.15",
+      "mime-types": "^2.1.25",
       "mini-css-extract-plugin": "^0.8.0",
       "moment": "^2.24.0",
       "mysql": "^2.14.1",

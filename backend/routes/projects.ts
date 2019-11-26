@@ -1,4 +1,3 @@
-import { IncomingMessage } from 'http';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
 export const index = (fastify: FastifyInstance) => fastify.route({
@@ -15,7 +14,7 @@ export const show = (fastify: FastifyInstance) => fastify.route({
   method: 'GET',
   url: '/projects/:projectId',
   preHandler: fastify.checkSession,
-  handler: async (request: FastifyRequest<IncomingMessage>) => {
+  handler: async (request: FastifyRequest) => {
     const { projectId } = request.params;
     const project = await fastify.projectRepository.findByIds(projectId);
     fastify.log.info(project);

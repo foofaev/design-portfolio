@@ -1,10 +1,16 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import User from './User';
 
-@Entity()
+@Entity('sessions')
 export default class Session {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -13,6 +19,7 @@ export default class Session {
   expiresAt: string;
 
   @ManyToOne(() => User)
+  @JoinColumn()
   user: User;
 
   @CreateDateColumn()

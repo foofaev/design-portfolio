@@ -7,75 +7,75 @@ import {
 
 export default class filesToItemsReference1574451119936 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.addColumn('user', new TableColumn({
+    await queryRunner.addColumn('users', new TableColumn({
       name: 'imageId',
       type: 'uuid',
     }));
 
-    await queryRunner.createForeignKey('user', new TableForeignKey({
+    await queryRunner.createForeignKey('users', new TableForeignKey({
       columnNames: ['imageId'],
       referencedColumnNames: ['id'],
-      referencedTableName: 'file',
+      referencedTableName: 'file_references',
       onDelete: 'SET NULL',
       onUpdate: 'CASCADE',
     }));
 
-    await queryRunner.addColumn('project', new TableColumn({
+    await queryRunner.addColumn('projects', new TableColumn({
       name: 'imageId',
       type: 'uuid',
     }));
 
-    await queryRunner.createForeignKey('project', new TableForeignKey({
+    await queryRunner.createForeignKey('projects', new TableForeignKey({
       columnNames: ['imageId'],
       referencedColumnNames: ['id'],
-      referencedTableName: 'file',
+      referencedTableName: 'file_references',
       onDelete: 'SET NULL',
       onUpdate: 'CASCADE',
     }));
 
-    await queryRunner.addColumn('project', new TableColumn({
+    await queryRunner.addColumn('projects', new TableColumn({
       name: 'previewImageId',
       type: 'uuid',
     }));
 
-    await queryRunner.createForeignKey('project', new TableForeignKey({
+    await queryRunner.createForeignKey('projects', new TableForeignKey({
       columnNames: ['previewImageId'],
       referencedColumnNames: ['id'],
-      referencedTableName: 'file',
+      referencedTableName: 'file_references',
       onDelete: 'SET NULL',
       onUpdate: 'CASCADE',
     }));
 
-    await queryRunner.createForeignKey('file', new TableForeignKey({
+    await queryRunner.createForeignKey('file_references', new TableForeignKey({
       columnNames: ['itemId'],
       referencedColumnNames: ['id'],
-      referencedTableName: 'project',
+      referencedTableName: 'projects',
       onDelete: 'SET NULL',
       onUpdate: 'CASCADE',
     }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    const userTable = await queryRunner.getTable('user');
+    const userTable = await queryRunner.getTable('users');
     if (!userTable) return;
     const userImageId = userTable.foreignKeys.find((fk) => fk.columnNames.indexOf('imageId') !== -1);
 
-    if (userImageId) await queryRunner.dropForeignKey('user', userImageId);
-    await queryRunner.dropColumn('user', 'imageId');
+    if (userImageId) await queryRunner.dropForeignKey('users', userImageId);
+    await queryRunner.dropColumn('users', 'imageId');
 
-    const projectTable = await queryRunner.getTable('project');
+    const projectTable = await queryRunner.getTable('projects');
     if (!projectTable) return;
     const projectImageId = projectTable.foreignKeys.find((fk) => fk.columnNames.indexOf('imageId') !== -1);
-    if (projectImageId) await queryRunner.dropForeignKey('project', projectImageId);
-    await queryRunner.dropColumn('project', 'imageId');
+    if (projectImageId) await queryRunner.dropForeignKey('projects', projectImageId);
+    await queryRunner.dropColumn('projects', 'imageId');
 
     const projectPreviewImageId = projectTable.foreignKeys.find((fk) => fk.columnNames.indexOf('previewImageId') !== -1);
-    if (projectPreviewImageId) await queryRunner.dropForeignKey('project', projectPreviewImageId);
-    await queryRunner.dropColumn('project', 'previewImageId');
+    if (projectPreviewImageId) await queryRunner.dropForeignKey('projects', projectPreviewImageId);
+    await queryRunner.dropColumn('projects', 'previewImageId');
 
-    const fileTable = await queryRunner.getTable('file');
+    const fileTable = await queryRunner.getTable('file_references');
     if (!fileTable) return;
     const fileItemId = projectTable.foreignKeys.find((fk) => fk.columnNames.indexOf('itemId') !== -1);
-    if (fileItemId) await queryRunner.dropForeignKey('file', fileItemId);
+    if (fileItemId) await queryRunner.dropForeignKey('file_references', fileItemId);
   }
 }
