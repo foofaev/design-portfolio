@@ -10,6 +10,7 @@ export default class filesToItemsReference1574451119936 implements MigrationInte
     await queryRunner.addColumn('users', new TableColumn({
       name: 'imageId',
       type: 'uuid',
+      isNullable: true,
     }));
 
     await queryRunner.createForeignKey('users', new TableForeignKey({
@@ -23,6 +24,7 @@ export default class filesToItemsReference1574451119936 implements MigrationInte
     await queryRunner.addColumn('projects', new TableColumn({
       name: 'imageId',
       type: 'uuid',
+      isNullable: true,
     }));
 
     await queryRunner.createForeignKey('projects', new TableForeignKey({
@@ -36,6 +38,7 @@ export default class filesToItemsReference1574451119936 implements MigrationInte
     await queryRunner.addColumn('projects', new TableColumn({
       name: 'previewImageId',
       type: 'uuid',
+      isNullable: true,
     }));
 
     await queryRunner.createForeignKey('projects', new TableForeignKey({

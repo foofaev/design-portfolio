@@ -38,15 +38,15 @@ export default class Project {
   @Column('timestamptz')
   publishedAt: string;
 
-  @OneToOne(() => FileReference)
-  @JoinColumn()
-  previewImage: FileReference;
-
-  @OneToOne(() => FileReference)
+  @OneToOne(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
   image: FileReference;
 
-  @OneToMany(() => FileReference, (fileRef: FileReference) => fileRef.item)
+  @OneToOne(() => FileReference, (fileRef) => fileRef.item)
+  @JoinColumn()
+  previewImage: FileReference;
+
+  @OneToMany(() => Project, (project) => project.files)
   @JoinColumn()
   files: FileReference[];
 

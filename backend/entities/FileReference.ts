@@ -24,9 +24,7 @@ export default class FileReference {
   @Column('varchar')
   purpose: string;
 
-  @Column({ type: 'varchar', unique: true })
-  urlKey: string;
-
+  @OneToOne(() => Project, (project) => project.image)
   @OneToOne(() => Project, (project) => project.previewImage)
   @ManyToOne(() => Project, (project) => project.files)
   @OneToOne(() => User, (user) => user.image)
@@ -36,8 +34,6 @@ export default class FileReference {
   @ManyToOne(() => File)
   @JoinColumn()
   file: File;
-
-  fileId: string;
 
   @Column('varchar')
   filePath: string;

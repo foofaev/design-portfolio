@@ -1,21 +1,23 @@
 {
    "name": "design-portfolio",
    "version": "0.0.1",
-   "bin": "bin/app.js",
+   "bin": "dist/bin/app.js",
    "main": "frontend/index.tsx",
    "author": "foofaev",
    "license": "MIT",
    "scripts": {
       "front:dev": "NODE_ENV=development HOT=true webpack-dev-server --hot",
-      "start": "ts-node bin/app.js server",
+      "start": "node dist/bin/app.js server",
       "back:dev": "NODE_ENV=development ts-node-dev bin/app.js server",
       "start:dev": "npm run front:dev && npm run back:dev",
       "start:hot": "npm run front:dev && npm run back:dev",
-      "repl": "ts-node bin/app.js repl",
+      "repl": "ts-node bin/app.ts repl",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n table",
-      "typecheck": "npx tsc",
-      "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --no-cache --detectOpenHandles"
+      "build": "npx tsc",
+      "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --detectOpenHandles",
+      "seedFiles": "ts-node bin/app.ts seedFiles",
+      "lint": "npx eslint --ext .js,.jsx,.ts,.tsx ./"
    },
    "jest": {
       "testEnvironment": "node",
@@ -23,7 +25,8 @@
       "testPathIgnorePatterns": [
          "/node_modules/",
          "/__tests__/__fixtures__",
-         "/__tests__/helpers"
+         "/__tests__/helpers",
+         "/dist/"
       ]
    },
    "nodemonConfig": {
@@ -41,6 +44,7 @@
       "@babel/preset-react": "^7.0.0",
       "@babel/preset-typescript": "^7.6.0",
       "@hot-loader/react-dom": "^16.9.0",
+      "@types/bluebird": "^3.5.29",
       "@types/classnames": "^2.2.9",
       "@types/dotenv": "^6.1.1",
       "@types/jest": "^24.0.23",
@@ -55,6 +59,7 @@
       "@types/react-router-dom": "^4.3.5",
       "@types/reactstrap": "^8.0.4",
       "@types/redux-actions": "^2.6.1",
+      "@types/sharp": "^0.23.0",
       "@types/supertest": "^2.0.8",
       "@types/webpack": "^4.39.1",
       "@typescript-eslint/eslint-plugin": "^2.2.0",
@@ -161,6 +166,7 @@
       "reflect-metadata": "^0.1.13",
       "reselect": "^4.0.0",
       "rollbar": "^2.13.0",
+      "sharp": "^0.23.3",
       "typeorm": "0.2.19",
       "webpack": "^4.41.0",
       "webpack-node-externals": "^1.7.2"

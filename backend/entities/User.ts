@@ -22,7 +22,7 @@ export default class User {
   @Column('varchar')
   lastName: string;
 
-  @OneToOne(() => FileReference)
+  @OneToOne(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
   image: FileReference;
 

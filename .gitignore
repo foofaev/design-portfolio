@@ -89,3 +89,4 @@ flow-typed
 *.sqlite
 public/assets
 .bash_history
+./storage

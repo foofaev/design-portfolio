@@ -1,8 +1,6 @@
 import * as _ from 'lodash';
 import { extension } from 'mime-types';
-import {
-  Repository, EntityRepository, ObjectLiteral, DeepPartial,
-} from 'typeorm';
+import { Repository, EntityRepository, ObjectLiteral } from 'typeorm';
 
 import File from '../entities/File';
 import FileReference from '../entities/FileReference';
@@ -25,33 +23,34 @@ function buildExtendedImageUrl(num: number, urlKey: string, extensionType: strin
 }
 
 @EntityRepository(FileReference)
-export default class FileReferenceRepository<T extends FileReference> extends Repository<FileReference> {
-  async createWithFile(file: File | ObjectLiteral, data: DeepPartial<FileReference>) {
-    const { id: fileId, contentType } = file || {};
+export default class FileReferenceRepository extends Repository<FileReference> {
+  async createWithFile(file: File, data: Partial<FileReference>) {
+    const { id: fileId, contentType, filePath } = file;
     if (!fileId || _.isUndefined(contentType)) {
       throw new Error(`FileRef.createWithFile missing fileData ${fileId} | ${contentType}`);
     }
-    return this.create({
+    return this.save({
       ...data,
-      fileId,
+      file,
+      filePath,
       contentType,
     });
   }
 
   async generateExtendedURL(fileRef: FileReference, record: ObjectLiteral) {
     const {
-      fileId,
+      file,
       num,
       contentType,
       filePath,
     } = fileRef;
 
-    if (!fileId && !num) return '';
+    if (!file && !num) return '';
     const { urlKey } = record;
     const extensionType = getExtension(contentType, filePath);
     const isImage = _.includes(['gif', 'jpg', 'png', 'jpeg'], extensionType);
     return isImage && num
       ? buildExtendedImageUrl(num, urlKey, extensionType)
-      : buildExtendedFileUrl(fileId, urlKey, extensionType);
+      : buildExtendedFileUrl(file.id, urlKey, extensionType);
   }
 }

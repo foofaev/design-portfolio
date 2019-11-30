@@ -1,10 +1,22 @@
 import { ServerResponse, IncomingMessage, Server } from 'http';
-import { Connection, Repository } from 'typeorm';
+import { Connection, Repository, DeepPartial } from 'typeorm';
+
 import Project from '../backend/entities/Project';
 import User from '../backend/entities/User';
 import Session from '../backend/entities/Session';
 
+import FileRepository from '../backend/repositories/FileRepository';
+import FileReferenceRepository from '../backend/repositories/FileReferenceRepository';
+
 type SessionRequestType = Omit<Session, 'user'>;
+
+interface CustomRepository<T> extends Repository<T> {
+  generateUrlKey(
+    item: DeepPartial<Project>,
+    uriPart: number,
+    actuallyUpdateUrlKey: boolean | void
+  ): Promise<DeepPartial<Project> | string>
+}
 
 declare module 'fastify' {
   interface FastifyInstance<
@@ -13,9 +25,11 @@ declare module 'fastify' {
     HttpResponse = ServerResponse
   > {
     db: Connection,
-    projectRepository: Repository<Project>,
+    projectRepository: CustomRepository<Project>,
     userRepository: Repository<User>,
     sessionRepository: Repository<Session>,
+    fileRepository: FileRepository,
+    fileReferenceRepository: FileReferenceRepository,
     checkSession: FastifyMiddleware,
   }
 
