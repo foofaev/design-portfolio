@@ -15,7 +15,18 @@ services:
       dockerfile: Dockerfile
     container_name: server
     volumes:
-      - ./.env.ci:/srv/app/.env:ro
+      - ./ci.env:/srv/app/.env:ro
     depends_on:
       - db
-    command: ["npm", "run", "server"]
+    command: ["npm", "start"]
+
+  cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cli
+    volumes:
+      - ./ci.env:/srv/app/.env:ro
+    depends_on:
+      - server
+    tty: true

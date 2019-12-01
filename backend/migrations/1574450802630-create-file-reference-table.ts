@@ -29,9 +29,6 @@ export default class createFileReferencesTable1574450802622 implements Migration
         {
           name: 'fileId', type: 'uuid', isNullable: false, default: null,
         },
-        {
-          name: 'urlKey', type: 'varchar', isUnique: true, isNullable: true, default: null,
-        },
         { name: 'createdAt', type: 'timestamptz', default: 'NOW()' },
         { name: 'updatedAt', type: 'timestamptz', default: 'NOW()' },
       ],

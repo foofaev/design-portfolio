@@ -38,7 +38,7 @@ export default class FileReference {
   @Column('varchar')
   filePath: string;
 
-  @Column('int')
+  @Column('int', { nullable: true })
   ord: number;
 
   @Column('varchar')

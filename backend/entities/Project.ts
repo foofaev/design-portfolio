@@ -23,19 +23,19 @@ export default class Project {
   @Column('varchar')
   title: string;
 
-  @Column('varchar')
+  @Column('text', { nullable: true })
   description: string;
 
-  @Column('varchar')
+  @Column('varchar', { unique: true, nullable: true })
   urlKey: string;
 
-  @Column('boolean')
+  @Column('boolean', { default: true })
   isVisible: boolean;
 
   @Column({ type: 'enum', enum: PROJECT_TYPES, default: 'render' })
   type: ProjectType;
 
-  @Column('timestamptz')
+  @Column('timestamptz', { nullable: true })
   publishedAt: string;
 
   @OneToOne(() => FileReference, (fileRef) => fileRef.item)
