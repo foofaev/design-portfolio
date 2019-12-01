@@ -1,11 +1,13 @@
-import {
-  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Generated } from 'typeorm';
 
 @Entity('files')
 export default class File {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Generated('increment')
+  @Column('int')
+  num: number;
 
   @Column('int')
   size: number;

@@ -12,10 +12,11 @@
       "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n table",
       "lint": "npx eslint --ext .js,.jsx,.ts,.tsx ./",
       "spellcheck": "cspell '**/*.js'",
+      "typecheck": "npx tsc --noEmit",
       "test": "NODE_ENV=test DEBUG=app npx jest --detectOpenHandles",
       "repl": "ts-node bin/app.ts repl",
       "front:dev": "NODE_ENV=development HOT=true webpack-dev-server --hot",
-      "back:dev": "NODE_ENV=development ts-node-dev bin/app.js server",
+      "back:dev": "NODE_ENV=development ts-node-dev bin/app.ts server",
       "start:dev": "npm run front:dev && npm run back:dev",
       "start:hot": "npm run front:dev && npm run back:dev",
       "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --detectOpenHandles",
@@ -23,7 +24,9 @@
    },
    "jest": {
       "testEnvironment": "node",
-      "setupFilesAfterEnv": ["jest-extended"],
+      "setupFilesAfterEnv": [
+         "jest-extended"
+      ],
       "preset": "ts-jest",
       "testPathIgnorePatterns": [
          "/node_modules/",
@@ -57,6 +60,7 @@
       "@types/redux-actions": "^2.6.1",
       "@types/sharp": "^0.23.0",
       "@types/supertest": "^2.0.8",
+      "@types/validator": "^12.0.1",
       "@types/webpack": "^4.39.1",
       "@typescript-eslint/eslint-plugin": "^2.2.0",
       "@typescript-eslint/parser": "^2.2.0",
@@ -165,6 +169,7 @@
       "rollbar": "^2.13.0",
       "sharp": "^0.23.3",
       "typeorm": "0.2.19",
+      "validator": "^12.1.0",
       "webpack": "^4.41.0",
       "webpack-node-externals": "^1.7.2"
    }

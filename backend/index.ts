@@ -9,9 +9,10 @@ import * as fastifyStatic from 'fastify-static';
 import * as fastifyHelmet from 'fastify-helmet';
 import * as Rollbar from 'rollbar';
 
+import api from './plugins/api';
 import dbPlugin from './plugins/db';
-import routesPlugin from './plugins/routes';
 import authPlugin from './plugins/auth';
+import schemasPlugin from './plugins/schemas';
 
 const rollbar = new Rollbar({
   accessToken: process.env.ROLLBAR_TOKEN,
@@ -41,7 +42,8 @@ export default async (): Promise<Fastify.FastifyInstance> => {
     })
     .register(dbPlugin)
     .register(authPlugin)
-    .register(routesPlugin)
+    .register(schemasPlugin)
+    .register(api)
     .addHook('onError', (request, __, error) => {
       rollbar.error(error, request);
     })
@@ -50,6 +52,7 @@ export default async (): Promise<Fastify.FastifyInstance> => {
     });
 
   await fastify.ready();
+  console.log(fastify.getSchemas());
 
   return fastify;
 };

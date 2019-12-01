@@ -1,6 +1,6 @@
 import {
   Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn,
-  OneToOne, CreateDateColumn, UpdateDateColumn, Generated,
+  OneToOne, CreateDateColumn, UpdateDateColumn,
 } from 'typeorm';
 import Project from './Project'; // eslint-disable-line import/no-cycle
 import User from './User'; // eslint-disable-line import/no-cycle
@@ -15,7 +15,7 @@ export default class FileReference {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Generated('increment')
+  @Column('int')
   num: number;
 
   @Column({ type: 'enum', enum: ITEM_TYPES })

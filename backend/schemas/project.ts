@@ -1,95 +1,63 @@
+import { FastifyInstance } from 'fastify';
 
-const PROJECT_TYPES = ['render'];
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//const portfolioTypeSchema = {
-//    id: 'PortfolioType',
-//    type: 'string',
-//    title: 'Portfolio Type',
-//    description: 'Portfolio Type',
-//    enum: PORTFOLIO_TYPES
-//};
-//registerEntity(portfolioTypeSchema);
+export default (fastify: FastifyInstance) => {
+  const PROJECT_TYPES = ['render'];
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//const portfolioOutputSchema = {
-//    id: 'PortfolioOutput',
-//    type: 'object',
-//    title: 'PortfolioOutput',
-//    description: 'PortfolioOutput',
-//    properties: {
-//        _id: objectId,
-//        type: {$ref: 'PortfolioType'},
-//        title: string,
-//        urlKey: string,
+  const projectTypeSchema = {
+    $id: 'projectType',
+    type: 'string',
+    title: 'Project Type',
+    description: 'Project Type',
+    enum: PROJECT_TYPES,
+  };
 
-//        h1: stringOrEmpty,
-//        metaTitle: stringOrEmpty,
-//        metaDescription: stringOrEmpty,
-//        metaSkipRobotIndex: boolean,
-//        useH1Value: boolean,
-//        useMetaTitleValue: boolean,
-//        useMetaDescriptionValue: boolean,
+  fastify.addSchema(projectTypeSchema);
 
-//        content: {type: 'object'},
-//        visible: boolean,
-//        publishedAt: string,
-//        previewImageId: objectIdOrNull,
-//        previewImageUrl: stringOrEmpty,
-//        createdAt: stringOrEmpty,
-//        updatedAt: stringOrEmpty,
-//        createdBy: stringOrEmpty,
-//        updatedBy: stringOrEmpty
-//    },
-//    additionalProperties: false
-//};
+  const projectOutput = {
+    $id: 'projectOutput',
+    type: 'object',
+    title: 'ProjectOutput',
+    description: 'ProjectOutput',
+    properties: {
+      id: { type: 'string', format: 'uuid' },
+      type: 'projectType#',
+      title: { type: 'string' },
+      description: { type: 'string', minLength: 0 },
+      urlKey: { type: 'string', minLength: 0 },
 
-//registerEntity(portfolioOutputSchema);
+      isVisible: { type: 'boolean' },
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//const portfolioInputSchema = {
-//    id: 'PortfolioInput',
-//    type: 'object',
-//    title: 'PortfolioInput',
-//    description: 'PortfolioInput',
-//    properties: {
-//        _id: objectIdOrEmpty,
-//        type: {$ref: 'PortfolioType'},
-//        urlKey: string,
-//        title: string,
+      previewImageId: { $anyOf: [{ type: 'string', format: 'uuid' }, { type: 'null' }] },
+      previewImageUrl: { type: 'string', minLength: 0 },
+      imageId: { $anyOf: [{ type: 'string', format: 'uuid' }, { type: 'null' }] },
+      imageUrl: { type: 'string', minLength: 0 },
+      files: { type: 'array', items: { type: 'string', format: 'url' } },
 
-//        h1: stringOrEmpty,
-//        metaTitle: stringOrEmpty,
-//        metaDescription: stringOrEmpty,
-//        metaSkipRobotIndex: boolean,
-//        useH1Value: boolean,
-//        useMetaTitleValue: boolean,
-//        useMetaDescriptionValue: boolean,
+      publishedAt: { type: 'string' },
+      createdAt: { type: 'string', format: 'timestamp' },
+      updatedAt: { type: 'string', format: 'timestamp' },
+    },
+    additionalProperties: false,
+  };
 
-//        visible: boolean,
-//        publishedAt: string,
-//        content: {type: 'object'}
-//    },
-//    required: ['_id', 'type', 'title', 'content', 'visible', 'publishedAt'],
-//    additionalProperties: false
-//};
+  fastify.addSchema(projectOutput);
 
-//registerEntity(portfolioInputSchema);
+  const projectInput = {
+    $id: 'projectInput',
+    type: 'object',
+    title: 'ProjectInput',
+    description: 'ProjectInput',
+    properties: {
+      id: { type: 'string', format: 'uuid' },
+      type: 'projectType#',
+      title: { type: 'string' },
+      description: { type: 'string', minLength: 0 },
+      isVisible: { type: 'boolean' },
+      publishedAt: { type: 'string' },
+    },
+    required: ['id', 'type', 'title', 'description', 'isVisible', 'publishedAt'],
+    additionalProperties: false,
+  };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//const example = {
-//    _id: 'f1ea3f3c-d430-11e2-8981-08002768d168',
-//    type: 'calendars_and_postcards',
-//    title: 'Some portfolio',
-//    urlKey: 'some_cool_portfolio',
-//    metaTitle: '',
-//    metaDescription: '',
-//    metaSkipRobotIndex: false,
-//    content: {},
-//    visible: true,
-//    createdBy: '',
-//    updatedBy: '',
-//    publishedAt: 'Wed Nov 02 2016 21:29:31 GMT+0300 (MSK)',
-//    createdAt: 'Wed Nov 02 2016 21:29:31 GMT+0300 (MSK)',
-//    updatedAt: 'Wed Nov 02 2016 18:53:32 GMT+0300 (MSK)'
-//};
-
+  fastify.addSchema(projectInput);
+};

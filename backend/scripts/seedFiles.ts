@@ -42,7 +42,7 @@ export default async () => {
           const [imageData, ...filesData] = rawFilesData;
 
           const previewImage = await fileRepository.createPreviewFromFile(imageData);
-          await fileReferenceRepository.createWithFile(
+          const previewImageRef = await fileReferenceRepository.createWithFile(
             previewImage,
             {
               item: project, itemType: 'project', purpose: 'previewImage', ord: 0,
@@ -50,12 +50,15 @@ export default async () => {
           );
 
           const image = await fileRepository.createFromFileIfNotExists(imageData);
-          await fileReferenceRepository.createWithFile(
+          const imageRef = await fileReferenceRepository.createWithFile(
             image,
             {
               item: project, itemType: 'project', purpose: 'image', ord: 0,
             },
           );
+          project.image = imageRef;
+          project.previewImage = previewImageRef;
+          await projectRepository.save(project);
 
           const filePromises = filesData.map((data) => fileRepository.createFromFileIfNotExists(data));
           const files = await Promise.all(filePromises);

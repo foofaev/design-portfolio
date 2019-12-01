@@ -46,7 +46,7 @@ export default class Project {
   @JoinColumn()
   previewImage: FileReference;
 
-  @OneToMany(() => Project, (project) => project.files)
+  @OneToMany(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
   files: FileReference[];
 

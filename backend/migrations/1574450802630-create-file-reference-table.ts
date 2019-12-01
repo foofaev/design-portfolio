@@ -13,9 +13,7 @@ export default class createFileReferencesTable1574450802622 implements Migration
         {
           name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
         },
-        {
-          name: 'num', type: 'int', isGenerated: true, generationStrategy: 'increment', isUnique: true,
-        },
+        { name: 'num', type: 'int', isNullable: false },
         { name: 'itemType', type: 'varchar', length: '20' },
         { name: 'purpose', type: 'varchar', length: '20' },
         { name: 'filePath', type: 'varchar', isNullable: false },
@@ -23,12 +21,8 @@ export default class createFileReferencesTable1574450802622 implements Migration
           name: 'contentType', type: 'varchar', isNullable: false, default: '\'\'',
         },
         { name: 'ord', type: 'int', isNullable: true },
-        {
-          name: 'itemId', type: 'uuid', isNullable: false, default: null,
-        },
-        {
-          name: 'fileId', type: 'uuid', isNullable: false, default: null,
-        },
+        { name: 'itemId', type: 'uuid', isNullable: false },
+        { name: 'fileId', type: 'uuid', isNullable: false },
         { name: 'createdAt', type: 'timestamptz', default: 'NOW()' },
         { name: 'updatedAt', type: 'timestamptz', default: 'NOW()' },
       ],
@@ -38,6 +32,14 @@ export default class createFileReferencesTable1574450802622 implements Migration
     await queryRunner.createForeignKey('file_references', new TableForeignKey({
       columnNames: ['fileId'],
       referencedColumnNames: ['id'],
+      referencedTableName: 'files',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    }));
+
+    await queryRunner.createForeignKey('file_references', new TableForeignKey({
+      columnNames: ['num'],
+      referencedColumnNames: ['num'],
       referencedTableName: 'files',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',

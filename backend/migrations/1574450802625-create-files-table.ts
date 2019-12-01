@@ -14,6 +14,9 @@ export default class createFileTable1574450802622 implements MigrationInterface 
         },
         { name: 'name', type: 'varchar' },
         {
+          name: 'num', type: 'int', isGenerated: true, generationStrategy: 'increment', isUnique: true,
+        },
+        {
           name: 'filePath', type: 'varchar', isNullable: false, isUnique: true,
         },
         {

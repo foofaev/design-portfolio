@@ -25,19 +25,20 @@ function buildExtendedImageUrl(num: number, urlKey: string, extensionType: strin
 @EntityRepository(FileReference)
 export default class FileReferenceRepository extends Repository<FileReference> {
   async createWithFile(file: File, data: Partial<FileReference>) {
-    const { id: fileId, contentType, filePath } = file;
-    if (!fileId || _.isUndefined(contentType)) {
-      throw new Error(`FileRef.createWithFile missing fileData ${fileId} | ${contentType}`);
+    const { id: fileId, num, contentType, filePath } = file;
+    if (!fileId || !num || _.isUndefined(contentType)) {
+      throw new Error(`FileRef.createWithFile missing fileData ${fileId} | ${num} | ${contentType}`);
     }
     return this.save({
       ...data,
+      num,
       file,
       filePath,
       contentType,
     });
   }
 
-  async generateExtendedURL(fileRef: FileReference, record: ObjectLiteral) {
+  generateExtendedURL(fileRef: FileReference, record: ObjectLiteral) {
     const {
       file,
       num,
@@ -45,6 +46,7 @@ export default class FileReferenceRepository extends Repository<FileReference> {
       filePath,
     } = fileRef;
 
+    console.log(fileRef);
     if (!file && !num) return '';
     const { urlKey } = record;
     const extensionType = getExtension(contentType, filePath);
