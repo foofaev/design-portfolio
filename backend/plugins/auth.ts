@@ -18,12 +18,12 @@ const sessionExpiresHH = process.env.SESSION_EXPIRES_HH || 1;
 // const cookieCSRFName = process.env.CSRF_COOKIE_NAME || '_csrf';
 
 const checkSession = (fastify: FastifyInstance) => async (request: FastifyRequest<IncomingMessage>) => {
-  const { url } = request.raw;
+  const { url } = request.req;
   if (!url || url.indexOf(cookiePath) !== 0) {
     return;
   }
   const encriptedSessionId = _.get(request, `cookies.${cookieSessionName}`);
-  if (!encriptedSessionId) throw new Error('Invalid session');
+  if (!encriptedSessionId) return;
   const decryptedSessionId = helpers.unsignCookie(encriptedSessionId, cookieSecret);
   if (!decryptedSessionId) throw new Error('Invalid session');
 

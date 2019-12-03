@@ -128,7 +128,7 @@
       "cross-env": "^6.0.3",
       "cspell-dict-russian": "^1.1.13",
       "dotenv": "^8.1.0",
-      "fastify": "^2.8.0",
+      "fastify": "^2.10.0",
       "fastify-cookie": "^3.2.0",
       "fastify-csrf": "^1.0.2",
       "fastify-helmet": "^3.0.2",

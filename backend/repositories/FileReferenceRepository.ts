@@ -46,7 +46,6 @@ export default class FileReferenceRepository extends Repository<FileReference> {
       filePath,
     } = fileRef;
 
-    console.log(fileRef);
     if (!file && !num) return '';
     const { urlKey } = record;
     const extensionType = getExtension(contentType, filePath);

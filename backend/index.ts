@@ -52,7 +52,6 @@ export default async (): Promise<Fastify.FastifyInstance> => {
     });
 
   await fastify.ready();
-  console.log(fastify.getSchemas());
 
   return fastify;
 };
