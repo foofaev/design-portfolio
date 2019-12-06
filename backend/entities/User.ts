@@ -16,6 +16,19 @@ export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  _password: string;
+
+  _email: string;
+
+  @Column('varchar')
+  get email(): string {
+    return this._email;
+  }
+
+  set email(value: string) {
+    this._email = value.toLowerCase();
+  }
+
   @Column('varchar')
   firstName: string;
 
@@ -28,11 +41,12 @@ export default class User {
 
   @Column('varchar')
   get password(): string {
-    return this.password;
+    return this._password;
   }
 
   set password(value: string) {
-    this.password = helpers.hashPassword(value);
+    /* this.password = helpers.hashPassword(value); */
+    this._password = value;
   }
 
   @CreateDateColumn()

@@ -14,10 +14,11 @@ import helpers from '../libs/helpers';
 const cookieSecret = process.env.SESSION_COOKIE_SECRET || 'mySecretCookieRecepy';
 const cookiePath = process.env.SESSION_COOKIE_PATH || '/';
 const cookieSessionName = process.env.SESSION_COOKIE_NAME || '_sess';
-const sessionExpiresHH = process.env.SESSION_EXPIRES_HH || 1;
+const sessionExpiresDays = process.env.SESSION_EXPIRES_DAYS || 30;
 // const cookieCSRFName = process.env.CSRF_COOKIE_NAME || '_csrf';
 
 const checkSession = (fastify: FastifyInstance) => async (request: FastifyRequest<IncomingMessage>) => {
+  const { sessionRepository } = fastify;
   const { url } = request.req;
   if (!url || url.indexOf(cookiePath) !== 0) {
     return;
@@ -27,18 +28,17 @@ const checkSession = (fastify: FastifyInstance) => async (request: FastifyReques
   const decryptedSessionId = helpers.unsignCookie(encriptedSessionId, cookieSecret);
   if (!decryptedSessionId) throw new Error('Invalid session');
 
-  const session = await fastify.sessionRepository.findOneOrFail(
-    decryptedSessionId,
-    { relations: ['user'] },
-  );
+  const session = await sessionRepository.findOne(decryptedSessionId, { relations: ['user'] });
+
+  if (!session) throw new Error('Invalid session');
 
   if (moment.utc().isAfter(helpers.parseTimestamp(session.expiresAt))) {
     await fastify.sessionRepository.delete(decryptedSessionId);
     throw new Error('Invalid session');
   }
 
-  session.expiresAt = helpers.formatTimestamp(moment().add(sessionExpiresHH, 'hours'));
-  const updatedSession = await fastify.sessionRepository.save(session);
+  session.expiresAt = helpers.formatTimestamp(moment().add(sessionExpiresDays, 'days'));
+  const updatedSession = await sessionRepository.save(session);
   const { user } = session;
 
   request.session = updatedSession;

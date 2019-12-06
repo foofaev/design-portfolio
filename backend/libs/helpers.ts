@@ -25,7 +25,7 @@ function unsignCookie(uuid: string, secret: string) {
 }
 
 function hashPassword(value:string) {
-  return bcrypt.hashSync(value, 8);
+  return bcrypt.hashSync(value, 10);
 }
 
 function verifyPassword(unencryptedPassword: string, encryptedPassword: string) {

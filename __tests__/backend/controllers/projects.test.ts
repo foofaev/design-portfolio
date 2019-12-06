@@ -1,26 +1,24 @@
 import 'jest-extended';
-import * as supertest from 'supertest';
-import * as _ from 'lodash';
+import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
-import getServer from '../../../backend';
-import { syncTestProjects } from '../../helpers';
+import { startServer, stopServer, TEST_PROJECTS } from '../../helpers';
 
-describe('PROJECTS / public', () => {
+describe.only('PROJECTS / public', () => {
+  const PROJECT = TEST_PROJECTS.project;
+  let callAPI: SuperTest<Test>;
   let fastify: FastifyInstance;
-  let PROJECT: Object;
 
   beforeAll(async () => {
-    fastify = await getServer();
-    const { project } = await syncTestProjects(fastify);
-    PROJECT = project;
+    const { fastify: instance, request } = await startServer();
+    fastify = instance;
+    callAPI = request;
   });
-  afterAll(() => fastify.db.close());
+  afterAll(() => stopServer(fastify));
 
   it('GET /projects', async () => {
-    const { body: { projects } } = await supertest(fastify.server)
+    const { body: { projects } } = await callAPI
       .get('/projects')
-      .query({ offset: 0, limit: 100 })
-      .expect(200);
+      .query({ offset: 0, limit: 100 });
     projects.forEach(
       (obj: Object) => expect(obj).toMatchObject({
         urlKey: expect.any(String),
@@ -32,15 +30,12 @@ describe('PROJECTS / public', () => {
   });
 
   it('GET /projects/:projectId', async () => {
-    const { body: { project } } = await supertest(fastify.server)
-      .get(`/projects/${_.get(PROJECT, 'id')}`)
-      .expect(200);
-    expect(project).toHaveProperty('id', _.get(PROJECT, 'id'));
+    const { body: { project } } = await callAPI
+      .get(`/projects/${PROJECT.id}`);
+    expect(project).toHaveProperty('id', PROJECT.id);
   });
 
-  // it('GET 404', async () => {
-  //   const res = await request.agent(server)
-  //     .get('/wrong-path');
-  //   expect(res).toHaveHTTPStatus(404);
-  // });
+  it('PUT /projects', async () => {
+
+  });
 });

@@ -1,12 +1,17 @@
 import { FastifyInstance } from 'fastify';
+import * as supertest from 'supertest';
+
+import getServer from '../backend';
 import Project from '../backend/entities/Project';
+import User from '../backend/entities/User';
 
 const TEST_USERS = {
   administrator: {
     id: '2d1a3d6b-0281-4262-94f3-e86b4fbb00ae',
+    email: 'admin@tt.com',
     firstName: 'test',
     lastName: 'administrator',
-    password: 'some_secret_password',
+    password: 'passw0rd',
   },
 };
 
@@ -29,12 +34,14 @@ const TEST_PROJECTS: TEST_PROJECTS_TYPE = {
   },
 };
 
-export const syncTestUser = (fastify: FastifyInstance) => {
+async function syncTestUser(fastify: FastifyInstance) {
   const { userRepository } = fastify;
+  const admin = await userRepository.findOne(TEST_USERS.administrator.id);
+  if (admin) return admin;
   return userRepository.save(TEST_USERS.administrator);
-};
+}
 
-export const syncTestProjects = async (fastify: FastifyInstance) => {
+async function syncTestProjects(fastify: FastifyInstance) {
   const { projectRepository } = fastify;
 
   const project = await projectRepository
@@ -50,4 +57,35 @@ export const syncTestProjects = async (fastify: FastifyInstance) => {
       .then((instance) => projectRepository.generateUrlKey(instance, -1, true)));
 
   return { project, otherProject };
+}
+
+async function getCookie(fastify: FastifyInstance, methodName: string, user: Partial<User>) {
+  const authRes = await supertest(fastify.server)
+    .put(`/${methodName}`)
+    .send(user);
+  return authRes.header['Set-Cookie'];
+}
+
+
+async function startServer() {
+  const fastify = await getServer();
+  await syncTestUser(fastify);
+  await syncTestProjects(fastify);
+  const session = await getCookie(fastify, '/session/new', { email: 'admin@tt.com', password: 'passw0rd' });
+
+  return { fastify, session, request: supertest(fastify.server) };
+}
+
+async function stopServer(fastify: FastifyInstance) {
+  return fastify.close();
+}
+
+export {
+  syncTestUser,
+  syncTestProjects,
+  getCookie,
+  startServer,
+  stopServer,
+  TEST_PROJECTS,
+  TEST_USERS,
 };
