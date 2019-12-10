@@ -7,6 +7,7 @@ import * as dotenv from 'dotenv';
 import * as fastifySensible from 'fastify-sensible';
 import * as fastifyStatic from 'fastify-static';
 import * as fastifyHelmet from 'fastify-helmet';
+import * as fastifyMultiaprt from 'fastify-multipart';
 import * as Rollbar from 'rollbar';
 
 import api from './plugins/api';
@@ -42,6 +43,7 @@ export default async (): Promise<Fastify.FastifyInstance> => {
     })
     .register(dbPlugin)
     .register(authPlugin)
+    .register(fastifyMultiaprt, { addToBody: true, sharedSchemaId: 'rawFileSchema' })
     .register(schemasPlugin)
     .register(api)
     .addHook('onError', (request, __, error) => {

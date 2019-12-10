@@ -10,10 +10,9 @@ export default class createSessionTable1574450753370 implements MigrationInterfa
     const sessionTable = new Table({
       name: 'sessions',
       columns: [
-        {
-          name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
-        },
+        { name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid' },
         { name: 'userId', type: 'uuid' },
+        { name: 'ip', type: 'varchar' },
         { name: 'expiresAt', type: 'timestamptz', isNullable: false },
         { name: 'createdAt', type: 'timestamptz', default: 'NOW()' },
         { name: 'updatedAt', type: 'timestamptz', default: 'NOW()' },

@@ -20,6 +20,7 @@ const sessionExpiresDays = process.env.SESSION_EXPIRES_DAYS || 30;
 const checkSession = (fastify: FastifyInstance) => async (request: FastifyRequest<IncomingMessage>) => {
   const { sessionRepository } = fastify;
   const { url } = request.req;
+  const { ip } = request;
   if (!url || url.indexOf(cookiePath) !== 0) {
     return;
   }
@@ -28,11 +29,16 @@ const checkSession = (fastify: FastifyInstance) => async (request: FastifyReques
   const decryptedSessionId = helpers.unsignCookie(encriptedSessionId, cookieSecret);
   if (!decryptedSessionId) throw new Error('Invalid session');
 
-  const session = await sessionRepository.findOne(decryptedSessionId, { relations: ['user'] });
+  const session = await sessionRepository.findOne(decryptedSessionId, { where: { ip }, relations: ['user'] });
 
   if (!session) throw new Error('Invalid session');
 
   if (moment.utc().isAfter(helpers.parseTimestamp(session.expiresAt))) {
+    await fastify.sessionRepository.delete(decryptedSessionId);
+    throw new Error('Invalid session');
+  }
+
+  if (session.ip && session.ip !== ip) {
     await fastify.sessionRepository.delete(decryptedSessionId);
     throw new Error('Invalid session');
   }

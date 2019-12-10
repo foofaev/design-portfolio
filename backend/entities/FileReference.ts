@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 import Project from './Project'; // eslint-disable-line import/no-cycle
 import User from './User'; // eslint-disable-line import/no-cycle
-import File from './File';
+import File from './File'; // eslint-disable-line import/no-cycle
 
 const ITEM_TYPES = ['project', 'user'];
 

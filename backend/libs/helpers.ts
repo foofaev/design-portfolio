@@ -1,6 +1,8 @@
+import * as _ from 'lodash';
 import * as moment from 'moment';
 import * as cookieSigner from 'cookie-signature';
 import * as bcrypt from 'bcryptjs';
+import { extension } from 'mime-types';
 
 const timestampFormat = 'YYYY-MM-DD HH:mm:ss.SSS';
 
@@ -28,8 +30,17 @@ function hashPassword(value:string) {
   return bcrypt.hashSync(value, 10);
 }
 
-function verifyPassword(unencryptedPassword: string, encryptedPassword: string) {
+function verifyPassword(unencryptedPassword: string, encryptedPassword: string): boolean {
   return bcrypt.compareSync(unencryptedPassword, encryptedPassword);
+}
+
+function getExtension(contentType: string | undefined, filepath: string = '') {
+  const getExtensionByContentType = () => contentType && extension(contentType);
+  const getExtensionByOriginalFilename = () => {
+    const originalFilenameParts = _.split(filepath, '.');
+    return _.size(originalFilenameParts) > 1 && _.last(originalFilenameParts);
+  };
+  return getExtensionByContentType() || getExtensionByOriginalFilename() || '';
 }
 
 export default {
@@ -40,4 +51,5 @@ export default {
   unsignCookie,
   hashPassword,
   verifyPassword,
+  getExtension,
 };

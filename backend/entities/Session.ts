@@ -18,6 +18,9 @@ export default class Session {
   @Column('timestamptz')
   expiresAt: string;
 
+  @Column('varchar')
+  ip: string;
+
   @ManyToOne(() => User)
   @JoinColumn()
   user: User;

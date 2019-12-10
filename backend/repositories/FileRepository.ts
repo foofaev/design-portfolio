@@ -6,12 +6,14 @@ import * as sharp from 'sharp';
 import { Repository, EntityRepository, ObjectLiteral } from 'typeorm';
 import File from '../entities/File';
 
+import helpers from '../libs/helpers';
+
 const fileStoragePath = process.env.FILES_PATH || path.join(__dirname, '../../.storage/');
 
 type RawFile = {
   path?: string,
   name: string,
-  body?: Buffer,
+  data?: Buffer,
   headers?: ObjectLiteral,
   contentType?: string,
   ext?: string,
@@ -32,7 +34,7 @@ export default class FileRepository extends Repository<File> {
 
     const fileData = rawFileRequest.path
       ? fs.readFileSync(rawFileRequest.path)
-      : rawFileRequest.body;
+      : rawFileRequest.data;
 
     if (!fileData) {
       throw new Error(`File.createFromFileIfNotExists missing fileData ${JSON.stringify(rawFileRequest, null, 2)}`);
@@ -42,7 +44,9 @@ export default class FileRepository extends Repository<File> {
     const existingFile = await this.findOne({ where: { md5 } });
     if (existingFile) return existingFile;
 
-    const filePath = path.join(fileStoragePath, `${md5}.${rawFileRequest.ext}`);
+    const ext = rawFileRequest.ext || helpers.getExtension(rawFileRequest.contentType, rawFileRequest.path);
+
+    const filePath = path.join(fileStoragePath, `${md5}.${ext}`);
     const creationData: Partial<File> = {
       md5,
       name: rawFileRequest.name,
@@ -61,7 +65,7 @@ export default class FileRepository extends Repository<File> {
 
     const fileData = rawFileRequest.path
       ? fs.readFileSync(rawFileRequest.path)
-      : rawFileRequest.body;
+      : rawFileRequest.data;
 
     if (!fileData) {
       throw new Error(`File.createPreviewFromFile missing fileData ${JSON.stringify(rawFileRequest, null, 2)}`);

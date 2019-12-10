@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Generated } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Generated, OneToMany } from 'typeorm';
+import FileReference from './FileReference'; // eslint-disable-line import/no-cycle
 
 @Entity('files')
 export default class File {
@@ -20,6 +21,9 @@ export default class File {
 
   @Column('varchar', { unique: true })
   filePath: string;
+
+  @OneToMany(() => FileReference, (fileref) => fileref.file)
+  fileRefs: FileReference[];
 
   @Column('varchar')
   contentType: string;

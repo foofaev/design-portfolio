@@ -145,6 +145,14 @@ const handleFileRequest = async (
 export const getFile = (fastify: FastifyInstance) => fastify.route<Query>({
   method: 'GET',
   schema: {
+    params: {
+      type: 'object',
+      properties: {
+        fileUrl: { type: 'string', minLength: 1 },
+      },
+      additionalProperties: false,
+      required: ['fileUrl'],
+    },
     querystring: {
       quality: { type: 'integer' },
       noColor: { type: 'boolean' },
@@ -168,6 +176,15 @@ export const getFile = (fastify: FastifyInstance) => fastify.route<Query>({
 export const getImage = (fastify: FastifyInstance) => fastify.route<Query>({
   method: 'GET',
   schema: {
+    params: {
+      type: 'object',
+      properties: {
+        fileUrl: { type: 'string', minLength: 1 },
+        preset: { type: 'string', minLength: 1 },
+      },
+      additionalProperties: false,
+      required: ['fileUrl'],
+    },
     querystring: {
       quality: { type: 'integer' },
       noColor: { type: 'boolean' },

@@ -1,11 +1,10 @@
 import * as fp from 'fastify-plugin';
 import { createConnection, getConnectionOptions } from 'typeorm';
-import createCustomRepository from '../repositories/CustomRepository';
+import ProjectRepository from '../repositories/ProjectRepository';
 import FileRepository from '../repositories/FileRepository';
 import FileReferenceRepository from '../repositories/FileReferenceRepository';
+import UserRepository from '../repositories/UserRepository';
 
-import Project from '../entities/Project';
-import User from '../entities/User';
 import Session from '../entities/Session';
 
 export default fp(async (fastify, __, next) => {
@@ -19,11 +18,10 @@ export default fp(async (fastify, __, next) => {
     const dbConnection = await createConnection(connectionOptions);
     fastify.log.info('database connected');
 
-    const projectRepository = createCustomRepository(Project);
     fastify
       .decorate('db', dbConnection)
-      .decorate('projectRepository', dbConnection.getCustomRepository(projectRepository))
-      .decorate('userRepository', dbConnection.getRepository(User))
+      .decorate('projectRepository', dbConnection.getCustomRepository(ProjectRepository))
+      .decorate('userRepository', dbConnection.getCustomRepository(UserRepository))
       .decorate('sessionRepository', dbConnection.getRepository(Session))
       .decorate('fileRepository', dbConnection.getCustomRepository(FileRepository))
       .decorate('fileReferenceRepository', dbConnection.getCustomRepository(FileReferenceRepository))

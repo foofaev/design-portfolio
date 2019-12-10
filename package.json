@@ -132,6 +132,7 @@
       "fastify-cookie": "^3.2.0",
       "fastify-csrf": "^1.0.2",
       "fastify-helmet": "^3.0.2",
+      "fastify-multipart": "^1.0.3",
       "fastify-plugin": "^1.6.0",
       "fastify-sensible": "^2.1.1",
       "fastify-session": "^3.1.1",
