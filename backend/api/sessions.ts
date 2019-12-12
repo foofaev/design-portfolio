@@ -28,7 +28,11 @@ export const create = (fastify: FastifyInstance) => fastify.route<unknown, unkno
     const { email, password } = body;
     const { sessionRepository, userRepository } = fastify;
     const user = await userRepository.findOneOrFail({ where: { email: email.toLowerCase() } });
-    if (!helpers.verifyPassword(password, user.password)) throw new Error('Invalid Parameter');
+
+    if (!helpers.verifyPassword(password, user.password)) {
+      throw new Error('Invalid Parameter');
+    }
+
     const sessionData = {
       expiresAt: helpers.formatTimestamp(moment().add(SESSION_EXPIRES_DAYS, 'days')),
       ip,
@@ -37,7 +41,7 @@ export const create = (fastify: FastifyInstance) => fastify.route<unknown, unkno
 
     const session = await sessionRepository.save(sessionData);
     request.session = session;
-    reply.code(200).send();
+    reply.code(200).send({});
   },
 });
 
@@ -47,7 +51,7 @@ export const destroy = (fastify: FastifyInstance) => fastify.route({
   schema: {
     headers: 'sessionHeader#',
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(true),
   handler: async (request, reply) => {
     const { session } = request;
     await fastify.sessionRepository.delete(session.id);

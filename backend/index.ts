@@ -47,6 +47,7 @@ export default async (): Promise<Fastify.FastifyInstance> => {
     .register(schemasPlugin)
     .register(api)
     .addHook('onError', (request, __, error) => {
+      console.error('ERROREROR', error);
       rollbar.error(error, request);
     })
     .get('/status', (__, reply) => {

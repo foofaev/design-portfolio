@@ -3,7 +3,7 @@ import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
 import { startServer, stopServer, TEST_PROJECTS } from '../../helpers';
 
-describe.only('PROJECTS / public', () => {
+describe('PROJECTS / public', () => {
   const PROJECT = TEST_PROJECTS.project;
   let callAPI: SuperTest<Test>;
   let fastify: FastifyInstance;

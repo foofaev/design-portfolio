@@ -7,7 +7,7 @@ const sessionHeader = {
     'Set-Cookie': {
       type: 'object',
       properties: {
-        COOKIE_SESSION_NAME: 'string',
+        [COOKIE_SESSION_NAME]: { type: 'string' },
       },
       required: [COOKIE_SESSION_NAME],
     },

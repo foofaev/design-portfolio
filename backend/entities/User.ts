@@ -30,7 +30,7 @@ export default class User {
   @JoinColumn()
   image: FileReference;
 
-  @Column('varchar', { select: false, transformer: { to: helpers.hashPassword, from: _.identity } })
+  @Column('varchar', { transformer: { to: helpers.hashPassword, from: _.identity } })
   password: string;
 
   @CreateDateColumn()

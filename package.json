@@ -23,6 +23,7 @@
       "seedFiles": "ts-node bin/app.ts seedFiles"
    },
    "jest": {
+      "bail": true,
       "testEnvironment": "node",
       "setupFilesAfterEnv": [
          "jest-extended"

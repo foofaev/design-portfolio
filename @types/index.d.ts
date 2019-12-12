@@ -12,8 +12,11 @@ import FileReferenceRepository from '../backend/repositories/FileReferenceReposi
 
 type SessionRequestType = Omit<Session, 'user'>;
 
-
 declare module 'fastify' {
+  type FastifyMiddlewareWithOpts = (
+    strict?: boolean | void
+  ) => FastifyMiddleware;
+
   interface FastifyInstance<
     HttpServer = Server,
     HttpRequest = IncomingMessage,
@@ -25,7 +28,7 @@ declare module 'fastify' {
     sessionRepository: Repository<Session>,
     fileRepository: FileRepository,
     fileReferenceRepository: FileReferenceRepository,
-    checkSession: FastifyMiddleware,
+    checkSession: FastifyMiddlewareWithOpts,
   }
 
   interface FastifyRequest<
@@ -33,7 +36,7 @@ declare module 'fastify' {
     Query = DefaultQuery,
     Params = DefaultParams,
     Headers = DefaultHeaders,
-    > {
+  > {
     session: SessionRequestType;
     user: User
   }

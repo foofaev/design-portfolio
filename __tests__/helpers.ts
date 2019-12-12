@@ -59,11 +59,12 @@ async function syncTestProjects(fastify: FastifyInstance) {
   return { project, otherProject };
 }
 
-async function getCookie(fastify: FastifyInstance, methodName: string, user: Partial<User>) {
+async function getCookie(fastify: FastifyInstance, user: Partial<User>) {
   const authRes = await supertest(fastify.server)
-    .put(`/${methodName}`)
-    .send(user);
-  return authRes.header['Set-Cookie'];
+    .put('/session')
+    .send(user)
+    .expect(200);
+  return authRes.header['set-cookie'];
 }
 
 
@@ -71,7 +72,7 @@ async function startServer() {
   const fastify = await getServer();
   await syncTestUser(fastify);
   await syncTestProjects(fastify);
-  const session = await getCookie(fastify, '/session/new', { email: 'admin@tt.com', password: 'passw0rd' });
+  const session = await getCookie(fastify, { email: 'admin@tt.com', password: 'passw0rd' });
 
   return { fastify, session, request: supertest(fastify.server) };
 }

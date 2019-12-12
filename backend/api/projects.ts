@@ -26,7 +26,7 @@ export const index = (fastify: FastifyInstance) => fastify.route({
       },
     },
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(),
   handler: async (request) => {
     const { offset: skip, limit: take } = request.query;
     const projects = await fastify
@@ -59,7 +59,7 @@ export const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Pa
       },
     },
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(),
   handler: async (request: FastifyRequest) => {
     const { projectId } = request.params;
     const project = await fastify
@@ -85,7 +85,6 @@ export const save = (fastify: FastifyInstance) => fastify.route<unknown, unknown
       required: ['title', 'description', 'isVisible'],
       additionalProperties: false,
     },
-    headers: 'sessionHeader#',
     response: {
       200: {
         type: 'object',
@@ -96,7 +95,7 @@ export const save = (fastify: FastifyInstance) => fastify.route<unknown, unknown
       },
     },
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository } = fastify;
     const { body } = request;
@@ -131,7 +130,6 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, Param
       additionalProperties: false,
       required: ['projectId'],
     },
-    headers: 'sessionHeader#',
     response: {
       200: {
         type: 'object',
@@ -142,7 +140,7 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, Param
       },
     },
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository } = fastify;
     const { body, params: { projectId } } = request;
@@ -157,7 +155,7 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, Param
 
 export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
-  url: '/projects/:projectId',
+  url: '/projects/image/:projectId',
   schema: {
     body: {
       type: 'object',
@@ -176,7 +174,6 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
       additionalProperties: false,
       required: ['projectId'],
     },
-    headers: 'sessionHeader#',
     response: {
       200: {
         type: 'object',
@@ -185,7 +182,7 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
       },
     },
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(),
   handler: async (request) => {
     const { projectRepository, fileRepository, fileReferenceRepository } = fastify;
     const { body, params: { projectId } } = request;
@@ -206,26 +203,25 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
 
 export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
-  url: '/projects/:projectId',
+  url: '/projects/image/:projectId/:fileId',
   schema: {
     body: {
       type: 'object',
       properties: {
         ord: { type: 'integer' },
-        fileId: { type: 'string', format: 'uuid' },
       },
-      required: ['fileId', 'ord'],
+      required: ['ord'],
       additionalProperties: false,
     },
     params: {
       type: 'object',
       properties: {
         projectId: { type: 'string', format: 'uuid' },
+        fileId: { type: 'string', format: 'uuid' },
       },
       additionalProperties: false,
-      required: ['projectId'],
+      required: ['projectId', 'fileId'],
     },
-    headers: 'sessionHeader#',
     response: {
       200: {
         type: 'object',
@@ -234,10 +230,10 @@ export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route
       },
     },
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(),
   handler: async (request) => {
     const { projectRepository, fileReferenceRepository } = fastify;
-    const { body: { fileId, ord }, params: { projectId } } = request;
+    const { body: { ord }, params: { projectId, fileId } } = request;
 
     const project = await projectRepository.findOneOrFail(projectId);
 
@@ -249,7 +245,7 @@ export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route
 
 export const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
   method: 'DELETE',
-  url: '/projects/:projectId/:fileId',
+  url: '/projects/image/:projectId/:fileId',
   schema: {
     params: {
       type: 'object',
@@ -260,7 +256,6 @@ export const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
       additionalProperties: false,
       required: ['projectId', 'fileId'],
     },
-    headers: 'sessionHeader#',
     response: {
       200: {
         type: 'object',
@@ -269,7 +264,7 @@ export const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
       },
     },
   },
-  preHandler: fastify.checkSession,
+  preHandler: fastify.checkSession(),
   handler: async (request) => {
     const { projectRepository, fileReferenceRepository } = fastify;
     const { params: { projectId, fileId: fileRefId } } = request;

@@ -1,31 +1,25 @@
-import * as supertest from 'supertest';
+import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
-import getServer from '../../../backend';
+import { startServer, stopServer } from '../../helpers';
 
-describe('basic routes', () => {
+describe('USER / Private', () => {
+  let callAPI: SuperTest<Test>;
   let fastify: FastifyInstance;
+  let cookie: string;
 
   beforeAll(async () => {
-    fastify = await getServer();
-    // await fastify.db.synchronize();
+    const { fastify: instance, request, session } = await startServer();
+    fastify = instance;
+    callAPI = request;
+    cookie = session;
   });
-  afterAll(() => fastify.close());
+  afterAll(() => stopServer(fastify));
 
-  it('GET /', async () => {
-    const res = await supertest(fastify.server)
-      .get('/status')
+  it('GET /user', async () => {
+    const { body: { user } } = await callAPI
+      .get('/user')
+      .set('cookie', cookie)
       .expect(200);
-    expect(res.text).toBe('OK');
+    console.log(user);
   });
-  // it('GET /users', async () => {
-  //   const res = await request.agent(server)
-  //     .get('/users');
-  //   expect(res).toHaveHTTPStatus(200);
-  // });
-
-  // it('GET 404', async () => {
-  //   const res = await request.agent(server)
-  //     .get('/wrong-path');
-  //   expect(res).toHaveHTTPStatus(404);
-  // });
 });
