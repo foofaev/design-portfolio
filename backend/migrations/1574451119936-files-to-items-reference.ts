@@ -35,20 +35,6 @@ export default class filesToItemsReference1574451119936 implements MigrationInte
       onUpdate: 'CASCADE',
     }));
 
-    await queryRunner.addColumn('projects', new TableColumn({
-      name: 'previewImageId',
-      type: 'uuid',
-      isNullable: true,
-    }));
-
-    await queryRunner.createForeignKey('projects', new TableForeignKey({
-      columnNames: ['previewImageId'],
-      referencedColumnNames: ['id'],
-      referencedTableName: 'file_references',
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
-    }));
-
     await queryRunner.createForeignKey('file_references', new TableForeignKey({
       columnNames: ['itemId'],
       referencedColumnNames: ['id'],
@@ -71,10 +57,6 @@ export default class filesToItemsReference1574451119936 implements MigrationInte
     const projectImageId = projectTable.foreignKeys.find((fk) => fk.columnNames.indexOf('imageId') !== -1);
     if (projectImageId) await queryRunner.dropForeignKey('projects', projectImageId);
     await queryRunner.dropColumn('projects', 'imageId');
-
-    const projectPreviewImageId = projectTable.foreignKeys.find((fk) => fk.columnNames.indexOf('previewImageId') !== -1);
-    if (projectPreviewImageId) await queryRunner.dropForeignKey('projects', projectPreviewImageId);
-    await queryRunner.dropColumn('projects', 'previewImageId');
 
     const fileTable = await queryRunner.getTable('file_references');
     if (!fileTable) return;

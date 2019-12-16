@@ -28,7 +28,7 @@ export default async () => {
           const projectPath = path.join(projectsPath, projectFolder);
 
           const project = await projectRepository
-            .save({ title: `проект-${projectIndex}`, description: '' })
+            .save({ title: `проект-${projectIndex}`, description: '', ord: projectIndex })
             .then((projectInst: Project) => projectRepository.generateUrlKey(projectInst, -1, true));
 
           const filesData = fs

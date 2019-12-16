@@ -30,7 +30,8 @@ export const create = (fastify: FastifyInstance) => fastify.route<unknown, unkno
     const user = await userRepository.findOneOrFail({ where: { email: email.toLowerCase() } });
 
     if (!helpers.verifyPassword(password, user.password)) {
-      throw new Error('Invalid Parameter');
+      reply.unauthorized();
+      return;
     }
 
     const sessionData = {

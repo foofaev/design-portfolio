@@ -89,4 +89,5 @@ export {
   stopServer,
   TEST_PROJECTS,
   TEST_USERS,
+  Project,
 };

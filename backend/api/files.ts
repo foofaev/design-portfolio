@@ -70,23 +70,6 @@ const getImageFormat = (contentType: string) => _.find(
   (possibleContentType) => _.includes(contentType, possibleContentType),
 );
 
-// presetString => prepareFileImageContent query format
-const combineQueryWithPreset = (preset: string, query: Query): Query => {
-  if (_.isEmpty(preset)) return query;
-  const presetExpanded: Partial<Query> = {};
-
-  const [width, height] = preset.match(/(\d+)x(\d+)/) || '';
-  if (width && height) {
-    presetExpanded.width = Number.parseInt(width, 10);
-    presetExpanded.height = Number.parseInt(height, 10);
-  }
-
-  if (_.includes(preset, 'fit')) presetExpanded.keepAspect = true;
-  if (_.includes(preset, 'fitnu')) presetExpanded.noUpscale = true;
-
-  return { ...query, ...presetExpanded };
-};
-
 const fileWhereQueryIsIncorrect = (fileWhere: FileWhere) => _.some([
   !fileWhere.id && !fileWhere.num,
   fileWhere.id && !validator.isUUID(fileWhere.id),
@@ -180,7 +163,6 @@ export const getImage = (fastify: FastifyInstance) => fastify.route<Query>({
       type: 'object',
       properties: {
         fileUrl: { type: 'string', minLength: 1 },
-        preset: { type: 'string', minLength: 1 },
       },
       additionalProperties: false,
       required: ['fileUrl'],
@@ -195,14 +177,15 @@ export const getImage = (fastify: FastifyInstance) => fastify.route<Query>({
       noUpscale: { type: 'boolean' },
     },
   },
-  url: '/images/:preset?/:fileUrl',
+  url: '/images/:fileUrl',
   handler: (request, response) => {
     const { params, query } = request;
-    const { preset, fileUrl } = params;
+    console.log(params);
+    console.log(query);
+    const { fileUrl } = params;
     const fileNameParts = _.split(fileUrl, /[-.]/);
     const num = fileNameParts[fileNameParts.length - 2]; // take num from /(:humanReadableUrl)-(:fileId).(:ext)
 
-    const fullQuery = combineQueryWithPreset(preset, query);
-    return handleFileRequest(fastify, { num: parseInt(num, 10) }, fullQuery, response);
+    return handleFileRequest(fastify, { num: Number.parseInt(num, 10) }, query, response);
   },
 });

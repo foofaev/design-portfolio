@@ -10,17 +10,13 @@ export default class createFileReferencesTable1574450802622 implements Migration
     const fileTable = new Table({
       name: 'file_references',
       columns: [
-        {
-          name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
-        },
+        { name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid' },
         { name: 'num', type: 'int', isNullable: false },
         { name: 'itemType', type: 'varchar', length: '20' },
         { name: 'purpose', type: 'varchar', length: '20' },
         { name: 'filePath', type: 'varchar', isNullable: false },
-        {
-          name: 'contentType', type: 'varchar', isNullable: false, default: '\'\'',
-        },
-        { name: 'ord', type: 'int', isNullable: true },
+        { name: 'contentType', type: 'varchar', isNullable: false, default: '\'\'' },
+        { name: 'ord', type: 'int', isNullable: false, default: 0 },
         { name: 'itemId', type: 'uuid', isNullable: false },
         { name: 'fileId', type: 'uuid', isNullable: false },
         { name: 'createdAt', type: 'timestamptz', default: 'NOW()' },

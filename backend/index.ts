@@ -7,7 +7,7 @@ import * as dotenv from 'dotenv';
 import * as fastifySensible from 'fastify-sensible';
 import * as fastifyStatic from 'fastify-static';
 import * as fastifyHelmet from 'fastify-helmet';
-import * as fastifyMultiaprt from 'fastify-multipart';
+import * as fastifyMultipart from 'fastify-multipart';
 import * as Rollbar from 'rollbar';
 
 import api from './plugins/api';
@@ -34,25 +34,30 @@ export default async (): Promise<Fastify.FastifyInstance> => {
 
   fastify
     .register(fastifySensible)
-    // .register(fastifyStatic, {
-    //   root: path.join(__dirname, '..', 'public', 'assets'),
-    //   prefix: '/assets/',
-    // })
+    .after(() => {
+      fastify.setErrorHandler((error, request, reply) => {
+        console.error(error);
+        rollbar.error(error, request);
+        reply.send(error);
+      });
+    });
+  // .register(fastifyStatic, {
+  //   root: path.join(__dirname, '..', 'public', 'assets'),
+  //   prefix: '/assets/',
+  // })
+  fastify
     .register(fastifyHelmet, {
       hidePoweredBy: { setTo: 'PHP 4.2.0' },
     })
     .register(dbPlugin)
     .register(authPlugin)
-    .register(fastifyMultiaprt, { addToBody: true, sharedSchemaId: 'rawFileSchema' })
+    .register(fastifyMultipart, { addToBody: true, sharedSchemaId: 'rawFileSchema' })
     .register(schemasPlugin)
     .register(api)
-    .addHook('onError', (request, __, error) => {
-      console.error('ERROREROR', error);
-      rollbar.error(error, request);
-    })
     .get('/status', (__, reply) => {
-      reply.send('OK');
+      reply.code(200).send('OK');
     });
+
 
   await fastify.ready();
 

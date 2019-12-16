@@ -28,18 +28,13 @@ export default class ProjectRepository extends Repository<Project> {
   }
 
   async updateMainImageId(container: Container, item: Project) {
-    const { fileRepository, fileReferenceRepository } = container;
-    const mainImageRef = await fileReferenceRepository.findOneOrFail({ where: { itemId: item.id }, relations: ['file'], order: { ord: 'DESC' } });
-    const { file } = mainImageRef;
+    const { fileReferenceRepository } = container;
+    const mainImageRef = await fileReferenceRepository.findOneOrFail({
+      where: { itemId: item.id },
+      relations: ['file'],
+      order: { ord: 'DESC' },
+    });
 
-    const previewData = { name: `preview-${file.name}`, path: file.filePath };
-
-    const previewImage = await fileRepository.createPreviewFromFile(previewData);
-    const previewImageRef = await fileReferenceRepository.createWithFile(
-      previewImage,
-      { item, itemType: 'project', purpose: 'previewImage', ord: mainImageRef.ord },
-    );
-
-    await this.save(this.merge(item, { image: mainImageRef, previewImage: previewImageRef }));
+    await this.save(this.merge(item, { image: mainImageRef }));
   }
 }

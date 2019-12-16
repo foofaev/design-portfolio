@@ -9,14 +9,11 @@ export default class createUserTable1574450733448 implements MigrationInterface 
     const userTable = new Table({
       name: 'users',
       columns: [
-        {
-          name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
-        },
+        { name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid' },
         { name: 'email', type: 'varchar', isUnique: true, length: '20' },
-        {
-          name: 'firstName', type: 'varchar', length: '20', isNullable: false,
-        },
+        { name: 'firstName', type: 'varchar', length: '20', isNullable: false },
         { name: 'lastName', type: 'varchar', length: '20' },
+        { name: 'description', type: 'text', isNullable: true },
         { name: 'password', type: 'varchar' },
         { name: 'createdAt', type: 'timestamptz', default: 'NOW()' },
         { name: 'updatedAt', type: 'timestamptz', default: 'NOW()' },

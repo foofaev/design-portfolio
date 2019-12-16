@@ -38,17 +38,24 @@ export default class Project {
   @Column('timestamptz', { nullable: true })
   publishedAt: string;
 
+  imageId?: string;
+
+  imageUrl?: string;
+
   @OneToOne(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
   image: FileReference;
 
-  @OneToOne(() => FileReference, (fileRef) => fileRef.item)
-  @JoinColumn()
-  previewImage: FileReference;
+  images?: string[];
+
+  fileIds?: string[];
 
   @OneToMany(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
   files: FileReference[];
+
+  @Column('int', { nullable: false, default: 0 })
+  ord: number;
 
   @CreateDateColumn()
   createdAt: string;

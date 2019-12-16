@@ -13,23 +13,14 @@ export default class createProjectTable1574450769363 implements MigrationInterfa
     const projectTable = new Table({
       name: 'projects',
       columns: [
-        {
-          name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid',
-        },
+        { name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid' },
         { name: 'title', type: 'varchar', isNullable: false },
         { name: 'description', type: 'text', isNullable: true },
-        {
-          name: 'urlKey', type: 'varchar', isUnique: true, isNullable: true, default: null,
-        },
-        {
-          name: 'isVisible', type: 'boolean', isNullable: false, default: true,
-        },
-        {
-          name: 'type', type: 'project_types', default: '\'render\'',
-        },
-        {
-          name: 'publishedAt', type: 'timestamptz', isNullable: true, default: null,
-        },
+        { name: 'urlKey', type: 'varchar', isUnique: true, isNullable: true, default: null },
+        { name: 'isVisible', type: 'boolean', isNullable: false, default: true },
+        { name: 'type', type: 'project_types', default: '\'render\'' },
+        { name: 'ord', type: 'int', isNullable: false, default: 0 },
+        { name: 'publishedAt', type: 'timestamptz', isNullable: true, default: null },
         { name: 'createdAt', type: 'timestamptz', default: 'NOW()' },
         { name: 'updatedAt', type: 'timestamptz', default: 'NOW()' },
       ],

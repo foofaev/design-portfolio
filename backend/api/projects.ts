@@ -31,7 +31,7 @@ export const index = (fastify: FastifyInstance) => fastify.route({
     const { offset: skip, limit: take } = request.query;
     const projects = await fastify
       .projectRepository
-      .find({ relations: ['image', 'previewImage', 'files'], skip, take })
+      .find({ relations: ['image', 'files'], skip, take })
       .then((projectsRaw) => projectsToJSON(fastify, projectsRaw));
     return { projects };
   },
@@ -64,7 +64,7 @@ export const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Pa
     const { projectId } = request.params;
     const project = await fastify
       .projectRepository
-      .findOneOrFail(projectId, { relations: ['image', 'previewImage', 'files'] })
+      .findOneOrFail(projectId, { relations: ['image', 'files'] })
       .then((projectRaw) => projectsToJSON(fastify, projectRaw));
     return { project };
   },
@@ -102,7 +102,7 @@ export const save = (fastify: FastifyInstance) => fastify.route<unknown, unknown
 
     const saved = await projectRepository.save(body);
     await projectRepository.generateUrlKey(saved, -1, true);
-    const result = await projectRepository.findOne(saved.id, { relations: ['image', 'previewImage', 'files'] })
+    const result = await projectRepository.findOne(saved.id, { relations: ['image', 'files'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw));
     return { project: result };
   },
@@ -116,6 +116,7 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, Param
       type: 'object',
       properties: {
         title: { type: 'string' },
+        ord: { type: 'integer' },
         description: { type: 'string' },
         isVisible: { type: 'boolean' },
         publishedAt: { type: 'string' },
@@ -147,7 +148,7 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, Param
 
     await projectRepository.update(projectId, body);
     const updated = await projectRepository
-      .findOne(projectId, { relations: ['image', 'previewImage', 'files'] })
+      .findOne(projectId, { relations: ['image', 'files'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw));
     return { project: updated };
   },
@@ -161,7 +162,7 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
       type: 'object',
       properties: {
         ord: { type: 'integer' },
-        file: 'rawFileSchema#',
+        file: { type: 'array', items: 'rawFileSchema#' },
       },
       required: ['file', 'ord'],
       additionalProperties: false,
@@ -177,12 +178,14 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
     response: {
       200: {
         type: 'object',
-        properties: {},
+        properties: {
+          project: 'projectOutput#',
+        },
         additionalProperties: false,
       },
     },
   },
-  preHandler: fastify.checkSession(),
+  preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository, fileRepository, fileReferenceRepository } = fastify;
     const { body, params: { projectId } } = request;
@@ -197,7 +200,12 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
     );
 
     await projectRepository.updateMainImageId(fastify, project);
-    return {};
+
+    const updated = await projectRepository
+      .findOneOrFail(projectId, { relations: ['image', 'files'] })
+      .then((projects) => projectsToJSON(fastify, projects));
+
+    return { project: updated };
   },
 });
 
@@ -225,7 +233,9 @@ export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route
     response: {
       200: {
         type: 'object',
-        properties: {},
+        properties: {
+          project: 'projectOutput#',
+        },
         additionalProperties: false,
       },
     },
@@ -234,12 +244,21 @@ export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route
   handler: async (request) => {
     const { projectRepository, fileReferenceRepository } = fastify;
     const { body: { ord }, params: { projectId, fileId } } = request;
+    console.log(ord);
+    console.log(projectId);
+    console.log(fileId);
 
     const project = await projectRepository.findOneOrFail(projectId);
 
     await fileReferenceRepository.update(fileId, { ord });
     await projectRepository.updateMainImageId(fastify, project);
-    return {};
+
+    const updated = await projectRepository
+      .findOneOrFail(projectId, { relations: ['image', 'files'] })
+      .then((projects) => projectsToJSON(fastify, projects));
+    console.log(updated);
+
+    return { project: updated };
   },
 });
 

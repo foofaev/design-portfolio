@@ -1,3 +1,5 @@
+/* ****************************************************************************************************************** */
+
 import { ServerResponse, IncomingMessage, Server } from 'http';
 import { Connection, Repository } from 'typeorm';
 
@@ -10,8 +12,10 @@ import ProjectRepository from '../backend/repositories/ProjectRepository';
 import FileRepository from '../backend/repositories/FileRepository';
 import FileReferenceRepository from '../backend/repositories/FileReferenceRepository';
 
+/* ****************************************************************************************************************** */
 type SessionRequestType = Omit<Session, 'user'>;
 
+/* ****************************************************************************************************************** */
 declare module 'fastify' {
   type FastifyMiddlewareWithOpts = (
     strict?: boolean | void
@@ -42,9 +46,14 @@ declare module 'fastify' {
   }
 }
 
+/* ****************************************************************************************************************** */
+
 // declare module 'fastify-csrf' {
 
 // }
 
 
+/* ****************************************************************************************************************** */
 export type EntityWithUrlKey = Project;
+
+/* ****************************************************************************************************************** */

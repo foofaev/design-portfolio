@@ -1,7 +1,6 @@
-import { IncomingMessage } from 'http';
-import {
-  FastifyInstance, FastifyRequest, FastifyMiddlewareWithPayload,
-} from 'fastify';
+/* ****************************************************************************************************************** */
+
+import { FastifyInstance, FastifyRequest, FastifyMiddlewareWithPayload, FastifyMiddlewareWithOpts } from 'fastify';
 import * as fp from 'fastify-plugin';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -11,13 +10,17 @@ import * as fastifyCookie from 'fastify-cookie';
 
 import helpers from '../libs/helpers';
 
+/* ****************************************************************************************************************** */
 const cookieSecret = process.env.SESSION_COOKIE_SECRET || 'mySecretCookieRecepy';
 const cookiePath = process.env.SESSION_COOKIE_PATH || '/';
 const cookieSessionName = process.env.SESSION_COOKIE_NAME || '_sess';
 const sessionExpiresDays = process.env.SESSION_EXPIRES_DAYS || 30;
 // const cookieCSRFName = process.env.CSRF_COOKIE_NAME || '_csrf';
 
-const checkSession = (fastify: FastifyInstance) => (strict: boolean | void) => async (request: FastifyRequest) => {
+/* ****************************************************************************************************************** */
+type CheckSession = (fastify: FastifyInstance) => FastifyMiddlewareWithOpts;
+
+const checkSession: CheckSession = (fastify) => (strict) => async (request, reply) => {
   const { sessionRepository } = fastify;
   const { url } = request.req;
   const { ip } = request;
@@ -29,23 +32,34 @@ const checkSession = (fastify: FastifyInstance) => (strict: boolean | void) => a
   const encriptedSessionId = _.get(request, `cookies.${cookieSessionName}`);
 
   if (!encriptedSessionId && !strict) return;
-  if (!encriptedSessionId) throw new Error('Invalid session');
+  if (!encriptedSessionId) {
+    reply.unauthorized('Session missing');
+    return;
+  }
 
   const decryptedSessionId = helpers.unsignCookie(encriptedSessionId, cookieSecret);
-  if (!decryptedSessionId) throw new Error('Invalid session');
+  if (!decryptedSessionId) {
+    reply.unauthorized();
+    return;
+  }
 
   const session = await sessionRepository.findOne(decryptedSessionId, { where: { ip }, relations: ['user'] });
 
-  if (!session) throw new Error('Invalid session');
+  if (!session) {
+    reply.unauthorized();
+    return;
+  }
 
   if (moment.utc().isAfter(helpers.parseTimestamp(session.expiresAt))) {
     await fastify.sessionRepository.delete(decryptedSessionId);
-    throw new Error('Invalid session');
+    reply.unauthorized();
+    return;
   }
 
   if (session.ip && session.ip !== ip) {
     await fastify.sessionRepository.delete(decryptedSessionId);
-    throw new Error('Invalid session');
+    reply.unauthorized();
+    return;
   }
 
   session.expiresAt = helpers.formatTimestamp(moment().add(sessionExpiresDays, 'days'));
@@ -56,7 +70,8 @@ const checkSession = (fastify: FastifyInstance) => (strict: boolean | void) => a
   request.user = user;
 };
 
-const shouldSetSession = (request: FastifyRequest<IncomingMessage>) => {
+/* ****************************************************************************************************************** */
+const shouldSetSession = (request: FastifyRequest) => {
   const { session } = request;
   if (!session || !session.id) return false;
   return true;
@@ -70,6 +85,7 @@ const shouldSetSession = (request: FastifyRequest<IncomingMessage>) => {
   */
 };
 
+/* ****************************************************************************************************************** */
 const setSession: FastifyMiddlewareWithPayload = (request, reply, __, next) => {
   try {
     const { session } = request;
@@ -96,6 +112,7 @@ const setSession: FastifyMiddlewareWithPayload = (request, reply, __, next) => {
   }
 };
 
+/* ****************************************************************************************************************** */
 export default fp((fastify, __, next) => {
   try {
     fastify
@@ -109,4 +126,6 @@ export default fp((fastify, __, next) => {
     next(error);
   }
 });
+
+/* ****************************************************************************************************************** */
 // .register(fastifyCsurf, { key: cookieCSRFName, ignoreMethods: ['GET', 'HEAD', 'OPTIONS'] });
