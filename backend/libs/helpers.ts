@@ -30,8 +30,8 @@ function hashPassword(value:string) {
   return bcrypt.hashSync(value, 10);
 }
 
-function verifyPassword(unencryptedPassword: string, encryptedPassword: string): boolean {
-  return bcrypt.compareSync(unencryptedPassword, encryptedPassword);
+function verifyPassword(decryptedPassword: string, encryptedPassword: string): boolean {
+  return bcrypt.compareSync(decryptedPassword, encryptedPassword);
 }
 
 function getExtension(contentType: string | undefined, filepath: string = '') {

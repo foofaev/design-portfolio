@@ -2,7 +2,9 @@ import * as _ from 'lodash';
 import * as fp from 'lodash/fp';
 
 // substrings with larger length goes at first due to #translit implementation
+// cspell:disable-next-line
 const enChars: string[] = ['shh', 'yo', 'zh', 'ch', 'sh', '``', 'y`', 'e`', 'yu', 'ya', ...'abvgdezijklmnoprstufхc`'.split('')];
+// cspell:disable-next-line
 const ruChars: string[] = ['щ', 'ё', 'ж', 'ч', 'ш', 'ъ', 'ы', 'э', 'ю', 'я', ...'абвгдезийклмнопрстуфхць'.split('')];
 
 

@@ -11,7 +11,7 @@
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n table",
       "lint": "npx eslint --ext .js,.jsx,.ts,.tsx ./",
-      "spellcheck": "cspell '**/*.js'",
+      "spellcheck": "cspell '**/*.ts'",
       "typecheck": "npx tsc --noEmit",
       "test": "NODE_ENV=test DEBUG=app npx jest --detectOpenHandles",
       "repl": "ts-node bin/app.ts repl",

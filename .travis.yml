@@ -9,7 +9,7 @@ node_js:
   - node
 
 before_install:
-  - docker-compose -f docker-compose.ci.yml up --build -d
+  - docker-compose up --build -d
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -17,13 +17,13 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - docker-compose -f docker-compose.ci.yml exec -T cli npm run build
-  - docker-compose -f docker-compose.ci.yml exec -T cli npm run lint
-  - docker-compose -f docker-compose.ci.yml exec -T cli npm run spellcheck
-  - docker-compose -f docker-compose.ci.yml exec -T cli npm run migrate
-  - docker-compose -f docker-compose.ci.yml exec -T cli npm test
+  - docker-compose exec -T design-server yarn run lint
+  - docker-compose exec -T design-server yarn run typecheck
+  - docker-compose exec -T design-server yarn run spellcheck
+  - docker-compose exec -T design-server yarn run migrate
+  - docker-compose exec -T design-server yarn test
 
 after_script:
-  - docker-compose -f backend/docker-compose.ci.yml logs server > logs/server.log || true
-  - docker-compose -f backend/docker-compose.ci.yml down -v
+  - docker-compose logs design-server > logs/server.log || true
+  - docker-compose down -v
   - ./cc-test-reporter after-build --debug -t lcov --exit-code $TRAVIS_TEST_RESULT

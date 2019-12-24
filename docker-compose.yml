@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  design-db:
+    image: postgres:11.6-alpine
+    container_name: design-db
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_DB=design
+      - POSTGRES_USER=design
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  design-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: design-server
+    volumes:
+      - ./ci.env:/srv/app/.env:ro
+    depends_on:
+      - design-db
+    environment:
+      NODE_ENV: production
+    tty: true

@@ -11,7 +11,7 @@ import * as fastifyCookie from 'fastify-cookie';
 import helpers from '../libs/helpers';
 
 /* ****************************************************************************************************************** */
-const cookieSecret = process.env.SESSION_COOKIE_SECRET || 'mySecretCookieRecepy';
+const cookieSecret = process.env.SESSION_COOKIE_SECRET || 'mySecretCookieRecipe';
 const cookiePath = process.env.SESSION_COOKIE_PATH || '/';
 const cookieSessionName = process.env.SESSION_COOKIE_NAME || '_sess';
 const sessionExpiresDays = process.env.SESSION_EXPIRES_DAYS || 30;
@@ -29,15 +29,15 @@ const checkSession: CheckSession = (fastify) => (strict) => async (request, repl
     return;
   }
 
-  const encriptedSessionId = _.get(request, `cookies.${cookieSessionName}`);
+  const encryptedSessionId = _.get(request, `cookies.${cookieSessionName}`);
 
-  if (!encriptedSessionId && !strict) return;
-  if (!encriptedSessionId) {
+  if (!encryptedSessionId && !strict) return;
+  if (!encryptedSessionId) {
     reply.unauthorized('Session missing');
     return;
   }
 
-  const decryptedSessionId = helpers.unsignCookie(encriptedSessionId, cookieSecret);
+  const decryptedSessionId = helpers.unsignCookie(encryptedSessionId, cookieSecret);
   if (!decryptedSessionId) {
     reply.unauthorized();
     return;

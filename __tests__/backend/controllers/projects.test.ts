@@ -8,7 +8,7 @@ let newProject: Project;
 
 const newProjectData: Partial<Project> = {
   title: 'newProject',
-  description: 'new long description about ptoject',
+  description: 'new long description about project',
   type: 'render',
   isVisible: false,
 };

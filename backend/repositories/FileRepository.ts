@@ -116,7 +116,7 @@ export default class FileRepository extends Repository<File> {
 
   generateURL(fileId: string) {
     // TODO: Получается, что при изменении файла нужно обязательно удалять
-    // TODO: предыдуший и записывать новый иначе id не поменяется.
+    // TODO: предыдущий и записывать новый иначе id не поменяется.
     return fileId ? `/getFile?id=${fileId}` : '';
   }
 }
