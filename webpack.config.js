@@ -9,8 +9,6 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isHot = !!process.env.HOT;
-console.log(isDev);
-console.log(isHot);
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
