@@ -42,7 +42,10 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, unkno
     const { email, firstName, lastName } = body;
     const { userRepository } = fastify;
     const updateData = userRepository.merge(user, _.pickBy({ email, firstName, lastName }));
-    const updatedUser = userRepository.save(updateData);
+    await userRepository.save(updateData);
+    const updatedUser = await userRepository
+      .findOneOrFail(user.id, { relations: ['image'] })
+      .then((found) => userToJSON(fastify, found));
     return { user: updatedUser };
   },
 });
@@ -76,7 +79,7 @@ export const saveImage = (fastify: FastifyInstance) => fastify.route({
     body: {
       type: 'object',
       properties: {
-        file: 'rawFileSchema#',
+        file: { type: 'array', items: 'rawFileSchema#' },
       },
       required: ['file'],
       additionalProperties: false,
@@ -98,6 +101,34 @@ export const saveImage = (fastify: FastifyInstance) => fastify.route({
     const rawFile = body.file[0];
     const fileData = { name: rawFile.filename, contentType: rawFile.mimetype, data: rawFile.data };
     await userRepository.updateImage(fastify, user.id, fileData);
+    const updatedUser = await userRepository
+      .findOneOrFail(user.id, { relations: ['image'] })
+      .then((found) => userToJSON(fastify, found));
+    return { user: updatedUser };
+  },
+});
+
+export const removeImage = (fastify: FastifyInstance) => fastify.route({
+  method: 'DELETE',
+  url: '/user/image',
+  schema: {
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          user: 'userOutput#',
+        },
+        additionalProperties: false,
+      },
+    },
+  },
+  preHandler: fastify.checkSession(true),
+  handler: async (request) => {
+    const { userRepository } = fastify;
+    const { user } = request;
+
+    await userRepository.removeImage(fastify, user.id);
+
     const updatedUser = await userRepository
       .findOneOrFail(user.id, { relations: ['image'] })
       .then((found) => userToJSON(fastify, found));

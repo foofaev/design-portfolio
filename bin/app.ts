@@ -7,7 +7,7 @@ import * as repl from 'repl';
 import * as _ from 'lodash';
 import { FastifyInstance } from 'fastify';
 import getServer from '../backend';
-import seedFiles from '../backend/scripts/seedFiles';
+import seedProjects from '../backend/scripts/seedProjects';
 
 process.on('unhandledRejection', (error: Error, promise: Promise<any>) => {
   if (error) {
@@ -45,10 +45,10 @@ program.command('server')
   });
 
 program
-  .command('seedFiles')
+  .command('seedProjects')
   .action(async () => {
     try {
-      await seedFiles();
+      await seedProjects();
       process.exit(0);
     } catch (error) {
       console.error(error);

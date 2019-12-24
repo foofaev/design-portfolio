@@ -1,11 +1,12 @@
 import 'jest-extended';
 import * as path from 'path';
-import * as _ from 'lodash';
 import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
 import { startServer, stopServer, TEST_PROJECTS, Project } from '../../helpers';
 
-let newProject: Partial<Project> = {
+let newProject: Project;
+
+const newProjectData: Partial<Project> = {
   title: 'newProject',
   description: 'new long description about ptoject',
   type: 'render',
@@ -24,7 +25,11 @@ describe('PROJECTS / public', () => {
     callAPI = request;
     cookie = session;
   });
-  afterAll(() => stopServer(fastify));
+  afterAll(async () => {
+    await fastify.fileReferenceRepository.remove(newProject.files);
+    await fastify.projectRepository.remove(newProject);
+    await stopServer(fastify);
+  });
 
   it('GET /projects', async () => {
     const { body: { projects } } = await callAPI
@@ -49,7 +54,7 @@ describe('PROJECTS / public', () => {
   it('PUT /projects returns error without session', async () => {
     const res = await callAPI
       .put('/projects')
-      .send(newProject)
+      .send(newProjectData)
       .expect(401);
     expect(res.body.message).toEqual('Session missing');
   });
@@ -57,10 +62,10 @@ describe('PROJECTS / public', () => {
   it('PUT /projects', async () => {
     const { body: { project } } = await callAPI
       .put('/projects')
-      .send(newProject)
+      .send(newProjectData)
       .set('Cookie', cookie)
       .expect(200);
-    expect(project).toMatchObject(newProject);
+    expect(project).toMatchObject(newProjectData);
 
     newProject = project;
   });
@@ -129,21 +134,34 @@ describe('PROJECTS / public', () => {
       .get(project.images[1])
       .expect(200);
 
-    console.log(1, project);
     newProject = project;
   });
 
   it('PATCH /projects/image/:id/fileId', async () => {
+    const fileToUpdateOrd = newProject.files[1];
     const { body: { project } } = await callAPI
-      .patch(`/projects/image/${newProject.id}/${_.get(newProject, 'files.1.id')}`)
+      .patch(`/projects/image/${newProject.id}/${fileToUpdateOrd.id}`)
       .send({ ord: 200 })
       .set('Cookie', cookie)
       .expect(200);
 
-    console.log('PROJECT', project);
+    expect(project.imageUrl).toBeString();
+    expect(project.imageUrl).not.toEqual(newProject.imageUrl);
+
+    newProject = project;
+  });
+
+  it('DELETE /projects/image/:projectId/fileId', async () => {
+    const fileToRemove = newProject.files[0];
+    const { body: { project } } = await callAPI
+      .delete(`/projects/image/${newProject.id}/${fileToRemove.id}`)
+      .set('Cookie', cookie)
+      .expect(200);
 
     expect(project.imageUrl).toBeString();
     expect(project.imageUrl).not.toEqual(newProject.imageUrl);
+    expect(project.files).toBeArrayOfSize(1);
+    expect(project.images).toBeArrayOfSize(1);
 
     newProject = project;
   });

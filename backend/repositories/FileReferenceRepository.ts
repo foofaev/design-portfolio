@@ -20,6 +20,8 @@ export default class FileReferenceRepository extends Repository<FileReference> {
     if (!fileId || !num || _.isUndefined(contentType)) {
       throw new Error(`FileRef.createWithFile missing fileData ${fileId} | ${num} | ${contentType}`);
     }
+    const existingRef = await this.findOne({ item: data.item, file });
+    if (existingRef) return existingRef;
     return this.save({
       ...data,
       num,

@@ -13,7 +13,11 @@ extends:
   - 'airbnb/hooks'
   - 'plugin:security/recommended'
 rules:
-  no-console: 0
+  no-console:
+    - 2
+    - allow:
+        - warn
+        - error
   max-len:
     - 2
     - 120
