@@ -8,16 +8,20 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "strictFunctionTypes": false,
-    "strictPropertyInitialization": false,
-    "importHelpers": true,
 
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+
+    "importHelpers": true,
     "allowSyntheticDefaultImports": true,
 
     "jsx": "react",

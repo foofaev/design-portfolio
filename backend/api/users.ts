@@ -2,16 +2,6 @@ import { FastifyInstance } from 'fastify';
 import * as _ from 'lodash';
 import { userToJSON } from '../libs/toJSON';
 
-type UpdateBody = {
-  email?: string,
-  firstName?: string,
-  lastName?: string,
-};
-
-type UpdatePassword = {
-  password: string,
-};
-
 export const show = (fastify: FastifyInstance) => fastify.route({
   method: 'GET',
   url: '/user',
@@ -22,7 +12,7 @@ export const show = (fastify: FastifyInstance) => fastify.route({
   },
 });
 
-export const update = (fastify: FastifyInstance) => fastify.route<unknown, unknown, unknown, UpdateBody>({
+export const update = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
   url: '/user',
   schema: {
@@ -50,7 +40,7 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, unkno
   },
 });
 
-export const updatePassword = (fastify: FastifyInstance) => fastify.route<unknown, unknown, unknown, UpdatePassword>({
+export const updatePassword = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
   url: '/user/password',
   schema: {

@@ -1,9 +1,13 @@
+/* ****************************************************************************************************************** */
 import { FastifyInstance, FastifyRequest, DefaultQuery, DefaultHeaders } from 'fastify';
 import { projectsToJSON } from '../libs/toJSON';
 import Project from '../entities/Project';
+/* ****************************************************************************************************************** */
 
+/* ****************************************************************************************************************** */
 type Params = { projectId: string };
 
+/* ****************************************************************************************************************** */
 export const index = (fastify: FastifyInstance) => fastify.route({
   method: 'GET',
   url: '/projects',
@@ -28,6 +32,7 @@ export const index = (fastify: FastifyInstance) => fastify.route({
   },
   preHandler: fastify.checkSession(),
   handler: async (request) => {
+    console.log(JSON.stringify(fastify.getSchemas(), null, 2));
     const { offset: skip, limit: take } = request.query;
     const projects = await fastify
       .projectRepository
@@ -37,6 +42,7 @@ export const index = (fastify: FastifyInstance) => fastify.route({
   },
 });
 
+/* ****************************************************************************************************************** */
 export const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, DefaultHeaders>({
   method: 'GET',
   url: '/projects/:projectId',
@@ -44,7 +50,7 @@ export const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Pa
     params: {
       type: 'object',
       properties: {
-        projectId: { type: 'string', minLength: 1 },
+        projectId: { type: 'string', format: 'uuid' },
       },
       additionalProperties: false,
       required: ['projectId'],
@@ -70,7 +76,8 @@ export const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Pa
   },
 });
 
-export const save = (fastify: FastifyInstance) => fastify.route<unknown, unknown, unknown, Partial<Project>>({
+/* ****************************************************************************************************************** */
+export const save = (fastify: FastifyInstance) => fastify.route({
   method: 'PUT',
   url: '/projects',
   schema: {
@@ -102,13 +109,14 @@ export const save = (fastify: FastifyInstance) => fastify.route<unknown, unknown
 
     const saved = await projectRepository.save(body);
     await projectRepository.generateUrlKey(saved, -1, true);
-    const result = await projectRepository.findOne(saved.id, { relations: ['image', 'files'] })
+    const result = await projectRepository.findOneOrFail(saved.id, { relations: ['image', 'files'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw));
     return { project: result };
   },
 });
 
-export const update = (fastify: FastifyInstance) => fastify.route<unknown, Params, unknown, Partial<Project>>({
+/* ****************************************************************************************************************** */
+export const update = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
   url: '/projects/:projectId',
   schema: {
@@ -148,12 +156,13 @@ export const update = (fastify: FastifyInstance) => fastify.route<unknown, Param
 
     await projectRepository.update(projectId, body);
     const updated = await projectRepository
-      .findOne(projectId, { relations: ['image', 'files'] })
+      .findOneOrFail(projectId, { relations: ['image', 'files'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw));
     return { project: updated };
   },
 });
 
+/* ****************************************************************************************************************** */
 export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
   url: '/projects/image/:projectId',
@@ -209,6 +218,7 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
   },
 });
 
+/* ****************************************************************************************************************** */
 export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
   url: '/projects/image/:projectId/:fileId',
@@ -258,6 +268,7 @@ export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route
   },
 });
 
+/* ****************************************************************************************************************** */
 export const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
   method: 'DELETE',
   url: '/projects/image/:projectId/:fileId',
@@ -299,3 +310,5 @@ export const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
     return { project: updated };
   },
 });
+
+/* ****************************************************************************************************************** */

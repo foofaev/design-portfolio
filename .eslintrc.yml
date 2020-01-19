@@ -1,7 +1,6 @@
 ---
 plugins:
   - jest
-  - babel
   - security
 env:
   node: true
@@ -9,8 +8,8 @@ env:
   browser: true
 extends:
   - 'airbnb-typescript'
-  - 'plugin:jest/recommended'
   - 'airbnb/hooks'
+  - 'plugin:jest/recommended'
   - 'plugin:security/recommended'
 rules:
   no-console:
@@ -29,3 +28,4 @@ rules:
   class-methods-use-this:
     - 0
   object-curly-newline: 0
+  react/prop-types: 0
