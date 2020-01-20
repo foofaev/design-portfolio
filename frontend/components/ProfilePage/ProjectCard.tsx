@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Card from '../Card/Card';
 import { Project } from '../../types';
 
 type Props = {
