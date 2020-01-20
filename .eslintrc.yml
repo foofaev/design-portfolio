@@ -27,5 +27,4 @@ rules:
       ignoreTemplateLiterals: true
   class-methods-use-this:
     - 0
-  object-curly-newline: 0
   react/prop-types: 0

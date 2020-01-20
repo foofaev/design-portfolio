@@ -5,10 +5,15 @@ import { ActionFunction0, AsyncActionFunction0 } from '../types';
 import routes from '../api';
 
 /* ****************************************************************************************************************** */
+const LOGIN_REQUEST = 'LOGIN_REQUEST';
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
-const loginRequest: ActionFunction0 = () => ({ type: 'LOGIN_REQUEST', payload: {} });
-const loginSuccess: ActionFunction0 = () => ({ type: 'LOGIN_SUCCESS', payload: {} });
-const loginFailure: ActionFunction0 = () => ({ type: 'LOGIN_FAILURE', payload: {} });
+/* ****************************************************************************************************************** */
+
+const loginRequest: ActionFunction0 = () => ({ type: LOGIN_REQUEST, payload: {} });
+const loginSuccess: ActionFunction0 = () => ({ type: LOGIN_SUCCESS, payload: {} });
+const loginFailure: ActionFunction0 = () => ({ type: LOGIN_FAILURE, payload: {} });
 
 /* ****************************************************************************************************************** */
 const login: AsyncActionFunction0<void> = () => async (dispatch) => {
@@ -30,6 +35,10 @@ export {
   loginRequest,
 
   login,
+
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  LOGIN_REQUEST,
 };
 
 /* ****************************************************************************************************************** */

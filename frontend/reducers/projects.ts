@@ -9,19 +9,6 @@ import { Action, ProjectsState, ProjectAction } from '../types';
 
 /* ****************************************************************************************************************** */
 
-const projectRemovingState = (state = 'none', action: Action<string>) => {
-  switch (action.type) {
-    case 'PROJECT_REMOVE_REQUEST':
-      return 'requested';
-    case 'PROJECT_REMOVE_SUCCESS':
-      return 'finished';
-    case 'PROJECT_REMOVE_FAILURE':
-      return 'failed';
-    default:
-      return state;
-  }
-};
-
 /* ****************************************************************************************************************** */
 const projectFetchingState = (state = 'none', action: Action<string>) => {
   switch (action.type) {

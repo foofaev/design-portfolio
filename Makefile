@@ -18,13 +18,13 @@ psql:
 
 # testing commands
 test:
-	 docker-compose exec -T cli npm test
+	 docker-compose exec -T cli yarn test
 lint:
-	 docker-compose exec -T cli npm run lint
+	 docker-compose exec -T cli yarn run lint
 spellcheck:
-	 docker-compose exec -T cli npm run spellcheck
+	 docker-compose exec -T cli yarn run spellcheck
 migrate:
-	 docker-compose exec -T npm run migrate
+	 docker-compose exec -T npm yarn migrate
 
 # check everything before commit
 docker-prepublish: docker-lint docker-spellcheck docker-test
