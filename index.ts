@@ -6,12 +6,12 @@ import * as program from 'commander';
 import * as repl from 'repl';
 import * as _ from 'lodash';
 import { FastifyInstance } from 'fastify';
-import getServer from '../backend';
-import seedProjects from '../backend/scripts/seedProjects';
+import getServer from './backend';
+import seedProjects from './backend/scripts/seedProjects';
 
-process.on('unhandledRejection', (error: Error, promise: Promise<any>) => {
-  if (error) {
-    console.error(`Possibly Unhandled Rejection at: Promise ${promise}, reason: ${error.toString()} ${error.stack}`);
+process.on('unhandledRejection', (reason, promise) => {
+  if (reason) {
+    console.error(`Possibly Unhandled Rejection at: Promise ${promise}, reason: ${JSON.stringify(reason)}`);
   }
 });
 
@@ -55,4 +55,5 @@ program
       process.exit(-1);
     }
   });
+
 program.parse(process.argv);

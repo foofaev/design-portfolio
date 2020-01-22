@@ -8,7 +8,7 @@ import styles from './style';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  color: "primary", "secondary", "info", "success", "warning", "danger", "rose", "white", "twitter", "facebook", "google", "linkedin", "pinterest", "youtube", "tumblr", "github", "behance", "dribbble", "reddit", "instagram", "transparent",
+  color: "primary", "secondary", "info", "success", "warning", "danger", "rose", "white", "transparent",
   size: 'sm' | 'lg',
   simple: boolean,
   round: boolean

@@ -14,9 +14,10 @@ type Props = {
   background?: boolean,
   pricing?: boolean,
   testimonial?: boolean,
-  color: 'primary'| 'info' | 'success' | 'warning' | 'danger' | 'rose',
-  product: boolean,
-  children: boolean,
+  color?: 'primary'| 'info' | 'success' | 'warning' | 'danger' | 'rose',
+  product?: boolean,
+  children?: React.ReactNode
+  style?: React.CSSProperties
 };
 
 function Card(props: Props) {
@@ -29,7 +30,7 @@ function Card(props: Props) {
     raised,
     background,
     pricing,
-    color,
+    color = 'primary',
     product,
     testimonial,
     ...rest
@@ -50,6 +51,7 @@ function Card(props: Props) {
   });
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <div className={cardClasses} {...rest}>
       {children}
     </div>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import Card from '../Card/Card';
+import CardBody from '../Card/CardBody';
 import Button from '../CustomButtons/Button';
 import { Project } from '../../types';
 import styles from './cardsStyle';
@@ -21,7 +22,7 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
       style={{ backgroundImage: project.imageUrl }}
     >
       <CardBody background>
-        <a href="#">
+        <a href="/url/some">
           <h3 className={classes.cardTitle}>
             {project.title}
           </h3>
@@ -30,7 +31,8 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
           {project.description}
         </p>
         <Button round href="#" color="danger">
-          <FormatAlignLeft className={classes.icons} /> Читать подробнее
+          <FormatAlignLeft className={classes.icons} />
+          Читать подробнее
         </Button>
       </CardBody>
     </Card>

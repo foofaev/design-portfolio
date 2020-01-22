@@ -10,7 +10,7 @@
       "start": "node dist/bin/app.js server",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n table",
-      "seedProjects": "ts-node bin/app.ts seedProjects",
+      "seedProjects": "npx ts-node --files ./index.ts seedProjects",
       "lint": "npx eslint --ext .js,.jsx,.ts,.tsx ./",
       "spellcheck": "cspell '**/*.ts'",
       "typecheck": "npx tsc --noEmit",
@@ -18,7 +18,7 @@
       "test": "NODE_ENV=test DEBUG=app npx jest --detectOpenHandles",
       "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --detectOpenHandles",
       "front:dev": "npx parcel ./frontend/index.html --hmr-port 1235",
-      "back:dev": "NODE_ENV=development ts-node-dev bin/app.ts server"
+      "back:dev": "NODE_ENV=development ts-node-dev ./index.ts server"
    },
    "jest": {
       "bail": true,

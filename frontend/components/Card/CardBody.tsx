@@ -6,19 +6,24 @@ import styles from './bodyStyle';
 
 const useStyles = makeStyles(styles);
 
-function CardBody(props) {
+type Props = {
+  className: string,
+  background: boolean,
+  plain: boolean,
+  formHorizontal: boolean,
+  pricing: boolean,
+  signup: boolean,
+  color: boolean,
+  children: React.ReactNode
+};
+
+function CardBody(props: Props) {
   const {
-    className,
-    children,
-    background,
-    plain,
-    formHorizontal,
-    pricing,
-    signup,
-    color,
-    ...rest
+    className, children, background, plain, formHorizontal, pricing, signup, color, ...rest
   } = props;
+
   const classes = useStyles();
+
   const cardBodyClasses = cn({
     [classes.cardBody]: true,
     [classes.cardBodyBackground]: background,
@@ -27,24 +32,16 @@ function CardBody(props) {
     [classes.cardPricing]: pricing,
     [classes.cardSignup]: signup,
     [classes.cardBodyColor]: color,
-    [className]: className !== undefined
+    [className]: className !== undefined,
   });
+
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <div className={cardBodyClasses} {...rest}>
       {children}
     </div>
   );
 }
 
-CardBody.propTypes = {
-  className: PropTypes.string,
-  background: PropTypes.bool,
-  plain: PropTypes.bool,
-  formHorizontal: PropTypes.bool,
-  pricing: PropTypes.bool,
-  signup: PropTypes.bool,
-  color: PropTypes.bool,
-  children: PropTypes.node
-};
 
 export default CardBody;

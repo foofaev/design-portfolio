@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
     "lib": [
-      "es5",
-      "es6",
+      "es2020",
       "dom"
     ],
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
     "sourceMap": true,
@@ -24,10 +23,23 @@
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
 
+    "typeRoots": [
+      "node_modules/@types",
+      "@types"
+    ],
     "jsx": "react",
-    "baseUrl": "./frontend",
-    "paths": {
-      "~*": ["./*"]
-    }
-  }
+    "baseUrl": "./frontend"
+  },
+  "include": [
+    "./index.ts",
+    "backend/**/*",
+    "frontend/**/*",
+    "@types/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/*.json",
+    "**/*.spec.ts"
+  ]
 }

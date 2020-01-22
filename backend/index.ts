@@ -48,7 +48,7 @@ export default async (): Promise<Fastify.FastifyInstance> => {
     .register(api)
     .after(() => {
       fastify.setErrorHandler((error, request, reply) => {
-        console.error(error);
+        console.error(error); // TODO: proper error handling
         rollbar.error(error, request);
         reply.send(error);
       });
