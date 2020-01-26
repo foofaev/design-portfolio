@@ -5,7 +5,7 @@ import map from 'lodash/map';
 import without from 'lodash/without';
 import omit from 'lodash/omit';
 
-import { Action, ProjectsState, ProjectAction } from '../types';
+import { Action, ProjectAction } from '../types';
 
 /* ****************************************************************************************************************** */
 
@@ -38,7 +38,7 @@ const projectAddingState = (state = 'none', action: Action<string>) => {
 };
 
 /* ****************************************************************************************************************** */
-const projects = (state: ProjectsState, action: ProjectAction) => {
+const projects = (state = { byId: {}, allIds: [] }, action: ProjectAction) => {
   switch (action.type) {
     case 'PROJECTS_FETCH_SUCCESS': {
       const { payload } = action;
@@ -64,14 +64,13 @@ const projects = (state: ProjectsState, action: ProjectAction) => {
       };
     }
     default: {
-      return { byId: {}, allIds: [] };
+      return state;
     }
   }
 };
 
 /* ****************************************************************************************************************** */
 export {
-  projectRemovingState,
   projectFetchingState,
   projectAddingState,
   projects,

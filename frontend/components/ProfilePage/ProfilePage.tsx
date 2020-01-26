@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
 import cn from 'classnames';
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
+import get from 'lodash/get';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 // @material-ui/icons
@@ -21,29 +22,30 @@ import ProjectCard from './ProjectCard';
 import styles from './style';
 
 import * as actions from '../../actions/projects';
-import { State, Project } from '../../types';
+import { State } from '../../types';
 
 
 const useStyles = makeStyles(styles);
 
-const mapStateToProps = ({ projects: { byId, allIds, count } }: State) => ({
+const mapStateToProps = ({ projects: { byId, allIds, count }, projectFetchingState }: State) => ({
   projects: allIds.map((id) => byId[id]),
   projectsCount: count,
+  projectFetchingState,
 });
 
-const mapActionsToProps = {
+const actionCreators = {
   addProject: actions.addProject,
   fetchProjects: actions.fetchProjects,
 };
 
-interface Props {
-  projects: Project[],
-  projectsCount: number,
-  addProject: typeof mapActionsToProps.addProject,
-  fetchProjects: typeof mapActionsToProps.fetchProjects,
-}
+const connector = connect(
+  mapStateToProps,
+  actionCreators,
+);
 
-function ProfilePage({ fetchProjects, projects, projectsCount }: Props) {
+type Props = ConnectedProps<typeof connector>;
+
+const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
   // classes
   const classes = useStyles();
   // const imageClasses = cn(
@@ -69,7 +71,7 @@ function ProfilePage({ fetchProjects, projects, projectsCount }: Props) {
     fetchProjects({ offset: 0, limit: 20 });
   });
 
-  const pills = (
+  const pills = () => (
     <Tabs
       classes={{
         root: classes.root,
@@ -93,7 +95,7 @@ function ProfilePage({ fetchProjects, projects, projectsCount }: Props) {
     </Tabs>
   );
 
-  const cards = (
+  const cards = () => (
     <GridContainer justify="center">
       <div className={classes.contentWrapper}>
         <SwipeableViews
@@ -119,14 +121,14 @@ function ProfilePage({ fetchProjects, projects, projectsCount }: Props) {
     <div>
       <Header
         color="transparent"
-        brand="Material Kit React"
+        brand="foofaev-team"
         fixed
         changeColorOnScroll={{
           height: 200,
           color: 'white',
         }}
       />
-      <Parallax small filter imageUrl={projects[0].imageUrl}>
+      <Parallax small filter imageUrl={get(projects, '0.imageUrl', '')}>
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem
@@ -135,15 +137,14 @@ function ProfilePage({ fetchProjects, projects, projectsCount }: Props) {
               className={cn(
                 classes.mlAuto,
                 classes.mrAuto,
-                classes.textCenter
+                classes.textCenter,
               )}
             >
               <h1 className={classes.title}>About Us</h1>
               <h4>
-                Meet the amazing team behind this project and find out more
-                about how we work.
+                Мы прекрасны
               </h4>
-              {tabButtons}
+              {pills}
             </GridItem>
           </GridContainer>
         </div>
@@ -151,21 +152,12 @@ function ProfilePage({ fetchProjects, projects, projectsCount }: Props) {
       <div className={cn(classes.main, classes.mainRaised)}>
         <div>
           <div className={classes.container}>
-            /* PROFILE IMAGE OR DESCRIPTION */
-            <div className={classes.description}>
-              <p>
-                An artist of considerable range, Chet Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.{" "}
-              </p>
-            </div>
+            {cards}
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(ProfilePage);
+export default connector(ProfilePage);

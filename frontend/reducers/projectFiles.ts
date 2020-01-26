@@ -60,7 +60,7 @@ const removeProjectImageState = (state = 'none', action: Action<string>) => {
 };
 
 /* ****************************************************************************************************************** */
-const projectImage = (state: Project, action: ProjectAction) => {
+const projectImage = (state = {}, action: ProjectAction) => {
   switch (action.type) {
     case 'PROJECT_IMAGE_SAVE_SUCCESS': {
       const { payload } = action;
@@ -75,7 +75,7 @@ const projectImage = (state: Project, action: ProjectAction) => {
       return payload.project;
     }
     default: {
-      return {};
+      return state;
     }
   }
 };

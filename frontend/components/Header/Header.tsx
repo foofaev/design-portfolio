@@ -3,7 +3,7 @@ import * as React from 'react';
 import cn from 'classnames';
 // nodejs library to set properties for components
 // @material-ui/core components
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,11 +24,11 @@ type Props = {
   absolute?: boolean,
   changeColorOnScroll: {
     height: number,
-    color: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'transparent' | 'white' | 'rose' | 'dark',
+    color: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'white' | 'rose' | 'dark',
   },
 };
 
-const useStyles = makeStyles(() => createStyles(styles));
+const useStyles = makeStyles(styles);
 
 const Header: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
@@ -71,7 +71,7 @@ const Header: React.FC<Props> = (props: Props) => {
   const { color, rightLinks, leftLinks, brand, fixed, absolute } = props;
   const appBarClasses = cn({
     [classes.appBar]: true,
-    [classes[color]]: color,
+    [classes[color || 'white']]: color,
     [classes.absolute]: absolute,
     [classes.fixed]: fixed,
   });

@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import { Action, ProjectAction, Project } from '../types';
+import { Action, ProjectAction } from '../types';
 
 /* ****************************************************************************************************************** */
 import {
@@ -65,7 +65,7 @@ const projectRemovingState = (state = 'none', action: Action<string>) => {
 };
 
 /* ****************************************************************************************************************** */
-const project = (state: Project, action: ProjectAction) => {
+const project = (state = {}, action: ProjectAction) => {
   switch (action.type) {
     case PROJECT_SHOW_SUCCESS: {
       const { payload } = action;
@@ -88,7 +88,7 @@ const project = (state: Project, action: ProjectAction) => {
       return payload.project;
     }
     default: {
-      return {};
+      return state;
     }
   }
 };

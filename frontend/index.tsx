@@ -24,12 +24,12 @@ const store = createStore(
 ReactDOM.render(
   <HelmetProvider>
     <CookiesProvider>
-      <BrowserRouter>
-        <Provider store={store}>
+      <Provider store={store}>
+        <BrowserRouter>
           <CssBaseline />
           <Root />
-        </Provider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </Provider>
     </CookiesProvider>
   </HelmetProvider>,
   document.getElementById('root'),

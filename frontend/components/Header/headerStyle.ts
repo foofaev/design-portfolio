@@ -34,11 +34,11 @@ const headerStyle = () => createStyles({
   },
   absolute: {
     position: 'absolute',
-    zIndex: '1100',
+    zIndex: 1100,
   },
   fixed: {
     position: 'fixed',
-    zIndex: '1100',
+    zIndex: 1100,
   },
   container: {
     ...container,
@@ -58,11 +58,11 @@ const headerStyle = () => createStyles({
     fontSize: '18px',
     borderRadius: '3px',
     textTransform: 'none',
-    color: 'inherit',
+    color: 'inherit' as 'inherit',
     padding: '8px 16px',
     letterSpacing: 'unset',
     '&:hover,&:focus': {
-      color: 'inherit',
+      color: 'inherit' as 'inherit',
       background: 'transparent',
     },
   },

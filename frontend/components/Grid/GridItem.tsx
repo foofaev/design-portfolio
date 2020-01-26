@@ -16,7 +16,7 @@ const styles = {
 const useStyles = makeStyles(() => createStyles(styles));
 
 interface Props extends GridProps {
-  children: React.ReactChildren | React.ReactChild,
+  children: React.ReactNode,
   className?: string
 }
 

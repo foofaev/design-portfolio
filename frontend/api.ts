@@ -1,13 +1,13 @@
 import { Paging } from './types';
 
-const HOST = process.env.HOST || 'localhost';
+const HOST = process.env.HOST || 'localhost:4000';
 
 const buildPaging = ({ offset, limit }: Paging) => `?offset=${offset}&limit=${limit}`;
 
 export default {
-  projectsUrl: (paging: Paging) => [HOST, 'api', 'projects', buildPaging(paging)].join('/'),
-  projectUrl: (id: string | void = '') => [HOST, 'api', 'projects', id].join('/'),
-  projectImageUrl: ({ id, fileId = '' }: { id: string, fileId?: string }) => [HOST, 'api', 'projects', 'image', id, fileId].join('/'),
+  projectsUrl: (paging: Paging) => [HOST, 'projects', buildPaging(paging)].join('/'),
+  projectUrl: (id: string | void = '') => [HOST, 'projects', id].join('/'),
+  projectImageUrl: ({ id, fileId = '' }: { id: string, fileId?: string }) => [HOST, 'projects', 'image', id, fileId].join('/'),
 
-  login: () => [HOST, 'api', 'session'].join('/'),
+  login: () => [HOST, 'session'].join('/'),
 };

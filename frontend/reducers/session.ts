@@ -20,13 +20,13 @@ const loggingInState = (state = 'none', action: Action<string>) => {
 };
 
 /* ****************************************************************************************************************** */
-const session = (state: { isLoggedIn: boolean }, action: Action<void>) => {
+const session = (state = { isLoggedIn: false }, action: Action<void>) => {
   switch (action.type) {
     case LOGIN_SUCCESS: {
       return { isLoggedIn: true };
     }
     default: {
-      return { isLoggedIn: false };
+      return state;
     }
   }
 };

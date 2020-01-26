@@ -36,6 +36,13 @@ type ProjectsState = {
 
 type State = {
   projects: ProjectsState,
+  projectUpdatingState: string,
+  projectFetchingState: string,
+  projectAddingState: string,
+  loggingInState: string,
+  projectShowingState: string,
+  projectRemovingState: string,
+  project: Project,
 };
 
 interface Action<Payload> {

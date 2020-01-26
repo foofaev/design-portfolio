@@ -3,25 +3,13 @@ import { container, title } from '../../theme/theme';
 
 import imagesStyle from '../../theme/images';
 
-const profilePageStyle = (theme: Theme) => createStyles({
+const style = (theme: Theme) => createStyles({
   container,
-  profile: {
-    textAlign: 'center',
-    '& img': {
-      maxWidth: '160px',
-      width: '100%',
-      margin: '0 auto',
-      transform: 'translate3d(0, -50%, 0)',
-    },
-  },
   description: {
     margin: '1.071rem auto 0',
     maxWidth: '600px',
     color: '#999',
     textAlign: 'center !important' as 'center',
-  },
-  name: {
-    marginTop: '-80px',
   },
   ...imagesStyle,
   main: {
@@ -42,10 +30,6 @@ const profilePageStyle = (theme: Theme) => createStyles({
     marginTop: '30px',
     minHeight: '32px',
     textDecoration: 'none',
-  },
-  navWrapper: {
-    margin: '20px auto 50px auto',
-    textAlign: 'center',
   },
   root: {
     marginTop: '20px',
@@ -87,22 +71,6 @@ const profilePageStyle = (theme: Theme) => createStyles({
     fontSize: '12px',
     fontWeight: 500,
   },
-  pillsWithIcons: {
-    borderRadius: '4px',
-  },
-  tabIcon: {
-    width: '30px',
-    height: '30px',
-    display: 'block',
-    margin: '15px 0 !important',
-  },
-  horizontalPills: {
-    width: '100%',
-    float: 'none !important' as 'none',
-    '& + button': {
-      margin: '10px 0',
-    },
-  },
   contentWrapper: {
     marginTop: '20px',
     '& .react-swipeable-view-container > div > div': {
@@ -117,6 +85,15 @@ const profilePageStyle = (theme: Theme) => createStyles({
   tabLabelContainer: {
     padding: 'unset !important',
   },
+  mlAuto: {
+    marginLeft: 'auto',
+  },
+  mrAuto: {
+    marginRight: 'auto',
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
 });
 
-export default profilePageStyle;
+export default style;
