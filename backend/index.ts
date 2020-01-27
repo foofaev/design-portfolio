@@ -1,14 +1,15 @@
 import 'reflect-metadata';
-// import * as path from 'path';
+import * as path from 'path';
 
 import * as Fastify from 'fastify';
 import * as dotenv from 'dotenv';
 
 import * as fastifySensible from 'fastify-sensible';
-// import * as fastifyStatic from 'fastify-static';
+import * as fastifyStatic from 'fastify-static';
 import * as fastifyHelmet from 'fastify-helmet';
 import * as fastifyMultipart from 'fastify-multipart';
 import * as Rollbar from 'rollbar';
+// import * as Bundler from 'parcel-bundler';
 
 import api from './plugins/api';
 import dbPlugin from './plugins/db';
@@ -33,12 +34,16 @@ export default async (): Promise<Fastify.FastifyInstance> => {
     },
   });
 
+  // const parcelEntryPoint = path.join(__dirname, '..', 'frontend', 'index.html');
+  // const parcelOptions = { hmr: process.env.NODE_ENV !== 'production' };
+
+  // const bundle = new Bundler(parcelEntryPoint, parcelOptions);
+
   fastify
     .register(fastifySensible)
-  // .register(fastifyStatic, {
-  //   root: path.join(__dirname, '..', 'public', 'assets'),
-  //   prefix: '/assets/',
-  // })
+    .register(fastifyStatic, {
+      root: path.join(__dirname, '..', 'dist'),
+    })
     .register(fastifyHelmet, {
       hidePoweredBy: { setTo: 'PHP 4.2.0' },
     })
@@ -54,6 +59,8 @@ export default async (): Promise<Fastify.FastifyInstance> => {
         reply.send(error);
       });
     });
+
+  // fastify.use(bundle.middleware());
 
   fastify.get('/status', (__, reply) => {
     reply.code(200).send('OK');

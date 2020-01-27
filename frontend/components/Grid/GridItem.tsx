@@ -16,12 +16,12 @@ const styles = {
 const useStyles = makeStyles(() => createStyles(styles));
 
 interface Props extends GridProps {
-  children: React.ReactNode,
   className?: string
 }
 
 function GridItem({ children, className = '', ...rest }: Props) {
   const classes = useStyles();
+  console.log(children);
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <Grid item {...rest} className={`${classes.grid} ${className}`}>

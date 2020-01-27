@@ -40,8 +40,8 @@ const addProject: AsyncActionFunction1<Project> = ({ project }) => async (dispat
     const response = await axios.put(routes.projectUrl(), { ...project });
     dispatch(addProjectSuccess({ project: response.data }));
   } catch (error) {
+    console.error(error);
     dispatch(addProjectFailure());
-    throw error;
   }
 };
 
@@ -50,12 +50,14 @@ const fetchProjects: AsyncActionFunctionWithPaging<Project[]> = (paging) => asyn
   dispatch(fetchProjectsRequest());
   try {
     const url = routes.projectsUrl(paging);
+    console.log(url);
     const response = await axios.get(url);
+    console.log(response);
     const { projects, count }: { projects: Project[], count: number } = response.data;
     dispatch(fetchProjectsSuccess({ projects, count }));
   } catch (error) {
+    console.error(error);
     dispatch(fetchProjectsFailure());
-    throw error;
   }
 };
 

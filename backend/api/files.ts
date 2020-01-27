@@ -180,8 +180,11 @@ export const getImage = (fastify: FastifyInstance) => fastify.route<Query>({
   url: '/images/:fileUrl',
   handler: (request, response) => {
     const { params, query } = request;
+    fastify.log.warn(params);
     const { fileUrl } = params;
     const fileNameParts = _.split(fileUrl, /[-.]/);
+    fastify.log.warn(fileUrl);
+    fastify.log.warn(fileNameParts);
     const num = fileNameParts[fileNameParts.length - 2]; // take num from /(:humanReadableUrl)-(:fileId).(:ext)
 
     return handleFileRequest(fastify, { num: Number.parseInt(num, 10) }, query, response);

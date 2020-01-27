@@ -32,7 +32,6 @@ export const index = (fastify: FastifyInstance) => fastify.route({
   },
   preHandler: fastify.checkSession(),
   handler: async (request) => {
-    console.log(JSON.stringify(fastify.getSchemas(), null, 2));
     const { offset: skip, limit: take } = request.query;
     const projects = await fastify
       .projectRepository

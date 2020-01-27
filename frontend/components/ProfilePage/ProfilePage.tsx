@@ -2,18 +2,19 @@ import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
 import cn from 'classnames';
+
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
 import get from 'lodash/get';
-// @material-ui/core components
+import isEmpty from 'lodash/isEmpty';
+import uniq from 'lodash/uniq';
+
 import { makeStyles } from '@material-ui/core/styles';
-// @material-ui/icons
+
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-// core components
+
 import Header from '../Header/Header';
-// import Footer from 'components/Footer/Footer.js';
-// import Button from 'components/CustomButtons/Button.js';
 import GridContainer from '../Grid/GridContainer';
 import GridItem from '../Grid/GridItem';
 import Parallax from '../Parallax/Parallax';
@@ -47,6 +48,11 @@ type Props = ConnectedProps<typeof connector>;
 
 const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
   // classes
+  React.useEffect(() => {
+    fetchProjects({ offset: 0, limit: 20 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const classes = useStyles();
   // const imageClasses = cn(
   //   classes.imgRaised,
@@ -57,8 +63,10 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
   // const navImageClasses = cn(classes.imgRounded, classes.imgGallery);
   const pillsClasses = cn(classes.pills);
 
-  const projectTypes = map(projects, 'type');
+  const projectTypes = uniq(map(projects, 'type'));
   const byType = groupBy(projects, 'type');
+  console.log(projectTypes);
+  console.log(byType);
 
   const [activeButton, setActiveButton] = React.useState(0);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -67,11 +75,7 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
   const handleChangeIndexInSwipeViews = (newValue: number) => {
     setActiveButton(newValue);
   };
-  React.useEffect(() => {
-    fetchProjects({ offset: 0, limit: 20 });
-  });
-
-  const pills = () => (
+  const pills = !isEmpty(projectTypes) && (
     <Tabs
       classes={{
         root: classes.root,
@@ -95,25 +99,13 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
     </Tabs>
   );
 
-  const cards = () => (
+  const cards = !isEmpty(byType) && (
     <GridContainer justify="center">
-      <div className={classes.contentWrapper}>
-        <SwipeableViews
-          axis="x"
-          index={activeButton}
-          onChangeIndex={handleChangeIndexInSwipeViews}
-        >
-          {map(byType, (projectsInType, type) => (
-            <div key={type}>
-              {projectsInType.map((project) => (
-                <GridItem key={project.id} xs={12} sm={6} md={6}>
-                  <ProjectCard project={project} />
-                </GridItem>
-              ))}
-            </div>
-          ))}
-        </SwipeableViews>
-      </div>
+      {projects.map((project) => (
+        <GridItem key={project.id} xs={12} sm={6} md={6}>
+          <ProjectCard project={project} />
+        </GridItem>
+      ))}
     </GridContainer>
   );
 

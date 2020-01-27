@@ -17,8 +17,9 @@
       "repl": "ts-node bin/app.ts repl",
       "test": "NODE_ENV=test DEBUG=app npx jest --detectOpenHandles",
       "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --detectOpenHandles",
-      "front:dev": "npx parcel ./frontend/index.html --hmr-port 1235",
-      "back:dev": "NODE_ENV=development ts-node-dev ./index.ts server"
+      "front:dev": "npx parcel watch ./frontend/index.html",
+      "back:dev": "NODE_ENV=development ts-node-dev ./index.ts server",
+      "start:dev": "yarn run back:dev & yarn run front:dev"
    },
    "jest": {
       "bail": true,
@@ -48,6 +49,7 @@
       "@types/lodash": "^4.14.138",
       "@types/mime-types": "^2.1.0",
       "@types/node": "^13.1.0",
+      "@types/parcel-bundler": "^1.12.1",
       "@types/pino": "^5.8.10",
       "@types/react": "^16.9.2",
       "@types/react-dom": "^16.9.0",
@@ -75,7 +77,6 @@
       "jest": "^24.9.0",
       "jest-extended": "^0.11.2",
       "node-sass": "^4.12.0",
-      "parcel-bundler": "^1.12.4",
       "postcss-import": "^12.0.1",
       "postcss-preset-env": "^6.7.0",
       "postcss-scss": "^2.0.0",
@@ -110,6 +111,7 @@
       "mime-types": "^2.1.25",
       "moment": "^2.24.0",
       "mysql": "^2.14.1",
+      "parcel-bundler": "^1.12.4",
       "pg": "^7.12.1",
       "pino": "^5.13.3",
       "pino-pretty": "^3.2.1",
