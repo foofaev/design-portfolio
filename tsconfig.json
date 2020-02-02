@@ -27,19 +27,6 @@
       "node_modules/@types",
       "@types"
     ],
-    "jsx": "react",
-    "baseUrl": "./frontend"
-  },
-  "include": [
-    "./index.ts",
-    "backend/**/*",
-    "frontend/**/*",
-    "@types/**/*"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "**/*.json",
-    "**/*.spec.ts"
-  ]
+    "jsx": "react"
+  }
 }

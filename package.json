@@ -19,7 +19,7 @@
       "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --detectOpenHandles",
       "front:dev": "npx parcel watch ./frontend/index.html",
       "back:dev": "NODE_ENV=development ts-node-dev ./index.ts server",
-      "start:dev": "yarn run back:dev & yarn run front:dev"
+      "dev": "yarn run back:dev & yarn run front:dev"
    },
    "jest": {
       "bail": true,
@@ -132,6 +132,7 @@
       "reselect": "^4.0.0",
       "rollbar": "^2.13.0",
       "sharp": "^0.23.4",
+      "typeface-roboto": "^0.0.75",
       "typeorm": "^0.2.21",
       "validator": "^12.1.0"
    }

@@ -1,9 +1,5 @@
 const drawerWidth = 260;
 
-const transition = {
-  transition: 'all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)',
-};
-
 const conatinerFluid = {
   paddingRight: '15px',
   paddingLeft: '15px',
@@ -49,13 +45,90 @@ const defaultFont = {
   lineHeight: '1.5em',
 };
 
-const primaryColor = '#9c27b0';
-const warningColor = '#ff9800';
-const dangerColor = '#f44336';
-const successColor = '#4caf50';
-const infoColor = '#00acc1';
-const roseColor = '#e91e63';
-const grayColor = '#999999';
+const primaryColor = [
+  '#9c27b0',
+  '#ab47bc',
+  '#8e24aa',
+  '#af2cc5',
+  '#e1bee7',
+  '#ba68c8',
+];
+const secondaryColor = ['#fafafa'];
+const warningColor = [
+  '#ff9800',
+  '#ffa726',
+  '#fb8c00',
+  '#ffa21a',
+  '#fcf8e3',
+  '#faf2cc',
+  '#ffe0b2',
+  '#ffb74d',
+];
+const dangerColor = [
+  '#f44336',
+  '#ef5350',
+  '#e53935',
+  '#f55a4e',
+  '#f2dede',
+  '#ebcccc',
+  'ef9a9a',
+  '#ef5350',
+];
+const successColor = [
+  '#4caf50',
+  '#66bb6a',
+  '#43a047',
+  '#5cb860',
+  '#dff0d8',
+  '#d0e9c6',
+  '#a5d6a7',
+  '#66bb6a',
+];
+const infoColor = [
+  '#00acc1',
+  '#26c6da',
+  '#00acc1',
+  '#00d3ee',
+  '#d9edf7',
+  '#c4e3f3',
+  '#b2ebf2',
+  '#4dd0e1',
+];
+const roseColor = ['#e91e63', '#ec407a', '#d81b60', '#f8bbd0', '#f06292'];
+const grayColor = [
+  '#999',
+  '#3C4858',
+  '#eee',
+  '#343434',
+  '#585858',
+  '#232323',
+  '#ddd',
+  '#6c757d',
+  '#333',
+  '#212121',
+  '#777',
+  '#D2D2D2',
+  '#AAA',
+  '#495057',
+  '#e5e5e5',
+  '#555',
+  '#f9f9f9',
+  '#ccc',
+  '#444',
+  '#f2f2f2',
+  '#89229b',
+  '#c0c1c2',
+  '#9a9a9a',
+  '#f5f5f5',
+  '#505050',
+  '#1f1f1f',
+];
+const whiteColor = '#FFF';
+const blackColor = '#000';
+
+const transition = {
+  transition: 'all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)',
+};
 
 const primaryBoxShadow = {
   boxShadow:
@@ -159,6 +232,23 @@ const cardSubtitle = {
   marginTop: '-.375rem',
 };
 
+const coloredShadow = {
+  // some jss/css to make the cards look a bit better on Internet Explorer
+  '@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)': {
+    display: 'none !important',
+  },
+  transform: 'scale(0.94)',
+  top: '12px',
+  filter: 'blur(12px)',
+  position: 'absolute' as 'absolute',
+  width: '100%',
+  height: '100%',
+  backgroundSize: 'cover',
+  zIndex: -1,
+  transition: 'opacity .45s',
+  opacity: 0,
+};
+
 export {
   drawerWidth,
   transition,
@@ -171,6 +261,7 @@ export {
   warningColor,
   dangerColor,
   successColor,
+  secondaryColor,
   infoColor,
   roseColor,
   grayColor,
@@ -193,4 +284,7 @@ export {
   cardTitle,
   cardLink,
   cardSubtitle,
+  whiteColor,
+  blackColor,
+  coloredShadow,
 };
