@@ -21,7 +21,6 @@ interface Props extends GridProps {
 
 function GridItem({ children, className = '', ...rest }: Props) {
   const classes = useStyles();
-  console.log(children);
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <Grid item {...rest} className={`${classes.grid} ${className}`}>

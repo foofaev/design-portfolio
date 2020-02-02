@@ -1,20 +1,21 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
+import pickBy from 'lodash/pickBy';
 
-import styles from './parallaxStyle';
+import styles from './style';
 
 const useStyles = makeStyles(styles);
 
 type ParallaxProps = {
   filter?: boolean,
-  children?: React.ReactChildren | React.ReactChild,
-  imageUrl: string,
+  children?: React.ReactNode | React.ReactNodeArray,
+  image?: string,
   small?: boolean,
 };
 
 
-function Parallax({ filter, children, imageUrl, small }: ParallaxProps) {
+function Parallax({ filter, children, image, small }: ParallaxProps) {
   let windowScrollTop = window.innerWidth >= 768 ? window.pageYOffset / 3 : 0;
 
   const [transform, setTransform] = React.useState(`translate3d(0,${windowScrollTop}px,0)`);
@@ -51,10 +52,14 @@ function Parallax({ filter, children, imageUrl, small }: ParallaxProps) {
   return (
     <div
       className={parallaxClasses}
-      style={{
-        backgroundImage: `url(${imageUrl})`,
+      style={pickBy({
+        width: '105%',
+        left: '-3%',
+        backgroundImage: image ? `url(${image})` : 'linear-gradient(#233666, #1B2A4E)',
         transform,
-      }}
+        borderBottomLeftRadius: '20% 3%',
+        borderBottomRightRadius: '20% 3%',
+      })}
     >
       {children}
     </div>
