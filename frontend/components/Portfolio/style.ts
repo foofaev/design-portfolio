@@ -23,9 +23,8 @@ const style = (theme: Theme) => createStyles({
   mainRaised: {
     zIndex: 3,
     margin: '-80px 20px 0px',
-    // borderRadius: '6px',
-    // boxShadow:
-    // '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
+    borderRadius: '6px',
+    boxShadow: '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
   },
   title: {
     ...title,
@@ -155,6 +154,14 @@ const style = (theme: Theme) => createStyles({
     backgroundPosition: '50%',
     backgroundSize: 'cover',
     padding: '70px 0',
+  },
+  gridTile: {
+    position: 'relative' as 'relative',
+    width: '100%',
+    minHeight: '1px',
+    paddingRight: '15px',
+    paddingLeft: '15px',
+    flexBasis: 'auto',
   },
 });
 

@@ -1,6 +1,6 @@
 import { createStyles } from '@material-ui/core/styles';
 
-import { cardTitle } from '../../theme/theme';
+import { cardTitle, coloredShadow, container } from '../../theme/theme';
 
 const whiteColor = '#FFFFF';
 const hexBlack = '0, 0, 0, 0.12';
@@ -85,7 +85,7 @@ const sectionPillsStyle = () => createStyles({
   },
   cardTitle: {
     ...cardTitle,
-    color: `${whiteColor} !important`,
+    // color: `${whiteColor} !important`,
   },
   icons: {
     width: '1.1rem',
@@ -101,6 +101,14 @@ const sectionPillsStyle = () => createStyles({
   tabSpace: {
     padding: '20px 0 50px',
   },
+  description: {
+    margin: '1.071rem auto 0',
+    maxWidth: '600px',
+    color: '#999',
+    textAlign: 'center !important' as 'center',
+  },
+  coloredShadow,
+  container,
 });
 
 export default sectionPillsStyle;

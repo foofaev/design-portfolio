@@ -4,6 +4,7 @@ import SwipeableViews from 'react-swipeable-views';
 import cn from 'classnames';
 
 import map from 'lodash/map';
+import chunk from 'lodash/chunk';
 import groupBy from 'lodash/groupBy';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -20,14 +21,11 @@ import GridContainer from '../Grid/GridContainer';
 import GridItem from '../Grid/GridItem';
 import Parallax from '../Parallax/Parallax';
 import ProjectCard from '../ProjectCard/ProjectCard';
-import Card from '../Card/Card';
-import CardHeader from '../Card/CardHeader';
-import CardBody from '../Card/CardBody';
 
 import styles from './style';
 
 import * as actions from '../../actions/projects';
-import { State } from '../../types';
+import { State, Project } from '../../types';
 
 
 const useStyles = makeStyles(styles);
@@ -103,38 +101,16 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
     </Tabs>
   );
 
+  const numberOfColumns = 2;
+  const inColumns = chunk<Project>(projects, Math.ceil(projects.length / numberOfColumns));
+
   const cards = !isEmpty(byType) && (
-    <GridContainer direction="column" justify="center" className={classes.container}>
-      {projects.map((project) => (
-        <GridItem key={project.id} xs={12} sm={6} md={6} lg={4}>
-          <Card blog plain>
-            <CardHeader plain image>
-              <a href="#pablo">
-                <img src={project.images[0]} alt="..." />
-              </a>
-              <div
-                className={classes.coloredShadow}
-                style={{
-                  backgroundImage: `url(${project.images[0]})`,
-                  opacity: 1,
-                }}
-              />
-            </CardHeader>
-            <CardBody plain>
-              <h6>{project.type}</h6>
-              <h4 className={classes.cardTitle}>
-                <a href="#pablo">
-                  {project.title}
-                </a>
-              </h4>
-              <p className={classes.description}>
-                Like so many organizations these days, Autodesk is a
-                company in transition. It was until recently a traditional
-                boxed software company selling licenses.
-                <a href="#pablo"> Read More </a>
-              </p>
-            </CardBody>
-          </Card>
+    <GridContainer justify="center" className={classes.container}>
+      {inColumns.map((column, index) => (
+        <GridItem key={index} xs={12} sm={6} md={6} lg={6}>
+          {column.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </GridItem>
       ))}
     </GridContainer>
@@ -171,10 +147,8 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
           </GridContainer>
         </div>
       </Parallax>
-      <div className={cn(classes.mainRaised)}>
-        <div className={classes.container}>
-          {cards}
-        </div>
+      <div className={cn(classes.main, classes.mainRaised)}>
+        {cards}
       </div>
     </div>
   );
