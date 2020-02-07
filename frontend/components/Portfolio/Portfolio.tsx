@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import map from 'lodash/map';
 import chunk from 'lodash/chunk';
-import groupBy from 'lodash/groupBy';
+import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import uniq from 'lodash/uniq';
@@ -16,7 +16,6 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 
-import Header from '../Header/Header';
 import GridContainer from '../Grid/GridContainer';
 import GridItem from '../Grid/GridItem';
 import Parallax from '../Parallax/Parallax';
@@ -66,7 +65,7 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
   const pillsClasses = cn(classes.pills);
 
   const projectTypes = uniq(map(projects, 'type'));
-  const byType = groupBy(projects, 'type');
+  const byType = keyBy(projects, 'type');
 
   const [activeButton, setActiveButton] = React.useState(0);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -87,10 +86,10 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
       onChange={handleChange}
       centered
     >
-      {projectTypes.map((projectType) => (
+      {[...projectTypes, 'aaaa'].map((projectType, index) => (
         <Tab
           label={projectType}
-          key={projectType}
+          key={index}
           classes={{
             root: pillsClasses,
             wrapper: classes.tabWrapper,
@@ -107,7 +106,7 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
   const cards = !isEmpty(byType) && (
     <GridContainer justify="center" className={classes.container}>
       {inColumns.map((column, index) => (
-        <GridItem key={index} xs={12} sm={6} md={6} lg={6}>
+        <GridItem key={get(column, '0.imageUrl', index)} xs={12} sm={6} md={6} lg={6}>
           {column.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
@@ -118,7 +117,7 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
 
   return (
     <div>
-      <Parallax>
+      <Parallax image={require('../../../assets/img/bg2.jpg')} filter small>
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem
@@ -132,15 +131,14 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
               )}
             >
               <Typography
-                className="MuiTypography--heading"
                 variant="h3"
                 gutterBottom
+                className={classes.title}
               >
-              Никитина Анастасия
-              </Typography>
-              <h1 className={classes.title}>Никитина Анастасия</h1>
-              <h4>
                 Никитина Анастасия
+              </Typography>
+              <h4>
+                дизайнер интерьеров, художник
               </h4>
               {pills}
             </GridItem>

@@ -1,4 +1,6 @@
 import 'typeface-roboto';
+import 'typeface-roboto-slab';
+import 'typeface-roboto-slab-cyrillic';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

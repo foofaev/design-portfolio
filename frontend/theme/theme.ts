@@ -40,7 +40,7 @@ const card = {
 };
 
 const defaultFont = {
-  fontFamily: '\'Roboto\', \'Helvetica\', \'Arial\', sans-serif',
+  fontFamily: 'Roboto',
   fontWeight: 300,
   lineHeight: '1.5em',
 };
@@ -213,7 +213,7 @@ const title = {
   margin: '1.75rem 0 0.875rem',
   textDecoration: 'none',
   fontWeight: 700,
-  fontFamily: '\'Roboto Slab\', \'Times New Roman\', serif',
+  fontFamily: 'Roboto Slab',
 };
 
 const cardTitle = {
@@ -232,6 +232,26 @@ const cardSubtitle = {
   marginTop: '-.375rem',
 };
 
+
+const main = {
+  background: whiteColor,
+  position: 'relative',
+  zIndex: 3,
+};
+
+const mainRaised = {
+  '@media (max-width: 576px)': {
+    marginTop: '-30px',
+  },
+  '@media (max-width: 830px)': {
+    marginLeft: '10px',
+    marginRight: '10px',
+  },
+  margin: '-60px 30px 0px',
+  borderRadius: '6px',
+  boxShadow: '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
+};
+
 const coloredShadow = {
   // some jss/css to make the cards look a bit better on Internet Explorer
   '@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)': {
@@ -247,6 +267,9 @@ const coloredShadow = {
   zIndex: -1,
   transition: 'opacity .45s',
   opacity: 0,
+};
+const description = {
+  color: grayColor[0],
 };
 
 export {
@@ -287,4 +310,7 @@ export {
   whiteColor,
   blackColor,
   coloredShadow,
+  description,
+  main,
+  mainRaised,
 };

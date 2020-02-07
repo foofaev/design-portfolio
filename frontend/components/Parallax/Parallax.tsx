@@ -16,13 +16,13 @@ type ParallaxProps = {
 
 
 function Parallax({ filter, children, image, small }: ParallaxProps) {
-  let windowScrollTop = window.innerWidth >= 768 ? window.pageYOffset / 3 : 0;
+  let windowScrollTop = window.innerWidth >= 768 ? (window.pageYOffset / 3) : 0;
 
   const [transform, setTransform] = React.useState(`translate3d(0,${windowScrollTop}px,0)`);
 
   const resetTransform = () => {
     windowScrollTop = window.pageYOffset / 3;
-    setTransform(`translate3d(0,${windowScrollTop}px, 0`);
+    setTransform(`translate3d(0,${windowScrollTop}px,0)`);
   };
 
   const setResetTransformForBigScreen = () => {
@@ -40,7 +40,7 @@ function Parallax({ filter, children, image, small }: ParallaxProps) {
   React.useEffect(() => {
     setResetTransformForBigScreen();
     return cleanupResetTransformForBigScreen();
-  });
+  }, [window.innerWidth]);
 
   const classes = useStyles();
   const parallaxClasses = cn({
@@ -53,12 +53,12 @@ function Parallax({ filter, children, image, small }: ParallaxProps) {
     <div
       className={parallaxClasses}
       style={pickBy({
-        width: '105%',
-        left: '-3%',
+        // width: '105%',
+        // left: '-3%',
         backgroundImage: image ? `url(${image})` : 'linear-gradient(#233666, #1B2A4E)',
         transform,
-        borderBottomLeftRadius: '20% 3%',
-        borderBottomRightRadius: '20% 3%',
+        // borderBottomLeftRadius: '20% 3%',
+        // borderBottomRightRadius: '20% 3%',
       })}
     >
       {children}

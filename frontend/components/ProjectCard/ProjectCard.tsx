@@ -1,15 +1,11 @@
 import * as React from 'react';
-import cn from 'classnames';
-import chunk from 'lodash/chunk';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Card from '../Card/Card';
 import CardHeader from '../Card/CardHeader';
 import CardBody from '../Card/CardBody';
+import Info from '../Typography/Info';
 
 import { Project } from '../../types';
 
@@ -39,9 +35,13 @@ function ProjectCard({ project }: Props) {
         />
       </CardHeader>
       <CardBody plain>
-        <h4 className={classes.cardTitle}>
-          {project.title}
-        </h4>
+        <Info>
+          {project.title.toUpperCase()}
+        </Info>
+        <div className={classes.cardDescription}>
+          {project.description}
+          AAAAAA
+        </div>
       </CardBody>
     </Card>
   );

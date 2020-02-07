@@ -1,13 +1,16 @@
 import { createStyles, Theme } from '@material-ui/core/styles';
 import {
-  container, title, primaryColor, infoColor, successColor,
+  container, title, primaryColor, infoColor, successColor, main, mainRaised,
   warningColor, dangerColor, roseColor, coloredShadow, cardTitle,
 } from '../../theme/theme';
 
 import imagesStyle from '../../theme/images';
 
 const style = (theme: Theme) => createStyles({
-  container,
+  container: {
+    ...container,
+    zIndex: 1,
+  },
   description: {
     margin: '1.071rem auto 0',
     maxWidth: '600px',
@@ -15,20 +18,13 @@ const style = (theme: Theme) => createStyles({
     textAlign: 'center !important' as 'center',
   },
   ...imagesStyle,
-  main: {
-    background: '#FFFFFF',
-    position: 'relative' as 'relative',
-    zIndex: 3,
-  },
-  mainRaised: {
-    zIndex: 3,
-    margin: '-80px 20px 0px',
-    borderRadius: '6px',
-    boxShadow: '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
-  },
+  main,
+  mainRaised,
   title: {
     ...title,
+    zIndex: 3,
     '&, & + h4': {
+      zIndex: 3,
       color: '#FFFFFF',
     },
   },
