@@ -235,7 +235,7 @@ const cardSubtitle = {
 
 const main = {
   background: whiteColor,
-  position: 'relative',
+  position: 'relative' as 'relative',
   zIndex: 3,
 };
 
