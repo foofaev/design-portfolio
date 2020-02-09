@@ -12,7 +12,7 @@ import {
   whiteColor,
 } from '../../theme/theme';
 
-const rgbBlack = '0, 0, 0, 0.12';
+const rgbBlack = '0, 0, 0';
 const rgbWhite = '255, 255, 255';
 const rgbGrey = '153, 153, 153';
 

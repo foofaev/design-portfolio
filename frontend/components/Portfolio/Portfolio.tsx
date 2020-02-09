@@ -1,30 +1,22 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import SwipeableViews from 'react-swipeable-views';
 import cn from 'classnames';
-
-import map from 'lodash/map';
-import chunk from 'lodash/chunk';
-import keyBy from 'lodash/keyBy';
-import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
-import uniq from 'lodash/uniq';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 
 import GridContainer from '../Grid/GridContainer';
 import GridItem from '../Grid/GridItem';
 import Parallax from '../Parallax/Parallax';
-import ProjectCard from '../ProjectCard/ProjectCard';
 
-import styles from './style';
+import PortfolioTabs from './Sections/PortfolioTabs/PortfolioTabs';
+import Avatar from './Sections/Avatar/Avatar';
+
+import styles from './styles';
 
 import * as actions from '../../actions/projects';
-import { State, Project } from '../../types';
+import { State } from '../../types';
 
 
 const useStyles = makeStyles(styles);
@@ -47,7 +39,7 @@ const connector = connect(
 
 type Props = ConnectedProps<typeof connector>;
 
-const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
+const Portfolio: React.FC<Props> = ({ fetchProjects, projects }) => {
   // classes
   React.useEffect(() => {
     fetchProjects({ offset: 0, limit: 20 });
@@ -55,69 +47,18 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
   }, []);
 
   const classes = useStyles();
-  // const imageClasses = cn(
-  //   classes.imgRaised,
-  //   classes.imgRoundedCircle,
-  //   classes.imgFluid,
-  // );
-  const flexContainerClasses = cn(classes.flexContainer);
-  // const navImageClasses = cn(classes.imgRounded, classes.imgGallery);
-  const pillsClasses = cn(classes.pills);
 
-  const projectTypes = uniq(map(projects, 'type'));
-  const byType = keyBy(projects, 'type');
+  // TODO: load from profile
+  // eslint-disable-next-line global-require
+  const avatar = require('../../../assets/img/nastya.png');
 
-  const [activeButton, setActiveButton] = React.useState(0);
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setActiveButton(newValue);
-  };
-  const handleChangeIndexInSwipeViews = (newValue: number) => {
-    setActiveButton(newValue);
-  };
-  const pills = !isEmpty(projectTypes) && (
-    <Tabs
-      classes={{
-        root: classes.root,
-        fixed: classes.fixed,
-        flexContainer: flexContainerClasses,
-        indicator: classes.displayNone,
-      }}
-      value={activeButton}
-      onChange={handleChange}
-      centered
-    >
-      {[...projectTypes, 'aaaa'].map((projectType, index) => (
-        <Tab
-          label={projectType}
-          key={index}
-          classes={{
-            root: pillsClasses,
-            wrapper: classes.tabWrapper,
-            selected: classes.rose,
-          }}
-        />
-      ))}
-    </Tabs>
-  );
-
-  const numberOfColumns = 2;
-  const inColumns = chunk<Project>(projects, Math.ceil(projects.length / numberOfColumns));
-
-  const cards = !isEmpty(byType) && (
-    <GridContainer justify="center" className={classes.container}>
-      {inColumns.map((column, index) => (
-        <GridItem key={get(column, '0.imageUrl', index)} xs={12} sm={6} md={6} lg={6}>
-          {column.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </GridItem>
-      ))}
-    </GridContainer>
-  );
+  // TODO: load from static
+  // eslint-disable-next-line global-require
+  const background = require('../../../assets/img/bg2.jpg');
 
   return (
     <div>
-      <Parallax image={require('../../../assets/img/bg2.jpg')} filter small>
+      <Parallax image={background} filter small>
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem
@@ -138,18 +79,18 @@ const ProfilePage: React.FC<Props> = ({ fetchProjects, projects }) => {
                 Никитина Анастасия
               </Typography>
               <h4>
-                дизайнер интерьеров, художник
+                дизайнер интерьера, художник, декоратор
               </h4>
-              {pills}
             </GridItem>
           </GridContainer>
         </div>
       </Parallax>
       <div className={cn(classes.main, classes.mainRaised)}>
-        {cards}
+        <Avatar avatar={avatar} />
+        {projects.length !== 0 && <PortfolioTabs projects={projects} />}
       </div>
     </div>
   );
 };
 
-export default connector(ProfilePage);
+export default connector(Portfolio);

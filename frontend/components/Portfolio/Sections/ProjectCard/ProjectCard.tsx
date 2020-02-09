@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Card from '../Card/Card';
-import CardHeader from '../Card/CardHeader';
-import CardBody from '../Card/CardBody';
-import Info from '../Typography/Info';
+import Card from '../../../Card/Card';
+import CardHeader from '../../../Card/CardHeader';
+import CardBody from '../../../Card/CardBody';
+import Info from '../../../Typography/Info';
 
-import { Project } from '../../types';
+import { Project } from '../../../../types';
 
 import styles from './styles';
 
