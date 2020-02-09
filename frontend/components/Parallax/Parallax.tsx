@@ -16,31 +16,27 @@ type ParallaxProps = {
 
 
 function Parallax({ filter, children, image, small }: ParallaxProps) {
-  let windowScrollTop = window.innerWidth >= 768 ? (window.pageYOffset / 3) : 0;
+  const windowScrollTop = window.innerWidth >= 768 ? (window.pageYOffset / 3) : 0;
 
   const [transform, setTransform] = React.useState(`translate3d(0,${windowScrollTop}px,0)`);
 
   const resetTransform = () => {
-    windowScrollTop = window.pageYOffset / 3;
-    setTransform(`translate3d(0,${windowScrollTop}px,0)`);
+    const windowScrollTopOnReset = window.pageYOffset / 3;
+    setTransform(`translate3d(0,${windowScrollTopOnReset}px,0)`);
   };
 
-  const setResetTransformForBigScreen = () => {
-    if (window.innerWidth >= 768) {
-      window.addEventListener('scroll', resetTransform);
-    }
-  };
-
-  const cleanupResetTransformForBigScreen = () => {
+  const removeResetTransform = () => {
     if (window.innerWidth >= 768) {
       window.removeEventListener('scroll', resetTransform);
     }
   };
 
   React.useEffect(() => {
-    setResetTransformForBigScreen();
-    return cleanupResetTransformForBigScreen();
-  }, [window.innerWidth]);
+    if (window.innerWidth >= 768) {
+      window.addEventListener('scroll', resetTransform);
+    }
+    return removeResetTransform;
+  });
 
   const classes = useStyles();
   const parallaxClasses = cn({
