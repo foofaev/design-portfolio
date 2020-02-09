@@ -4,7 +4,7 @@ import axios from 'axios';
 import {
   Project, ActionFunction0, ActionFunction1, AsyncActionFunction1,
 } from '../types';
-import routes from '../api';
+import routes from './routes';
 
 /* ****************************************************************************************************************** */
 const PROJECT_SHOW_REQUEST = 'PROJECT_SHOW_REQUEST';
@@ -53,10 +53,10 @@ const updateProject: AsyncActionFunction1<Project> = ({ project }) => async (dis
 };
 
 /* ****************************************************************************************************************** */
-const showProject: AsyncActionFunction1<string> = ({ id }) => async (dispatch) => {
+const showProject: AsyncActionFunction1<string> = ({ projectUrlKey }) => async (dispatch) => {
   dispatch(showProjectRequest());
   try {
-    const response = await axios.get(routes.projectUrl(id));
+    const response = await axios.get(routes.projectUrl(projectUrlKey));
     dispatch(showProjectSuccess({ project: response.data }));
   } catch (error) {
     dispatch(showProjectFailure());

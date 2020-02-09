@@ -40,7 +40,6 @@ const connector = connect(
 type Props = ConnectedProps<typeof connector>;
 
 const Portfolio: React.FC<Props> = ({ fetchProjects, projects }) => {
-  // classes
   React.useEffect(() => {
     fetchProjects({ offset: 0, limit: 20 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,8 +85,10 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects }) => {
         </div>
       </Parallax>
       <div className={cn(classes.main, classes.mainRaised)}>
-        <Avatar avatar={avatar} />
-        {projects.length !== 0 && <PortfolioTabs projects={projects} />}
+        <div className={classes.container}>
+          <Avatar avatar={avatar} />
+          {projects.length !== 0 && <PortfolioTabs projects={projects} />}
+        </div>
       </div>
     </div>
   );

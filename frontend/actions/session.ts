@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { ActionFunction0, AsyncActionFunction0 } from '../types';
-import routes from '../api';
+import routes from './routes';
 
 /* ****************************************************************************************************************** */
 const LOGIN_REQUEST = 'LOGIN_REQUEST';

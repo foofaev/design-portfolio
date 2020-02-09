@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import { Action, ProjectAction, Project } from '../types';
+import { Action, ProjectAction } from '../types';
 
 import {
   PROJECT_IMAGE_SAVE_REQUEST,

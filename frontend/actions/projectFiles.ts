@@ -12,7 +12,7 @@ import {
   AsyncActionFunction3,
 } from '../types';
 
-import routes from '../api';
+import routes from './routes';
 
 /* ****************************************************************************************************************** */
 const PROJECT_IMAGE_SAVE_REQUEST = 'PROJECT_IMAGE_SAVE_REQUEST';

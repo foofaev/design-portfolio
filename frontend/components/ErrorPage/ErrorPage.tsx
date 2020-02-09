@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import * as React from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
@@ -96,7 +95,9 @@ export default function ErrorPage({ ...rest }) {
               </List>
             </div>
             <div className={classes.right}>
-              &copy; {1900 + new Date().getYear()} , made with{" "}
+              &copy;
+              {1900 + new Date().getFullYear()},
+              made with{" "}
               <Favorite className={classes.icon} /> by{" "}
               <a
                 href="https://www.creative-tim.com/?ref=mkpr-error"

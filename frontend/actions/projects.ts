@@ -4,7 +4,7 @@ import axios from 'axios';
 import {
   Project, ActionFunction0, ActionFunction1, ActionFunction2, AsyncActionFunction1, AsyncActionFunctionWithPaging,
 } from '../types';
-import routes from '../api';
+import routes from './routes';
 
 /* ****************************************************************************************************************** */
 const PROJECTS_FETCH_REQUEST = 'PROJECTS_FETCH_REQUEST';

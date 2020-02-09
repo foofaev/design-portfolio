@@ -1,4 +1,4 @@
-import { Paging } from './types';
+import { Paging } from '../types';
 
 const HOST = process.env.HOST || '';
 

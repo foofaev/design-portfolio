@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -23,9 +24,9 @@ function ProjectCard({ project }: Props) {
   return (
     <Card plain>
       <CardHeader plain image>
-        <a href="#pablo">
+        <Link to={`projects/${project.urlKey}`}>
           <img src={project.images[0]} alt="..." />
-        </a>
+        </Link>
         <div
           className={classes.coloredShadow}
           style={{

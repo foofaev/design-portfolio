@@ -22,6 +22,12 @@ type Props = {
   projects: Project[],
 };
 
+const projectTypesMap = {
+  render: 'визуализация',
+};
+
+const defaultType = 'проект';
+
 const useStyles = makeStyles(styles);
 
 const NUMBER_OF_COLUMNS = 2;
@@ -50,7 +56,7 @@ const PortfolioTabs = ({ projects }: Props) => {
     >
       {projectTypes.map((projectType) => (
         <Tab
-          label={projectType}
+          label={projectTypesMap[projectType] || defaultType}
           key={projectType}
           value={projectType}
           classes={{
