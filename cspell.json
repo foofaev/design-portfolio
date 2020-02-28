@@ -13,6 +13,7 @@
     ],
     "words": [
       "fastify",
+      "Fastify",
       "typeorm",
       "passw",
       "csrf",
@@ -21,6 +22,7 @@
       "mimetype",
       "varchar",
       "rollbar",
+      "Rollbar",
       "unsign",
       "timestamptz",
       "translit",

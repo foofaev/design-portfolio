@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import * as fastifyCookie from 'fastify-cookie';
 // import fastifyCsurf from 'fastify-csrf';
 
-import helpers from '../libs/helpers';
+import helpers from '../core/libs/helpers';
 
 /* ****************************************************************************************************************** */
 const cookieSecret = process.env.SESSION_COOKIE_SECRET || 'mySecretCookieRecipe';
@@ -20,6 +20,7 @@ const sessionExpiresDays = process.env.SESSION_EXPIRES_DAYS || 30;
 /* ****************************************************************************************************************** */
 type CheckSession = (fastify: FastifyInstance) => FastifyMiddlewareWithOpts;
 
+/* ****************************************************************************************************************** */
 const checkSession: CheckSession = (fastify) => (strict) => async (request, reply): Promise<void> => {
   const { sessionRepository } = fastify;
   const { url } = request.req;

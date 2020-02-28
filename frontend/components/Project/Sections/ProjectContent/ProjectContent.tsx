@@ -16,7 +16,7 @@ type Props = {
   project: Project;
 };
 
-const SectionText: React.FC<Props> = ({ project }) => {
+const ProjectContent: React.FC<Props> = ({ project }) => {
   const classes = useStyles();
   const imgClasses = cn(
     classes.imgRaised,
@@ -133,4 +133,4 @@ const SectionText: React.FC<Props> = ({ project }) => {
 //     </GridItem>
 //   </GridContainer>
 // </div>
-export default SectionText;
+export default ProjectContent;
