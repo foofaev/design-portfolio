@@ -5,17 +5,17 @@ import helpers from '../libs/helpers';
 import File from '../entities/File';
 import FileReference from '../entities/FileReference';
 
-function buildExtendedFileUrl(id: string, urlKey: string, extensionType: string) {
+function buildExtendedFileUrl(id: string, urlKey: string, extensionType: string): string {
   return `/files/${id}${urlKey ? `-${urlKey}` : ''}${extensionType ? `.${extensionType}` : ''}`;
 }
 
-function buildExtendedImageUrl(num: number, urlKey: string, extensionType: string) {
+function buildExtendedImageUrl(num: number, urlKey: string, extensionType: string): string {
   return `/images/${urlKey ? `${urlKey}-` : ''}${num}${extensionType ? `.${extensionType}` : ''}`;
 }
 
 @EntityRepository(FileReference)
 export default class FileReferenceRepository extends Repository<FileReference> {
-  async createWithFile(file: File, data: Partial<FileReference>) {
+  async createWithFile(file: File, data: Partial<FileReference>): Promise<FileReference> {
     const { id: fileId, num, contentType, filePath } = file;
     if (!fileId || !num || _.isUndefined(contentType)) {
       throw new Error(`FileRef.createWithFile missing fileData ${fileId} | ${num} | ${contentType}`);
@@ -31,7 +31,7 @@ export default class FileReferenceRepository extends Repository<FileReference> {
     });
   }
 
-  generateExtendedURL(fileRef: FileReference, record: ObjectLiteral) {
+  generateExtendedURL(fileRef: FileReference, record: ObjectLiteral): string {
     const {
       file,
       num,

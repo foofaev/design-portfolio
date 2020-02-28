@@ -23,8 +23,8 @@ function ProjectCard({ project }: Props) {
 
   return (
     <Card plain>
-      <CardHeader plain image>
-        <Link to={`projects/${project.urlKey}`}>
+      <CardHeader plain image className={classes.imgCardExtended}>
+        <Link to={`/projects/${project.urlKey}`}>
           <img src={project.images[0]} alt="..." />
         </Link>
         <div

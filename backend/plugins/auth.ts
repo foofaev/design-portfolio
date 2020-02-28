@@ -20,7 +20,7 @@ const sessionExpiresDays = process.env.SESSION_EXPIRES_DAYS || 30;
 /* ****************************************************************************************************************** */
 type CheckSession = (fastify: FastifyInstance) => FastifyMiddlewareWithOpts;
 
-const checkSession: CheckSession = (fastify) => (strict) => async (request, reply) => {
+const checkSession: CheckSession = (fastify) => (strict) => async (request, reply): Promise<void> => {
   const { sessionRepository } = fastify;
   const { url } = request.req;
   const { ip } = request;
@@ -71,7 +71,7 @@ const checkSession: CheckSession = (fastify) => (strict) => async (request, repl
 };
 
 /* ****************************************************************************************************************** */
-const shouldSetSession = (request: FastifyRequest) => {
+const shouldSetSession = (request: FastifyRequest): boolean => {
   const { session } = request;
   if (!session || !session.id) return false;
   return true;
@@ -82,7 +82,7 @@ const shouldSetSession = (request: FastifyRequest) => {
   }
   const forwardedProto = request.headers['x-forwarded-proto'];
   return forwardedProto === 'https';
-  */
+   */
 };
 
 /* ****************************************************************************************************************** */

@@ -1,10 +1,14 @@
+/* ****************************************************************************************************************** */
+
 import { FastifyInstance } from 'fastify';
 import * as _ from 'lodash';
 import { userToJSON } from '../libs/toJSON';
 
-export const show = (fastify: FastifyInstance) => fastify.route({
+/* ****************************************************************************************************************** */
+
+export const show = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'GET',
-  url: '/user',
+  url: '/api/user',
   preHandler: fastify.checkSession(),
   handler: async (request) => {
     const { user } = request;
@@ -12,9 +16,10 @@ export const show = (fastify: FastifyInstance) => fastify.route({
   },
 });
 
-export const update = (fastify: FastifyInstance) => fastify.route({
+/* ****************************************************************************************************************** */
+export const update = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'PATCH',
-  url: '/user',
+  url: '/api/user',
   schema: {
     body: {
       type: 'object',
@@ -40,9 +45,10 @@ export const update = (fastify: FastifyInstance) => fastify.route({
   },
 });
 
-export const updatePassword = (fastify: FastifyInstance) => fastify.route({
+/* ****************************************************************************************************************** */
+export const updatePassword = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'PATCH',
-  url: '/user/password',
+  url: '/api/user/password',
   schema: {
     body: {
       type: 'object',
@@ -62,9 +68,10 @@ export const updatePassword = (fastify: FastifyInstance) => fastify.route({
   },
 });
 
-export const saveImage = (fastify: FastifyInstance) => fastify.route({
+/* ****************************************************************************************************************** */
+export const saveImage = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'PATCH',
-  url: '/user/image',
+  url: '/api/user/image',
   schema: {
     body: {
       type: 'object',
@@ -98,9 +105,10 @@ export const saveImage = (fastify: FastifyInstance) => fastify.route({
   },
 });
 
-export const removeImage = (fastify: FastifyInstance) => fastify.route({
+/* ****************************************************************************************************************** */
+export const removeImage = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'DELETE',
-  url: '/user/image',
+  url: '/api/user/image',
   schema: {
     response: {
       200: {
@@ -125,3 +133,5 @@ export const removeImage = (fastify: FastifyInstance) => fastify.route({
     return { user: updatedUser };
   },
 });
+
+/* ****************************************************************************************************************** */

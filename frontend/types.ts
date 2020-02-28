@@ -1,72 +1,72 @@
 import { ThunkAction } from 'redux-thunk';
 
 type File = {
-  id: string,
-  num: number,
-  filePath: string,
-  ord: number,
-  contentType: string,
-  url: string,
+  id: string;
+  num: number;
+  filePath: string;
+  ord: number;
+  contentType: string;
+  url: string;
 };
 
 type Project = {
-  id: string,
-  title: string,
-  description: string,
-  urlKey: string,
-  isVisible: boolean,
-  type: 'render',
-  publishedAt: string,
-  imageId: string,
-  imageUrl: string,
-  images: string[],
-  files: File[],
-  ord: number,
-  createdAt: string,
-  updatedAt: string,
+  id: string;
+  title: string;
+  description: string;
+  urlKey: string;
+  isVisible: boolean;
+  type: 'render';
+  publishedAt: string;
+  imageId: string;
+  imageUrl: string;
+  images: string[];
+  files: File[];
+  ord: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type ProjectsState = {
   byId: {
-    [key: string]: Project,
-  },
-  allIds: string[],
-  count: number,
+    [key: string]: Project;
+  };
+  allIds: string[];
+  count: number;
 };
 
 type State = {
-  projects: ProjectsState,
-  projectUpdatingState: string,
-  projectFetchingState: string,
-  projectAddingState: string,
-  loggingInState: string,
-  projectShowingState: string,
-  projectRemovingState: string,
-  project: Project,
+  projects: ProjectsState;
+  projectUpdatingState: string;
+  projectFetchingState: string;
+  projectAddingState: string;
+  loggingInState: string;
+  projectShowingState: string;
+  projectRemovingState: string;
+  project: Project;
 };
 
 interface Action<Payload> {
-  type: string,
-  payload: Payload | {},
+  type: string;
+  payload: Payload | {};
 }
 
 // oneOf
 type ProjectAction = {
-  type: string,
+  type: string;
   payload: {
-    projects: Project[],
-    project: Project,
-    id: string,
-  },
+    projects: Project[];
+    project: Project;
+    id: string;
+  };
 };
 
 type Container<Type> = {
-  [key: string]: Type,
+  [key: string]: Type;
 };
 
 type Paging = {
-  offset: number,
-  limit: number,
+  offset: number;
+  limit: number;
 };
 
 type ActionFunction0 = () => Action<null>;

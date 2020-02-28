@@ -11,19 +11,19 @@ import helpers from '../libs/helpers';
 const fileStoragePath = process.env.FILES_PATH || path.join(__dirname, '../../.storage/');
 
 type RawFile = {
-  path?: string,
-  name: string,
-  data?: Buffer,
-  headers?: ObjectLiteral,
-  contentType?: string,
-  ext?: string,
+  path?: string;
+  name: string;
+  data?: Buffer;
+  headers?: ObjectLiteral;
+  contentType?: string;
+  ext?: string;
 };
 
 type PreviewParams = {
-  width: number,
-  height: number,
-  left: number,
-  top: number,
+  width: number;
+  height: number;
+  left: number;
+  top: number;
 };
 
 

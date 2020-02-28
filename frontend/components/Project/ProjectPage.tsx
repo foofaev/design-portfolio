@@ -35,10 +35,10 @@ const useStyles = makeStyles(styles);
 
 function ProjectPage({ project, /* projectShowingState, */ showProject }: Props) {
   const { pathname } = useLocation();
-  const { projectUrlKey } = useParams();
+  const { urlKey } = useParams();
 
   React.useEffect(() => {
-    if (projectUrlKey && !project) showProject({ projectUrlKey });
+    if (urlKey && !project) showProject({ urlKey });
   });
 
   React.useEffect(() => {
@@ -66,7 +66,7 @@ function ProjectPage({ project, /* projectShowingState, */ showProject }: Props)
       </Parallax>
       <div className={classes.main}>
         <div className={classes.container}>
-          <ProjectContent content={project.content} />
+          <ProjectContent project={project} />
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@ const removeProjectsSuccess: ActionFunction1<string> = ({ id }) => ({ type: PROJ
 const removeProjectsFailure: ActionFunction0 = () => ({ type: PROJECT_REMOVE_FAILURE, payload: {} });
 
 /* ****************************************************************************************************************** */
-const updateProject: AsyncActionFunction1<Project> = ({ project }) => async (dispatch) => {
+const updateProject: AsyncActionFunction1<Project> = ({ project }) => async (dispatch): Promise<void> => {
   dispatch(updateProjectRequest());
   try {
     const response = await axios.patch(routes.projectUrl(project.id), { ...project });
@@ -53,10 +53,10 @@ const updateProject: AsyncActionFunction1<Project> = ({ project }) => async (dis
 };
 
 /* ****************************************************************************************************************** */
-const showProject: AsyncActionFunction1<string> = ({ projectUrlKey }) => async (dispatch) => {
+const showProject: AsyncActionFunction1<string> = ({ urlKey }) => async (dispatch): Promise<void> => {
   dispatch(showProjectRequest());
   try {
-    const response = await axios.get(routes.projectUrl(projectUrlKey));
+    const response = await axios.get(routes.projectUrl(urlKey));
     dispatch(showProjectSuccess({ project: response.data }));
   } catch (error) {
     dispatch(showProjectFailure());
@@ -66,7 +66,7 @@ const showProject: AsyncActionFunction1<string> = ({ projectUrlKey }) => async (
 
 
 /* ****************************************************************************************************************** */
-const removeProject: AsyncActionFunction1<Project> = ({ project }) => async (dispatch) => {
+const removeProject: AsyncActionFunction1<Project> = ({ project }) => async (dispatch): Promise<void> => {
   dispatch(removeProjectsRequest());
   try {
     const url = routes.projectUrl(project.id);

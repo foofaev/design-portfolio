@@ -13,10 +13,10 @@ import styles from './styles';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  project: Project,
+  project: Project;
 };
 
-const SectionText = ({ project }: Props) => {
+const SectionText: React.FC<Props> = ({ project }) => {
   const classes = useStyles();
   const imgClasses = cn(
     classes.imgRaised,
@@ -28,6 +28,7 @@ const SectionText = ({ project }: Props) => {
       <GridContainer justify="center">
         <GridItem xs={12} sm={8} md={8}>
           <h3 className={classes.title}>
+            {project.title}
             The Castle Looks Different at Night...
           </h3>
           {project.description}
@@ -99,4 +100,37 @@ const SectionText = ({ project }: Props) => {
   );
 };
 
+// <div className={classes.features3}>
+//   <GridContainer>
+//     <GridItem xs={12} sm={6} md={6}>
+//       <div className={classes.phoneContainer}>
+//         <img src={iphone} alt="..." />
+//       </div>
+//     </GridItem>
+//     <GridItem xs={12} sm={6} md={6}>
+//       <h2 className={classes.title}>Your life will be much easier</h2>
+//       <InfoArea
+//         className={classes.infoArea}
+//         icon={Extension}
+//         title="Hundreds of Components"
+//         description="The moment you use Material Kit, you know you’ve never felt anything like it. With a single use, this powerfull UI Kit lets you do more than ever before."
+//         iconColor="primary"
+//       />
+//       <InfoArea
+//         className={classes.infoArea}
+//         icon={ChildFriendly}
+//         title="Easy to Use"
+//         description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
+//         iconColor="primary"
+//       />
+//       <InfoArea
+//         className={classes.infoArea}
+//         icon={WatchLater}
+//         title="Fast Prototyping"
+//         description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
+//         iconColor="primary"
+//       />
+//     </GridItem>
+//   </GridContainer>
+// </div>
 export default SectionText;

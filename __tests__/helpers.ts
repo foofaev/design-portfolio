@@ -1,9 +1,13 @@
+/* ****************************************************************************************************************** */
+
 import { FastifyInstance } from 'fastify';
 import * as supertest from 'supertest';
 
 import getServer from '../backend';
 import Project from '../backend/entities/Project';
 import User from '../backend/entities/User';
+
+/* ****************************************************************************************************************** */
 
 const TEST_USERS = {
   administrator: {
@@ -15,10 +19,12 @@ const TEST_USERS = {
   },
 };
 
+/* ****************************************************************************************************************** */
 type TEST_PROJECTS_TYPE = {
-  [key: string]: Partial<Project>,
+  [key: string]: Partial<Project>;
 };
 
+/* ****************************************************************************************************************** */
 const TEST_PROJECTS: TEST_PROJECTS_TYPE = {
   project: {
     id: '63cdd5f8-29dd-41c2-97d9-09c46fe4b9e8',
@@ -34,14 +40,16 @@ const TEST_PROJECTS: TEST_PROJECTS_TYPE = {
   },
 };
 
-async function syncTestUser(fastify: FastifyInstance) {
+/* ****************************************************************************************************************** */
+async function syncTestUser(fastify: FastifyInstance): Promise<User> {
   const { userRepository } = fastify;
   const admin = await userRepository.findOne(TEST_USERS.administrator.id);
   if (admin) return admin;
   return userRepository.save(TEST_USERS.administrator);
 }
 
-async function syncTestProjects(fastify: FastifyInstance) {
+/* ****************************************************************************************************************** */
+async function syncTestProjects(fastify: FastifyInstance): Promise<{ [key: string]: Project }> {
   const { projectRepository } = fastify;
 
   const project = await projectRepository
@@ -59,28 +67,40 @@ async function syncTestProjects(fastify: FastifyInstance) {
   return { project, otherProject };
 }
 
-async function getCookie(fastify: FastifyInstance, user: Partial<User>) {
+/* ****************************************************************************************************************** */
+async function getCookie(fastify: FastifyInstance, user: Partial<User>): Promise<string> {
   const authRes = await supertest(fastify.server)
-    .put('/session')
+    .put('/api/session')
     .send(user)
     .expect(200);
   return authRes.header['set-cookie'];
 }
 
+/* ****************************************************************************************************************** */
+type TestContainer = {
+  fastify: FastifyInstance;
+  session: string;
+  request: supertest.SuperTest<supertest.Test>;
+};
 
-async function startServer() {
+/* ****************************************************************************************************************** */
+async function startServer(): Promise<TestContainer> {
   const fastify = await getServer();
   await syncTestUser(fastify);
-  await syncTestProjects(fastify);
+  const { project, otherProject } = await syncTestProjects(fastify);
+  TEST_PROJECTS.project = project;
+  TEST_PROJECTS.otherProject = otherProject;
   const session = await getCookie(fastify, { email: 'admin@tt.com', password: 'passw0rd' });
 
   return { fastify, session, request: supertest(fastify.server) };
 }
 
-async function stopServer(fastify: FastifyInstance) {
+/* ****************************************************************************************************************** */
+async function stopServer(fastify: FastifyInstance): Promise<void> {
   return fastify.close();
 }
 
+/* ****************************************************************************************************************** */
 export {
   syncTestUser,
   syncTestProjects,
@@ -91,3 +111,5 @@ export {
   TEST_USERS,
   Project,
 };
+
+/* ****************************************************************************************************************** */

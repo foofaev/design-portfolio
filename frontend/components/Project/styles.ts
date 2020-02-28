@@ -56,6 +56,25 @@ const blogPostPageStyle = () => createStyles({
     top: '3px',
     position: 'relative',
   },
+  phoneContainer: {
+    "& img": {
+      width: "100%"
+    }
+  },
+  features3: {
+    padding: "80px 0",
+    "& $phoneContainer": {
+      maxWidth: "220px",
+      margin: "0 auto"
+    }
+  },
+  features4: {
+    padding: "80px 0",
+    "& $phoneContainer": {
+      maxWidth: "260px",
+      margin: "60px auto 0"
+    }
+  },
 });
 
 export default blogPostPageStyle;

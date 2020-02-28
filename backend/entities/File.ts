@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import FileReference from './FileReference'; // eslint-disable-line import/no-cycle
 
 @Entity('files')
-export default class File {
+class File {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -34,3 +34,5 @@ export default class File {
   @UpdateDateColumn()
   updatedAt: string;
 }
+
+export default File;

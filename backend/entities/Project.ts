@@ -62,4 +62,8 @@ export default class Project {
 
   @UpdateDateColumn()
   updatedAt: string;
+
+  toJSONB() {
+    return '123';
+  }
 }

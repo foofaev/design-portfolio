@@ -59,7 +59,7 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects }) => {
     <div>
       <Parallax image={background} filter small>
         <div className={classes.container}>
-          <GridContainer justify="center">
+          <GridContainer justify="space-around">
             <GridItem
               md={6}
               sm={6}
@@ -85,10 +85,8 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects }) => {
         </div>
       </Parallax>
       <div className={cn(classes.main, classes.mainRaised)}>
-        <div className={classes.container}>
-          <Avatar avatar={avatar} />
-          {projects.length !== 0 && <PortfolioTabs projects={projects} />}
-        </div>
+        <Avatar avatar={avatar} />
+        {projects.length !== 0 && <PortfolioTabs projects={projects} />}
       </div>
     </div>
   );

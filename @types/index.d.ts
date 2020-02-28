@@ -26,13 +26,13 @@ declare module 'fastify' {
     HttpRequest = IncomingMessage,
     HttpResponse = ServerResponse
   > {
-    db: Connection,
-    projectRepository: ProjectRepository,
-    userRepository: UserRepository,
-    sessionRepository: Repository<Session>,
-    fileRepository: FileRepository,
-    fileReferenceRepository: FileReferenceRepository,
-    checkSession: FastifyMiddlewareWithOpts,
+    db: Connection;
+    projectRepository: ProjectRepository;
+    userRepository: UserRepository;
+    sessionRepository: Repository<Session>;
+    fileRepository: FileRepository;
+    fileReferenceRepository: FileReferenceRepository;
+    checkSession: FastifyMiddlewareWithOpts;
   }
 
   interface FastifyRequest<
@@ -42,7 +42,7 @@ declare module 'fastify' {
     Headers = DefaultHeaders,
   > {
     session: SessionRequestType;
-    user: User
+    user: User;
   }
 }
 

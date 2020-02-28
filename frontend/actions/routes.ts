@@ -5,9 +5,9 @@ const HOST = process.env.HOST || '';
 const buildPaging = ({ offset, limit }: Paging) => `?offset=${offset}&limit=${limit}`;
 
 export default {
-  projectsUrl: (paging: Paging) => [HOST, `projects${buildPaging(paging)}`].join('/'),
-  projectUrl: (id: string | void = '') => [HOST, 'projects', id].join('/'),
-  projectImageUrl: ({ id, fileId = '' }: { id: string, fileId?: string }) => [HOST, 'projects', 'image', id, fileId].join('/'),
+  projectsUrl: (paging: Paging): string => [HOST, 'api', `projects${buildPaging(paging)}`].join('/'),
+  projectUrl: (urlKey: string | void = ''): string => [HOST, 'api', 'projects', urlKey].join('/'),
+  projectImageUrl: ({ id, fileId = '' }: { id: string; fileId?: string }): string => [HOST, 'api', 'projects', 'image', id, fileId].join('/'),
 
-  login: () => [HOST, 'session'].join('/'),
+  login: (): string => [HOST, 'api', 'session'].join('/'),
 };

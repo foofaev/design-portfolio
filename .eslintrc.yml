@@ -1,7 +1,10 @@
 ---
+parserOptions:
+  project: './tsconfig.json'
 plugins:
   - jest
   - security
+  - '@typescript-eslint'
 env:
   node: true
   jest: true
@@ -11,6 +14,7 @@ extends:
   - 'airbnb/hooks'
   - 'plugin:jest/recommended'
   - 'plugin:security/recommended'
+  - 'plugin:@typescript-eslint/recommended'
 rules:
   no-console:
     - 2
@@ -27,6 +31,4 @@ rules:
       ignoreTemplateLiterals: true
   class-methods-use-this:
     - 0
-  react/prop-types: 0
   object-curly-newline: 0
-

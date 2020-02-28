@@ -51,7 +51,7 @@ const fetchProjects: AsyncActionFunctionWithPaging<Project[]> = (paging) => asyn
   try {
     const url = routes.projectsUrl(paging);
     const response = await axios.get(url);
-    const { projects, count }: { projects: Project[], count: number } = response.data;
+    const { projects, count }: { projects: Project[]; count: number } = response.data;
     dispatch(fetchProjectsSuccess({ projects, count }));
   } catch (error) {
     console.error(error);

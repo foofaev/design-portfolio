@@ -1,3 +1,5 @@
+/* ****************************************************************************************************************** */
+
 import { readFileSync } from 'fs';
 
 import { ServerResponse } from 'http';
@@ -8,26 +10,32 @@ import * as sharp from 'sharp';
 import validator from 'validator';
 import File from '../entities/File';
 
+/* ****************************************************************************************************************** */
+
 const ALLOWED_IMAGE_TYPES = ['gif', 'jpg', 'png', 'jpeg'];
 const DEFAULT_QUALITY = 80;
 const MAX_WIDTH = 1024;
 const MAX_HEIGHT = 1024;
 
+/* ****************************************************************************************************************** */
+
 interface Query {
-  noColor?: boolean,
-  width?: number,
-  height?: number,
-  quality?: number,
-  fit?: keyof sharp.FitEnum,
-  keepAspect?: boolean,
-  noUpscale?: boolean,
+  noColor?: boolean;
+  width?: number;
+  height?: number;
+  quality?: number;
+  fit?: keyof sharp.FitEnum;
+  keepAspect?: boolean;
+  noUpscale?: boolean;
 }
 
+/* ****************************************************************************************************************** */
 interface FileWhere {
-  id?: string,
-  num?: number,
+  id?: string;
+  num?: number;
 }
 
+/* ****************************************************************************************************************** */
 // handle more query opts here
 const prepareFileImageContent = (
   fastify: FastifyInstance,
@@ -35,7 +43,7 @@ const prepareFileImageContent = (
   filepath: string,
   imageFormat: sharp.AvailableFormatInfo | string | undefined,
   query: Query,
-) => {
+): Promise<Buffer> | Buffer => {
   try {
     if (!imageFormat || !_.some([query.noColor, query.width, query.height, query.quality])) {
       return readFileSync(filepath);
@@ -65,17 +73,20 @@ const prepareFileImageContent = (
   }
 };
 
+/* ****************************************************************************************************************** */
 const getImageFormat = (contentType: string) => _.find(
   ALLOWED_IMAGE_TYPES,
   (possibleContentType) => _.includes(contentType, possibleContentType),
 );
 
+/* ****************************************************************************************************************** */
 const fileWhereQueryIsIncorrect = (fileWhere: FileWhere) => _.some([
   !fileWhere.id && !fileWhere.num,
   fileWhere.id && !validator.isUUID(fileWhere.id),
 ]);
 
 
+/* ****************************************************************************************************************** */
 const prepareFileResponse = async (fastify: FastifyInstance, file: File, query: Query) => {
   if (!file) return null;
 
@@ -93,6 +104,7 @@ const prepareFileResponse = async (fastify: FastifyInstance, file: File, query: 
   return { contentType, content, cacheControl: 'max-age=31536000' };
 };
 
+/* ****************************************************************************************************************** */
 const handleFileRequest = async (
   fastify: FastifyInstance,
   fileWhere: FileWhere,
@@ -125,6 +137,7 @@ const handleFileRequest = async (
   }
 };
 
+/* ****************************************************************************************************************** */
 export const getFile = (fastify: FastifyInstance) => fastify.route<Query>({
   method: 'GET',
   schema: {
@@ -156,6 +169,7 @@ export const getFile = (fastify: FastifyInstance) => fastify.route<Query>({
   },
 });
 
+/* ****************************************************************************************************************** */
 export const getImage = (fastify: FastifyInstance) => fastify.route<Query>({
   method: 'GET',
   schema: {
@@ -190,3 +204,5 @@ export const getImage = (fastify: FastifyInstance) => fastify.route<Query>({
     return handleFileRequest(fastify, { num: Number.parseInt(num, 10) }, query, response);
   },
 });
+
+/* ****************************************************************************************************************** */

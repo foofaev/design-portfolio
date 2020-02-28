@@ -14,7 +14,7 @@ const newProjectData: Partial<Project> = {
 };
 
 describe('PROJECTS / public', () => {
-  const PROJECT = TEST_PROJECTS.project;
+  let PROJECT: Partial<Project>;
   let callAPI: SuperTest<Test>;
   let fastify: FastifyInstance;
   let cookie: string;
@@ -24,6 +24,7 @@ describe('PROJECTS / public', () => {
     fastify = instance;
     callAPI = request;
     cookie = session;
+    PROJECT = TEST_PROJECTS.project;
   });
   afterAll(async () => {
     await fastify.fileReferenceRepository.remove(newProject.files);
@@ -33,7 +34,7 @@ describe('PROJECTS / public', () => {
 
   it('GET /projects', async () => {
     const { body: { projects } } = await callAPI
-      .get('/projects')
+      .get('/api/projects')
       .query({ offset: 0, limit: 100 });
     projects.forEach(
       (obj: Project) => {
@@ -45,15 +46,15 @@ describe('PROJECTS / public', () => {
     );
   });
 
-  it('GET /projects/:projectId', async () => {
+  it('GET /projects/:urlKey', async () => {
     const { body: { project } } = await callAPI
-      .get(`/projects/${PROJECT.id}`);
+      .get(`/api/projects/${PROJECT.urlKey}`);
     expect(project).toHaveProperty('id', PROJECT.id);
   });
 
   it('PUT /projects returns error without session', async () => {
     const res = await callAPI
-      .put('/projects')
+      .put('/api/projects')
       .send(newProjectData)
       .expect(401);
     expect(res.body.message).toEqual('Session missing');
@@ -61,7 +62,7 @@ describe('PROJECTS / public', () => {
 
   it('PUT /projects', async () => {
     const { body: { project } } = await callAPI
-      .put('/projects')
+      .put('/api/projects')
       .send(newProjectData)
       .set('Cookie', cookie)
       .expect(200);
@@ -72,7 +73,7 @@ describe('PROJECTS / public', () => {
 
   it('PATCH /projects/:id - set title', async () => {
     const { body: { project } } = await callAPI
-      .patch(`/projects/${newProject.id}`)
+      .patch(`/api/projects/${newProject.id}`)
       .send({ title: 'updated title' })
       .set('Cookie', cookie)
       .expect(200);
@@ -83,7 +84,7 @@ describe('PROJECTS / public', () => {
 
   it('PATCH /projects/:id - set ord', async () => {
     const { body: { project } } = await callAPI
-      .patch(`/projects/${newProject.id}`)
+      .patch(`/api/projects/${newProject.id}`)
       .send({ ord: 100 })
       .set('Cookie', cookie)
       .expect(200);
@@ -94,7 +95,7 @@ describe('PROJECTS / public', () => {
 
   it('PATCH /projects/image/:id - save image', async () => {
     const { body: { project } } = await callAPI
-      .patch(`/projects/image/${newProject.id}`)
+      .patch(`/api/projects/image/${newProject.id}`)
       .field('ord', 100)
       .attach('file', path.resolve('__tests__/slowpoke.jpg'))
       .set('Cookie', cookie)
@@ -116,7 +117,7 @@ describe('PROJECTS / public', () => {
 
   it('PATCH /projects/image/:id - save another image', async () => {
     const { body: { project } } = await callAPI
-      .patch(`/projects/image/${newProject.id}`)
+      .patch(`/api/projects/image/${newProject.id}`)
       .field('ord', 50)
       .attach('file', path.resolve('__tests__/other_slowpoke.png'))
       .set('Cookie', cookie)
@@ -140,7 +141,7 @@ describe('PROJECTS / public', () => {
   it('PATCH /projects/image/:id/fileId', async () => {
     const fileToUpdateOrd = newProject.files[1];
     const { body: { project } } = await callAPI
-      .patch(`/projects/image/${newProject.id}/${fileToUpdateOrd.id}`)
+      .patch(`/api/projects/image/${newProject.id}/${fileToUpdateOrd.id}`)
       .send({ ord: 200 })
       .set('Cookie', cookie)
       .expect(200);
@@ -154,7 +155,7 @@ describe('PROJECTS / public', () => {
   it('DELETE /projects/image/:projectId/fileId', async () => {
     const fileToRemove = newProject.files[0];
     const { body: { project } } = await callAPI
-      .delete(`/projects/image/${newProject.id}/${fileToRemove.id}`)
+      .delete(`/api/projects/image/${newProject.id}/${fileToRemove.id}`)
       .set('Cookie', cookie)
       .expect(200);
 

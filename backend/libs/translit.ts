@@ -18,7 +18,7 @@ const enCharsMap = enChars.reduce((acc, char, index) => ({ ...acc, [char]: ruCha
 const ruCharsMap = ruChars.reduce((acc, char, index) => ({ ...acc, [char]: enChars[index] }), {});
 
 type CharMap = {
-  [key: string]: string,
+  [key: string]: string;
 };
 
 const enCharsRegexp = new RegExp(`${enChars.join('|')}`, 'gi');
@@ -36,7 +36,7 @@ function translitEnRu(source: string): string {
   return translit(source, enCharsRegexp, enCharsMap);
 }
 
-function toURI(str: string, separator: string = '-') {
+function toURI(str: string, separator = '_'): string {
   return _.flow(
     fp.replace(/(<([^>]+)>)/ig)(''), // Strip tags
     translitRuEn,

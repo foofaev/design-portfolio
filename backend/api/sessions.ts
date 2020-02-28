@@ -1,17 +1,22 @@
+/* ****************************************************************************************************************** */
+
 import { FastifyInstance } from 'fastify';
 import * as moment from 'moment';
 import helpers from '../libs/helpers';
 
+/* ****************************************************************************************************************** */
 const SESSION_EXPIRES_DAYS = process.env.SESSION_EXPIRES_DAYS || 30;
 
+/* ****************************************************************************************************************** */
 type CreateBody = {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
 };
 
+/* ****************************************************************************************************************** */
 export const create = (fastify: FastifyInstance) => fastify.route<unknown, unknown, unknown, CreateBody>({
   method: 'PUT',
-  url: '/session',
+  url: '/api/session',
   schema: {
     body: {
       type: 'object',
@@ -46,9 +51,10 @@ export const create = (fastify: FastifyInstance) => fastify.route<unknown, unkno
   },
 });
 
+/* ****************************************************************************************************************** */
 export const destroy = (fastify: FastifyInstance) => fastify.route({
   method: 'DELETE',
-  url: '/session',
+  url: '/api/session',
   schema: {
     headers: 'sessionHeader#',
   },
@@ -60,3 +66,5 @@ export const destroy = (fastify: FastifyInstance) => fastify.route({
     reply.code(200).send();
   },
 });
+
+/* ****************************************************************************************************************** */

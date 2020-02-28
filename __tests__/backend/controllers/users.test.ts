@@ -22,7 +22,7 @@ describe('USER / Private', () => {
   it('GET /user', async () => {
     const { password, ...match } = TEST_USERS.administrator;
     const { body: { user } } = await callAPI
-      .get('/user')
+      .get('/api/user')
       .set('Cookie', cookie)
       .expect(200);
     expect(user).toMatchObject(match);
@@ -30,7 +30,7 @@ describe('USER / Private', () => {
 
   it('PATCH /user', async () => {
     const { body: { user } } = await callAPI
-      .patch('/user')
+      .patch('/api/user')
       .send({ firstName: 'new name' })
       .set('Cookie', cookie)
       .expect(200);
@@ -38,14 +38,14 @@ describe('USER / Private', () => {
   });
 
   it('PATCH /user/password', () => callAPI
-    .patch('/user')
+    .patch('/api/user')
     .send({ password: 'abracadabra' })
     .set('Cookie', cookie)
     .expect(200));
 
   it('PATCH /user/image', async () => {
     const { body: { user } } = await callAPI
-      .patch('/user/image')
+      .patch('/api/user/image')
       .attach('file', path.resolve('__tests__/slowpoke.jpg'))
       .set('Cookie', cookie)
       .expect(200);
@@ -59,7 +59,7 @@ describe('USER / Private', () => {
 
   it('DELETE /user/image/', async () => {
     const { body: { user } } = await callAPI
-      .delete('/user/image')
+      .delete('/api/user/image')
       .set('Cookie', cookie)
       .expect(200);
 

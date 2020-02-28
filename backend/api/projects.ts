@@ -8,9 +8,9 @@ import Project from '../entities/Project';
 type Params = { projectId: string };
 
 /* ****************************************************************************************************************** */
-export const index = (fastify: FastifyInstance) => fastify.route({
+const index = (fastify: FastifyInstance) => fastify.route({
   method: 'GET',
-  url: '/projects',
+  url: '/api/projects',
   schema: {
     querystring: {
       type: 'object',
@@ -42,17 +42,17 @@ export const index = (fastify: FastifyInstance) => fastify.route({
 });
 
 /* ****************************************************************************************************************** */
-export const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, DefaultHeaders>({
+const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, DefaultHeaders>({
   method: 'GET',
-  url: '/projects/:projectId',
+  url: '/api/projects/:urlKey',
   schema: {
     params: {
       type: 'object',
       properties: {
-        projectId: { type: 'string', format: 'uuid' },
+        urlKey: { type: 'string' },
       },
       additionalProperties: false,
-      required: ['projectId'],
+      required: ['urlKey'],
     },
     response: {
       200: {
@@ -65,20 +65,20 @@ export const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Pa
     },
   },
   preHandler: fastify.checkSession(),
-  handler: async (request: FastifyRequest) => {
-    const { projectId } = request.params;
-    const project = await fastify
+  handler: (request: FastifyRequest) => {
+    const { urlKey } = request.params;
+    return fastify
       .projectRepository
-      .findOneOrFail(projectId, { relations: ['image', 'files'] })
-      .then((projectRaw) => projectsToJSON(fastify, projectRaw));
-    return { project };
+      .findOneOrFail({ urlKey }, { relations: ['image', 'files'] })
+      .then((projectRaw) => projectsToJSON(fastify, projectRaw))
+      .then((project) => ({ project }));
   },
 });
 
 /* ****************************************************************************************************************** */
-export const save = (fastify: FastifyInstance) => fastify.route({
+const save = (fastify: FastifyInstance) => fastify.route({
   method: 'PUT',
-  url: '/projects',
+  url: '/api/projects',
   schema: {
     body: {
       type: 'object',
@@ -108,16 +108,17 @@ export const save = (fastify: FastifyInstance) => fastify.route({
 
     const saved = await projectRepository.save(body);
     await projectRepository.generateUrlKey(saved, -1, true);
-    const result = await projectRepository.findOneOrFail(saved.id, { relations: ['image', 'files'] })
-      .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw));
-    return { project: result };
+    return projectRepository
+      .findOneOrFail(saved.id, { relations: ['image', 'files'] })
+      .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw))
+      .then((project) => ({ project }));
   },
 });
 
 /* ****************************************************************************************************************** */
-export const update = (fastify: FastifyInstance) => fastify.route({
+const update = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
-  url: '/projects/:projectId',
+  url: '/api/projects/:projectId',
   schema: {
     body: {
       type: 'object',
@@ -154,17 +155,17 @@ export const update = (fastify: FastifyInstance) => fastify.route({
     const { body, params: { projectId } } = request;
 
     await projectRepository.update(projectId, body);
-    const updated = await projectRepository
+    return projectRepository
       .findOneOrFail(projectId, { relations: ['image', 'files'] })
-      .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw));
-    return { project: updated };
+      .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw))
+      .then((project) => ({ project }));
   },
 });
 
 /* ****************************************************************************************************************** */
-export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
+const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'PATCH',
-  url: '/projects/image/:projectId',
+  url: '/api/projects/image/:projectId',
   schema: {
     body: {
       type: 'object',
@@ -200,8 +201,11 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
     const rawFile = body.file[0];
     const fileData = { name: rawFile.filename, contentType: rawFile.mimetype, data: rawFile.data };
 
-    const project = await projectRepository.findOneOrFail(projectId);
-    const file = await fileRepository.createFromFileIfNotExists(fileData);
+    const [project, file] = await Promise.all([
+      projectRepository.findOneOrFail(projectId),
+      fileRepository.createFromFileIfNotExists(fileData),
+    ]);
+
     await fileReferenceRepository.createWithFile(
       file,
       { item: project, itemType: 'project', purpose: 'file', ord: body.ord },
@@ -209,18 +213,17 @@ export const saveProjectImage = (fastify: FastifyInstance) => fastify.route({
 
     await projectRepository.updateMainImageId(fastify, project);
 
-    const updated = await projectRepository
+    return projectRepository
       .findOneOrFail(projectId, { relations: ['image', 'files'] })
-      .then((projects) => projectsToJSON(fastify, projects));
-
-    return { project: updated };
+      .then((projects) => projectsToJSON(fastify, projects))
+      .then((projectWithImage) => ({ project: projectWithImage }));
   },
 });
 
 /* ****************************************************************************************************************** */
-export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route({
+const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
-  url: '/projects/image/:projectId/:fileId',
+  url: '/api/projects/image/:projectId/:fileId',
   schema: {
     body: {
       type: 'object',
@@ -268,9 +271,9 @@ export const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route
 });
 
 /* ****************************************************************************************************************** */
-export const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
+const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
   method: 'DELETE',
-  url: '/projects/image/:projectId/:fileId',
+  url: '/api/projects/image/:projectId/:fileId',
   schema: {
     params: {
       type: 'object',
@@ -309,5 +312,16 @@ export const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
     return { project: updated };
   },
 });
+
+/* ****************************************************************************************************************** */
+export {
+  index,
+  show,
+  save,
+  update,
+  saveProjectImage,
+  updateProjectImageOrd,
+  removeProjectImage,
+};
 
 /* ****************************************************************************************************************** */

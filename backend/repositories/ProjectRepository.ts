@@ -11,9 +11,9 @@ const toUrl = (str: string) => _.truncate(
 );
 
 type Container = {
-  fileRepository: FileRepository,
-  fileReferenceRepository: FileReferenceRepository,
-  [key: string]: any
+  fileRepository: FileRepository;
+  fileReferenceRepository: FileReferenceRepository;
+  [key: string]: any;
 };
 
 @EntityRepository(Project)

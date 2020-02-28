@@ -14,19 +14,19 @@ function formatTimestamp(date: string | moment.Moment | Date): string {
   return moment.utc(date).format(timestampFormat);
 }
 
-function generateTimestamp() {
+function generateTimestamp(): string {
   return moment.utc().format(timestampFormat);
 }
 
-function signCookie(uuid: string, secret: string) {
+function signCookie(uuid: string, secret: string): string {
   return cookieSigner.sign(uuid, secret);
 }
 
-function unsignCookie(uuid: string, secret: string) {
+function unsignCookie(uuid: string, secret: string): string | false {
   return cookieSigner.unsign(uuid, secret);
 }
 
-function hashPassword(value:string) {
+function hashPassword(value: string): string {
   return bcrypt.hashSync(value, 10);
 }
 
@@ -34,9 +34,9 @@ function verifyPassword(decryptedPassword: string, encryptedPassword: string): b
   return bcrypt.compareSync(decryptedPassword, encryptedPassword);
 }
 
-function getExtension(contentType: string | undefined, filepath: string = '') {
-  const getExtensionByContentType = () => contentType && extension(contentType);
-  const getExtensionByOriginalFilename = () => {
+function getExtension(contentType: string | undefined, filepath = ''): string {
+  const getExtensionByContentType = (): string | false | undefined => contentType && extension(contentType);
+  const getExtensionByOriginalFilename = (): string | false | undefined => {
     const originalFilenameParts = _.split(filepath, '.');
     return _.size(originalFilenameParts) > 1 && _.last(originalFilenameParts);
   };
