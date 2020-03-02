@@ -1,7 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import * as _ from 'lodash';
-import Project from '../entities/Project';
-import User from '../entities/User';
+import Project from '../../../entities/Project';
 
 const processOne = (fastify: FastifyInstance, { image, files: fileRefs, ...project }: Project) => {
   const { fileReferenceRepository } = fastify;
@@ -27,13 +26,4 @@ const projectsToJSON = (fastify: FastifyInstance, projects: Project | Project[])
   return projects.map((project) => processOne(fastify, project));
 };
 
-const userToJSON = (fastify: FastifyInstance, { image, password, ...user }: User) => {
-  const { fileReferenceRepository } = fastify;
-  const imageUrl = image ? fileReferenceRepository.generateExtendedURL(image, user) : '';
-  return { ...user, imageUrl };
-};
-
-export {
-  projectsToJSON,
-  userToJSON,
-};
+export default projectsToJSON;

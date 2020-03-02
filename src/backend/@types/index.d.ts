@@ -3,14 +3,14 @@
 import { ServerResponse, IncomingMessage, Server } from 'http';
 import { Connection, Repository } from 'typeorm';
 
-import Project from '../backend/entities/Project';
-import User from '../backend/entities/User';
-import Session from '../backend/entities/Session';
+import Project from '../entities/Project';
+import User from '../entities/User';
+import Session from '../entities/Session';
 
-import UserRepository from '../backend/repositories/UserRepository';
-import ProjectRepository from '../backend/repositories/ProjectRepository';
-import FileRepository from '../backend/repositories/FileRepository';
-import FileReferenceRepository from '../backend/repositories/FileReferenceRepository';
+import UserRepository from '../repositories/UserRepository';
+import ProjectRepository from '../repositories/ProjectRepository';
+import FileRepository from '../repositories/FileRepository';
+import FileReferenceRepository from '../repositories/FileReferenceRepository';
 
 /* ****************************************************************************************************************** */
 type SessionRequestType = Omit<Session, 'user'>;
