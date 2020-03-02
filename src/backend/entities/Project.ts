@@ -38,17 +38,9 @@ export default class Project {
   @Column('timestamptz', { nullable: true })
   publishedAt: string;
 
-  imageId?: string;
-
-  imageUrl?: string;
-
   @OneToOne(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
   image: FileReference;
-
-  images?: string[];
-
-  fileIds?: string[];
 
   @OneToMany(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
@@ -62,8 +54,4 @@ export default class Project {
 
   @UpdateDateColumn()
   updatedAt: string;
-
-  toJSONB() {
-    return '123';
-  }
 }
