@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import * as sharp from 'sharp';
 
 import { FastifyInstance } from 'fastify';
-import { FileWhere, ImageParams, FileOutput } from './interfaces/getFiles';
+import { FileWhere, ImageParams, FileOutput } from '../interfaces/getFiles';
 
 /* ****************************************************************************************************************** */
 
