@@ -1,5 +1,5 @@
 # create postgres in docker locally
-docker-postgres-run:
+db-run:
 	docker run \
 		--name design-db-dev \
 		-p 127.0.0.1:5700:5432/tcp \

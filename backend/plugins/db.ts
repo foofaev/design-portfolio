@@ -1,11 +1,11 @@
 import * as fp from 'fastify-plugin';
 import { createConnection, getConnectionOptions } from 'typeorm';
-import ProjectRepository from '../database/repositories/ProjectRepository';
-import FileRepository from '../database/repositories/FileRepository';
-import FileReferenceRepository from '../database/repositories/FileReferenceRepository';
-import UserRepository from '../database/repositories/UserRepository';
+import ProjectRepository from '../repositories/ProjectRepository';
+import FileRepository from '../repositories/FileRepository';
+import FileReferenceRepository from '../repositories/FileReferenceRepository';
+import UserRepository from '../repositories/UserRepository';
 
-import Session from '../database/entities/Session';
+import Session from '../entities/Session';
 
 export default fp(async (fastify, __, next) => {
   try {

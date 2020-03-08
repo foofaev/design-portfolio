@@ -1,10 +1,17 @@
 import * as fp from 'fastify-plugin';
 
-import schemas from '../api/models/schemas'
+import { projectInput, projectOutput, projectTypeSchema } from '../schemas/project';
+import { sessionHeader } from '../schemas/session';
+import { userInput, userOutput } from '../schemas/user';
 
 export default fp((fastify, __, next) => {
   try {
-    schemas.forEach(fastify.addSchema);
+    fastify.addSchema(projectTypeSchema);
+    fastify.addSchema(projectInput);
+    fastify.addSchema(projectOutput);
+    fastify.addSchema(sessionHeader);
+    fastify.addSchema(userInput);
+    fastify.addSchema(userOutput);
     next();
   } catch (error) {
     fastify.log.error(`Error adding schemas, reason: ${error.toString()} ${error.stack}`);
