@@ -4,18 +4,18 @@ import FileRepository from './FileRepository';
 import FileReferenceRepository from './FileReferenceRepository';
 
 type Container = {
-  fileRepository: FileRepository,
-  fileReferenceRepository: FileReferenceRepository,
-  [key: string]: any
+  fileRepository: FileRepository;
+  fileReferenceRepository: FileReferenceRepository;
+  [key: string]: any;
 };
 
 
 type RawFile = {
-  path?: string,
-  name: string,
-  data?: Buffer,
-  contentType?: string,
-  ext?: string,
+  path?: string;
+  name: string;
+  data?: Buffer;
+  contentType?: string;
+  ext?: string;
 };
 
 

@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export default class createFileReferencesTable1574450802622 implements MigrationInterface {
+export default class CreateFileReferencesTable1574450802622 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const fileTable = new Table({
       name: 'file_references',

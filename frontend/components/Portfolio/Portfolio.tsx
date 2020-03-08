@@ -39,7 +39,7 @@ const connector = connect(
 
 type Props = ConnectedProps<typeof connector>;
 
-const Portfolio: React.FC<Props> = ({ fetchProjects, projects }) => {
+const Portfolio: React.FC<Props> = ({ fetchProjects, projects }: Props) => {
   React.useEffect(() => {
     fetchProjects({ offset: 0, limit: 20 });
     // eslint-disable-next-line react-hooks/exhaustive-deps

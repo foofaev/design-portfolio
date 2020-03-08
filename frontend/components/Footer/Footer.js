@@ -3,7 +3,7 @@ import React from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
-import classNames from "classnames";
+import cn from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -20,13 +20,13 @@ export default function Footer(props) {
   const classes = useStyles();
   const themeType =
     theme === "transparent" || theme == undefined ? false : true;
-  const footerClasses = classNames({
+  const footerClasses = cn({
     [classes.footer]: true,
     [classes[theme]]: themeType,
     [classes.big]: big || children !== undefined,
     [className]: className !== undefined
   });
-  const aClasses = classNames({
+  const aClasses = cn({
     [classes.a]: true
   });
 

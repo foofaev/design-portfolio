@@ -3,11 +3,12 @@ import * as _ from 'lodash';
 import Project from '../entities/Project';
 import User from '../entities/User';
 
-const processOne = (fastify: FastifyInstance, { image, files: fileRefs, ...project }: Project) => {
+const processOne = (fastify: FastifyInstance, { mainImage, draft, images: fileRefs, ...project }: Project) => {
   const { fileReferenceRepository } = fastify;
 
-  const imageId = _.get(image, 'id', '');
-  const imageUrl = image ? fileReferenceRepository.generateExtendedURL(image, project) : '';
+  const imageUrl = mainImage ? fileReferenceRepository.generateExtendedURL(mainImage, project) : '';
+
+  const draftUrl = draft ? fileReferenceRepository.generateExtendedURL(draft, project) : '';
 
   const files = _.map(
     _.orderBy(fileRefs, ['ord'], ['desc']),
@@ -19,7 +20,7 @@ const processOne = (fastify: FastifyInstance, { image, files: fileRefs, ...proje
 
   const images = _.map(files, 'url');
 
-  return { ...project, imageUrl, imageId, files, images };
+  return { ...project, imageUrl, files, images, draftUrl };
 };
 
 const projectsToJSON = (fastify: FastifyInstance, projects: Project | Project[]) => {

@@ -10,7 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { HelmetProvider } from 'react-helmet-async';
 import { CookiesProvider } from 'react-cookie';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import thunk from 'redux-thunk';
@@ -27,14 +27,14 @@ const store = createStore(
 
 ReactDOM.render(
   <HelmetProvider>
-    <BrowserRouter>
+    <HashRouter>
       <CookiesProvider>
         <Provider store={store}>
           <CssBaseline />
           <Root />
         </Provider>
       </CookiesProvider>
-    </BrowserRouter>
+    </HashRouter>
   </HelmetProvider>,
   document.getElementById('root'),
 );

@@ -4,7 +4,7 @@ import {
   Table,
 } from 'typeorm';
 
-export default class createFileTable1574450802622 implements MigrationInterface {
+export default class CreateFileTable1574450802622 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const fileTable = new Table({
       name: 'files',

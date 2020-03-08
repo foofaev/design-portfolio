@@ -8,14 +8,15 @@ import styles from './style';
 const useStyles = makeStyles(styles);
 
 type ParallaxProps = {
-  filter?: boolean,
-  children?: React.ReactNode | React.ReactNodeArray,
-  image?: string,
-  small?: boolean,
+  filter?: boolean;
+  children?: React.ReactNode | React.ReactNodeArray;
+  image?: string;
+  small?: boolean;
+  project?: React.ReactNode;
 };
 
 
-function Parallax({ filter, children, image, small }: ParallaxProps) {
+function Parallax({ filter, children, image, small, project }: ParallaxProps) {
   const windowScrollTop = window.innerWidth >= 768 ? (window.pageYOffset / 3) : 0;
 
   const [transform, setTransform] = React.useState(`translate3d(0,${windowScrollTop}px,0)`);

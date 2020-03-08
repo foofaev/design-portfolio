@@ -4,7 +4,7 @@ import {
   Table,
 } from 'typeorm';
 
-export default class createUserTable1574450733448 implements MigrationInterface {
+export default class CreateUserTable1574450733448 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const userTable = new Table({
       name: 'users',

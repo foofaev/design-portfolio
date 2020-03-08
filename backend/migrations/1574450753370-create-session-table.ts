@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export default class createSessionTable1574450753370 implements MigrationInterface {
+export default class CreateSessionTable1574450753370 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const sessionTable = new Table({
       name: 'sessions',

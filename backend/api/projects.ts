@@ -35,7 +35,7 @@ const index = (fastify: FastifyInstance) => fastify.route({
     const { offset: skip, limit: take } = request.query;
     const projects = await fastify
       .projectRepository
-      .find({ relations: ['image', 'files'], skip, take })
+      .find({ relations: ['mainImage', 'images', 'draft'], skip, take })
       .then((projectsRaw) => projectsToJSON(fastify, projectsRaw));
     return { projects };
   },
@@ -69,7 +69,7 @@ const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, D
     const { urlKey } = request.params;
     return fastify
       .projectRepository
-      .findOneOrFail({ urlKey }, { relations: ['image', 'files'] })
+      .findOneOrFail({ urlKey }, { relations: ['mainImage', 'images', 'draft'] })
       .then((projectRaw) => projectsToJSON(fastify, projectRaw))
       .then((project) => ({ project }));
   },
@@ -109,7 +109,7 @@ const save = (fastify: FastifyInstance) => fastify.route({
     const saved = await projectRepository.save(body);
     await projectRepository.generateUrlKey(saved, -1, true);
     return projectRepository
-      .findOneOrFail(saved.id, { relations: ['image', 'files'] })
+      .findOneOrFail(saved.id, { relations: ['mainImage', 'images', 'draft'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw))
       .then((project) => ({ project }));
   },
@@ -156,7 +156,7 @@ const update = (fastify: FastifyInstance) => fastify.route({
 
     await projectRepository.update(projectId, body);
     return projectRepository
-      .findOneOrFail(projectId, { relations: ['image', 'files'] })
+      .findOneOrFail(projectId, { relations: ['mainImage', 'images', 'draft'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw))
       .then((project) => ({ project }));
   },
@@ -214,7 +214,7 @@ const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify.
     await projectRepository.updateMainImageId(fastify, project);
 
     return projectRepository
-      .findOneOrFail(projectId, { relations: ['image', 'files'] })
+      .findOneOrFail(projectId, { relations: ['mainImage', 'images', 'draft'] })
       .then((projects) => projectsToJSON(fastify, projects))
       .then((projectWithImage) => ({ project: projectWithImage }));
   },
@@ -263,7 +263,7 @@ const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route({
     await projectRepository.updateMainImageId(fastify, project);
 
     const updated = await projectRepository
-      .findOneOrFail(projectId, { relations: ['image', 'files'] })
+      .findOneOrFail(projectId, { relations: ['mainImage', 'images', 'draft'] })
       .then((projects) => projectsToJSON(fastify, projects));
 
     return { project: updated };
@@ -307,12 +307,13 @@ const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
 
     await projectRepository.updateMainImageId(fastify, project);
     const updated = await projectRepository
-      .findOneOrFail(projectId, { relations: ['image', 'files'] })
+      .findOneOrFail(projectId, { relations: ['mainImage', 'images', 'draft'] })
       .then((projects) => projectsToJSON(fastify, projects));
     return { project: updated };
   },
 });
 
+// TODO: buildRelations() =>
 /* ****************************************************************************************************************** */
 export {
   index,

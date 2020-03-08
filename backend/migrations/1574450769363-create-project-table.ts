@@ -4,10 +4,10 @@ import {
   Table,
 } from 'typeorm';
 
-export default class createProjectTable1574450769363 implements MigrationInterface {
+export default class CreateProjectTable1574450769363 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(`
-      CREATE TYPE project_types as enum('render');
+      CREATE TYPE project_types as enum('render', 'stainedGlass', 'fullProject');
     `);
 
     const projectTable = new Table({
@@ -15,7 +15,12 @@ export default class createProjectTable1574450769363 implements MigrationInterfa
       columns: [
         { name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid' },
         { name: 'title', type: 'varchar', isNullable: false },
+        { name: 'subtitle', type: 'varchar', isNullable: true },
+        { name: 'preview', type: 'text', isNullable: true },
         { name: 'description', type: 'text', isNullable: true },
+        { name: 'square', type: 'float', isNullable: true, default: null },
+        { name: 'tenants', type: 'smallint', isNullable: true, default: null },
+        { name: 'rooms', type: 'smallint', isNullable: true, default: null },
         { name: 'urlKey', type: 'varchar', isUnique: true, isNullable: true, default: null },
         { name: 'isVisible', type: 'boolean', isNullable: false, default: true },
         { name: 'type', type: 'project_types', default: '\'render\'' },

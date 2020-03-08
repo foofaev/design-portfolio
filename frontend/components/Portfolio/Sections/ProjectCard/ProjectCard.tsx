@@ -13,24 +13,24 @@ import { Project } from '../../../../types';
 import styles from './styles';
 
 type Props = {
-  project: Project,
+  project: Project;
 };
 
 const useStyles = makeStyles(styles);
 
-function ProjectCard({ project }: Props) {
+const ProjectCard: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
 
   return (
     <Card plain>
       <CardHeader plain image className={classes.imgCardExtended}>
         <Link to={`/projects/${project.urlKey}`}>
-          <img src={project.images[0]} alt="..." />
+          <img src={project.imageUrl} alt="..." />
         </Link>
         <div
           className={classes.coloredShadow}
           style={{
-            backgroundImage: `url(${project.images[0]})`,
+            backgroundImage: `url(${project.imageUrl})`,
             opacity: 1,
           }}
         />
@@ -40,13 +40,12 @@ function ProjectCard({ project }: Props) {
           {project.title.toUpperCase()}
         </Info>
         <div className={classes.cardDescription}>
-          {project.description}
+          {project.preview}
           AAAAAA
         </div>
       </CardBody>
     </Card>
   );
-}
-
+};
 
 export default ProjectCard;

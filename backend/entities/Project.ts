@@ -13,7 +13,7 @@ import FileReference from './FileReference'; // eslint-disable-line import/no-cy
 const PROJECT_TYPES = ['render'];
 
 // ProjectType = 'render' | 'project' | 'schema' | 'art';
-export type ProjectType = 'render';
+export type ProjectType = 'render' | 'fullProject' | 'stainedGlass';
 
 @Entity('projects')
 export default class Project {
@@ -22,6 +22,12 @@ export default class Project {
 
   @Column('varchar')
   title: string;
+
+  @Column('varchar')
+  subtitle: string;
+
+  @Column('text', { nullable: true })
+  preview: string;
 
   @Column('text', { nullable: true })
   description: string;
@@ -32,27 +38,36 @@ export default class Project {
   @Column('boolean', { default: true })
   isVisible: boolean;
 
-  @Column({ type: 'enum', enum: PROJECT_TYPES, default: 'render' })
+  @Column({ type: 'enum', enum: PROJECT_TYPES, default: 'fullProject' })
   type: ProjectType;
 
   @Column('timestamptz', { nullable: true })
   publishedAt: string;
 
-  imageId?: string;
-
   imageUrl?: string;
+
+  draftUrl?: string;
+
+  @Column('float')
+  square: number;
+
+  @Column('smallint')
+  tenants: number;
+
+  @Column('smallint')
+  rooms: number;
 
   @OneToOne(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
-  image: FileReference;
+  mainImage: FileReference;
 
-  images?: string[];
-
-  fileIds?: string[];
+  @OneToOne(() => FileReference, (fileRef) => fileRef.item)
+  @JoinColumn()
+  draft: FileReference;
 
   @OneToMany(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
-  files: FileReference[];
+  images: FileReference[];
 
   @Column('int', { nullable: false, default: 0 })
   ord: number;
@@ -62,8 +77,4 @@ export default class Project {
 
   @UpdateDateColumn()
   updatedAt: string;
-
-  toJSONB() {
-    return '123';
-  }
 }

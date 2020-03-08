@@ -45,7 +45,7 @@ const updateProject: AsyncActionFunction1<Project> = ({ project }) => async (dis
   dispatch(updateProjectRequest());
   try {
     const response = await axios.patch(routes.projectUrl(project.id), { ...project });
-    dispatch(updateProjectSuccess({ project: response.data }));
+    dispatch(updateProjectSuccess({ ...response.data }));
   } catch (error) {
     dispatch(updateProjectFailure());
     throw error;
@@ -57,7 +57,7 @@ const showProject: AsyncActionFunction1<string> = ({ urlKey }) => async (dispatc
   dispatch(showProjectRequest());
   try {
     const response = await axios.get(routes.projectUrl(urlKey));
-    dispatch(showProjectSuccess({ project: response.data }));
+    dispatch(showProjectSuccess({ ...response.data }));
   } catch (error) {
     dispatch(showProjectFailure());
     throw error;

@@ -12,12 +12,17 @@ type File = {
 type Project = {
   id: string;
   title: string;
+  subtitle: string;
+  preview: string;
   description: string;
+  square: number;
+  tenants: number;
+  rooms: number;
   urlKey: string;
   isVisible: boolean;
   type: 'render';
   publishedAt: string;
-  imageId: string;
+  draftUrl: string;
   imageUrl: string;
   images: string[];
   files: File[];

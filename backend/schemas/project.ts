@@ -32,8 +32,14 @@ const projectOutput = {
     id: { type: 'string', format: 'uuid' },
     type: 'projectType#',
     title: { type: 'string' },
+    subtitle: { type: 'string' },
+    preview: { type: 'string' },
     description: { type: 'string', minLength: 0 },
     urlKey: { type: 'string', minLength: 0 },
+
+    tenants: { type: 'integer' },
+    rooms: { type: 'integer' },
+    square: { type: 'number' },
 
     ord: { type: 'integer' },
 
@@ -41,6 +47,7 @@ const projectOutput = {
 
     imageId: { anyOf: [{ type: 'string', format: 'uuid' }, { type: 'null' }] },
     imageUrl: { type: 'string', minLength: 0 },
+    draftUrl: { type: 'string', minLength: 0 },
     files: { type: 'array', items: fileOutput },
     images: { type: 'array', items: { type: 'string', format: 'url' } },
 

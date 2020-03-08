@@ -24,8 +24,9 @@ export default class FileReference {
   @Column('varchar')
   purpose: string;
 
-  @OneToOne(() => Project, (project) => project.image)
-  @ManyToOne(() => Project, (project) => project.files)
+  @OneToOne(() => Project, (project) => project.mainImage)
+  @OneToOne(() => Project, (project) => project.draft)
+  @ManyToOne(() => Project, (project) => project.images)
   @OneToOne(() => User, (user) => user.image)
   @JoinColumn()
   item: Project | User;

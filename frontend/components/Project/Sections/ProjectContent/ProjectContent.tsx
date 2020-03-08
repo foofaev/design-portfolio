@@ -1,10 +1,24 @@
 import * as React from 'react';
 import cn from 'classnames';
+import size from 'lodash/size';
+import chunk from 'lodash/chunk';
+
 import { makeStyles } from '@material-ui/core/styles';
+import GestureIcon from '@material-ui/icons/Gesture';
+import BuildIcon from '@material-ui/icons/Build';
+import CreateIcon from '@material-ui/icons/Create';
 
 import GridContainer from '../../../Grid/GridContainer';
 import GridItem from '../../../Grid/GridItem';
 import Quote from '../../../Typography/Quote';
+import Info from '../../../Typography/Info';
+import InfoArea from '../../../InfoArea/InfoArea';
+
+import Card from '../../../Card/Card';
+import CardHeader from '../../../Card/CardHeader';
+import CardBody from '../../../Card/CardBody';
+
+import routes from '../../../../actions/routes';
 
 import { Project } from '../../../../types';
 
@@ -16,121 +30,103 @@ type Props = {
   project: Project;
 };
 
-const SectionText: React.FC<Props> = ({ project }) => {
+const SectionText: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
-  const imgClasses = cn(
-    classes.imgRaised,
-    classes.imgRounded,
-    classes.imgFluid,
+  const imgClasses = cn(classes.imgRaised, classes.imgRounded, classes.imgFluid, classes.imageMargin);
+
+  const { images, description, preview, rooms, tenants, square, draftUrl } = project;
+
+  const Features = () => (
+    <GridContainer>
+      <GridItem md={4} sm={4}>
+        <InfoArea
+          title="Площадь"
+          description={<p>{square > 0 ? square : '150 м2'}</p>}
+          icon={GestureIcon}
+          iconColor="rose"
+        />
+      </GridItem>
+      <GridItem md={4} sm={4}>
+        <InfoArea
+          title="Кол-во человек"
+          description={<p>{tenants > 0 ? tenants : 10}</p>}
+          icon={BuildIcon}
+          iconColor="rose"
+        />
+      </GridItem>
+      <GridItem md={4} sm={4}>
+        <InfoArea
+          title="Кол-во комнат"
+          description={<p>{rooms > 0 ? rooms : 10}</p>}
+          icon={CreateIcon}
+          iconColor="rose"
+        />
+      </GridItem>
+    </GridContainer>
   );
+
+  const imagesBy3Columns = chunk<string>(images, Math.ceil(size(images) / 3));
+
   return (
     <div className={classes.section}>
       <GridContainer justify="center">
         <GridItem xs={12} sm={8} md={8}>
           <h3 className={classes.title}>
-            {project.title}
-            The Castle Looks Different at Night...
+            {project.subtitle}
+            Или как мы переосмыслили неоклассицизм...
           </h3>
-          {project.description}
           <p>
-            This is the paragraph where you can write more details about your
-            product. Keep you user engaged by providing meaningful information.
-            Remember that by this time, the user is curious, otherwise he wouldn&apos;t
-            scroll to get here. Add a button if you want the user to see
-            more. We are here to make life better.
-            <br />
-            <br />
-            And now I look and look around and there’s so many Kanyes I&apos;ve
-            been trying to figure out the bed design for the master bedroom at
-            our Hidden Hills compound... and thank you for turning my personal
-            jean jacket into a couture piece.
+            {preview}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a egestas purus, id pretium quam. Vivamus id
+            suscipit elit. Duis convallis nisl non lacus suscipit, eget sodales eros rhoncus. Sed eu fringilla nisi, non
+            faucibus quam. Fusce quis ligula scelerisque, commodo purus sed, viverra magna. Donec sit amet urna ac
+            tortor mollis ornare. Suspendisse eleifend justo vitae mollis pellentesque. Aenean ullamcorper posuere
+            ipsum, et finibus neque porta quis. Duis sed aliquet nulla. Pellentesque mollis erat eu fringilla rutrum.
           </p>
-          <Quote
-            textClassName={classes.quoteText}
-            text="“And thank you for turning my personal jean jacket into a couture piece.”"
-            author="Kanye West, Producer."
-          />
-        </GridItem>
-        <GridItem xs={12} sm={10} md={10} className={classes.section}>
-          <GridContainer>
-            <GridItem xs={12} sm={4} md={4}>
-              <img src={blog4} alt="..." className={imgClasses} />
-            </GridItem>
-            <GridItem xs={12} sm={4} md={4}>
-              <img src={blog3} alt="..." className={imgClasses} />
-            </GridItem>
-            <GridItem xs={12} sm={4} md={4}>
-              <img src={blog1} alt="..." className={imgClasses} />
-            </GridItem>
-          </GridContainer>
         </GridItem>
         <GridItem xs={12} sm={8} md={8}>
-          <h3 className={classes.title}>Rest of the Story:</h3>
-          <p>
-            We are here to make life better. And now I look and look around and
-            there’s so many Kanyes I$apos;ve been trying to figure out the bed
-            design for the master bedroom at our Hidden Hills compound... and
-            thank you for turning my personal jean jacket into a couture piece.
-            <br />
-            I speak yell scream directly at the old guard on behalf of the
-            future. daytime All respect prayers and love to Phife’s family Thank
-            you for so much inspiration.
-          </p>
-          <p>
-            Thank you Anna for the invite thank you to the whole Vogue team And
-            I love you like Kanye loves Kanye Pand Pand Panda I$apos;ve been
-            trying to figure out the bed design for the master bedroom at our
-            Hidden Hills compound...The Pablo pop up was almost a pop up of
-            influence. All respect prayers and love to Phife’s family Thank you
-            for so much inspiration daytime I love this new Ferg album! The Life
-            of Pablo is now available for purchase I have a dream. Thank you to
-            everybody who made The Life of Pablo the number 1 album in the
-            world! I$apos;m so proud of the nr #1 song in the country. Panda!
-            Good music 2016!
-          </p>
-          <p>
-            I love this new Ferg album! The Life of Pablo is now available for
-            purchase I have a dream. Thank you to everybody who made The Life of
-            Pablo the number 1 album in the world! I$apos;m so proud of the nr #1
-            song in the country. Panda! Good music 2016!
-          </p>
+          <Card plain blog className={classes.card}>
+            <CardBody plain>
+              <Features />
+            </CardBody>
+            <CardHeader image plain>
+              <img src={require('../../../../../assets/draft.png')} alt="..." />
+              <div
+                className={classes.coloredShadow}
+                style={{ backgroundImage: `url(${require('../../../../../assets/draft.png')})`, opacity: '1' }}
+              />
+            </CardHeader>
+          </Card>
         </GridItem>
+        <GridItem xs={12} sm={8} md={8}>
+          <p>
+            {description}
+            Sed euismod dui leo, id facilisis lorem elementum vel. Sed quis libero magna. Quisque ultrices nunc quam,
+            vitae scelerisque ligula gravida at. Nam eget orci suscipit, placerat lacus quis, ultrices augue. Vivamus
+            convallis risus felis, id congue felis interdum tristique. Nullam quis mauris laoreet, molestie leo sit
+            amet, eleifend lacus. Nunc pulvinar dapibus neque, vel pellentesque justo venenatis vitae. Quisque
+            vestibulum cursus luctus. Donec quam leo, pharetra id tortor in, finibus rhoncus purus. Nulla convallis,
+            ante in suscipit semper, risus purus congue lacus, non interdum felis dui ut felis. Nunc tortor nibh,
+            aliquam sit amet nulla nec, efficitur condimentum arcu.
+          </p>
+          <br />
+        </GridItem>
+        <GridContainer justify="center" className={classes.container}>
+          {size(images) > 0 && imagesBy3Columns.map((column) => (
+            <GridItem key={column[0]} xs={12} sm={4} md={4} lg={4}>
+              {column.map((imageUrl) => (
+                <img
+                  className={imgClasses}
+                  src={imageUrl}
+                  alt="..."
+                />
+              ))}
+            </GridItem>
+          ))}
+        </GridContainer>
       </GridContainer>
     </div>
   );
 };
 
-// <div className={classes.features3}>
-//   <GridContainer>
-//     <GridItem xs={12} sm={6} md={6}>
-//       <div className={classes.phoneContainer}>
-//         <img src={iphone} alt="..." />
-//       </div>
-//     </GridItem>
-//     <GridItem xs={12} sm={6} md={6}>
-//       <h2 className={classes.title}>Your life will be much easier</h2>
-//       <InfoArea
-//         className={classes.infoArea}
-//         icon={Extension}
-//         title="Hundreds of Components"
-//         description="The moment you use Material Kit, you know you’ve never felt anything like it. With a single use, this powerfull UI Kit lets you do more than ever before."
-//         iconColor="primary"
-//       />
-//       <InfoArea
-//         className={classes.infoArea}
-//         icon={ChildFriendly}
-//         title="Easy to Use"
-//         description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-//         iconColor="primary"
-//       />
-//       <InfoArea
-//         className={classes.infoArea}
-//         icon={WatchLater}
-//         title="Fast Prototyping"
-//         description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-//         iconColor="primary"
-//       />
-//     </GridItem>
-//   </GridContainer>
-// </div>
 export default SectionText;

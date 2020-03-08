@@ -39,25 +39,28 @@ export default async () => {
               path: filepath, contentType: 'image/jpeg', ext: 'jpeg', name: `${project.title}-${index}`,
             }));
 
-          const filePromises = filesData.map((data) => fileRepository.createFromFileIfNotExists(data));
-          const files = await Promise.all(filePromises);
+          const files = await bluebird.map(
+            filesData,
+            (data) => fileRepository.createFromFileIfNotExists(data),
+          );
 
-          const fileReferencePromises = _.map(
+          await bluebird.each(
             files,
             (file: File, index: number) => fileReferenceRepository.createWithFile(
               file,
               {
-                item: project, itemType: 'project', purpose: 'file', ord: index + 1,
+                item: project, itemType: 'project', purpose: 'image', ord: index + 1,
               },
             ),
           );
-          await Promise.all(fileReferencePromises);
+
           await projectRepository.updateMainImageId({ fileReferenceRepository, fileRepository }, project);
         },
       );
     });
     await connection.close();
   } catch (error) {
+    console.error(error);
     await connection.close();
     throw error;
   }

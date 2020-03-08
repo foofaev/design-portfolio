@@ -18,7 +18,11 @@ type Container = {
 
 @EntityRepository(Project)
 export default class ProjectRepository extends Repository<Project> {
-  async generateUrlKey(item: Project, uriPart = -1, actuallyUpdateUrlKey: boolean | void): Promise<any> {
+  generateUrlKey(item: Project, uriPart?: number, actuallyUpdateUrlKey?: true): Promise<Project>;
+
+  generateUrlKey(item: Project, uriPart?: number, actuallyUpdateUrlKey?: false): Promise<string>;
+
+  async generateUrlKey(item: Project, uriPart = -1, actuallyUpdateUrlKey?: boolean): Promise<Project | string> {
     const urlKey = toUrl(`${uriPart === -1 ? '' : `${uriPart}-`}${item.title || item.id}`);
 
     const instanceWithSameUrlKey = await this.findOne({ where: { urlKey, id: Not(item.id) } });
@@ -27,14 +31,16 @@ export default class ProjectRepository extends Repository<Project> {
     return actuallyUpdateUrlKey ? this.save({ ...item, urlKey }) : Promise.resolve(urlKey);
   }
 
-  async updateMainImageId(container: Container, item: Project) {
+  async updateMainImageId(container: Container, item: Project): Promise<Project> {
     const { fileReferenceRepository } = container;
     const mainImageRef = await fileReferenceRepository.findOneOrFail({
-      where: { itemId: item.id },
-      relations: ['file'],
+      where: { item },
+      relations: ['file', 'item'],
       order: { ord: 'DESC' },
     });
+    console.log('updateMainImageId - item', item);
+    console.log('updateMainImageId - fileref', mainImageRef);
 
-    await this.save(this.merge(item, { image: mainImageRef }));
+    return this.save(this.merge(item, { mainImage: mainImageRef }));
   }
 }

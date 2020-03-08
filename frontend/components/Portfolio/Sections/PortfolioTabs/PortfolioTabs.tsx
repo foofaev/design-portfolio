@@ -19,7 +19,7 @@ import ProjectCard from '../ProjectCard/ProjectCard';
 import styles from './styles';
 
 type Props = {
-  projects: Project[],
+  projects: Project[];
 };
 
 const projectTypesMap = {
@@ -32,7 +32,7 @@ const useStyles = makeStyles(styles);
 
 const NUMBER_OF_COLUMNS = 2;
 
-const PortfolioTabs = ({ projects }: Props) => {
+const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
   const classes = useStyles();
 
   const projectTypes = uniq(map(projects, 'type'));

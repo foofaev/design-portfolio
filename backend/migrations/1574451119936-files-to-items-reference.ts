@@ -5,7 +5,7 @@ import {
   TableColumn,
 } from 'typeorm';
 
-export default class filesToItemsReference1574451119936 implements MigrationInterface {
+export default class FilesToItemsReference1574451119936 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.addColumn('users', new TableColumn({
       name: 'imageId',
@@ -22,13 +22,27 @@ export default class filesToItemsReference1574451119936 implements MigrationInte
     }));
 
     await queryRunner.addColumn('projects', new TableColumn({
-      name: 'imageId',
+      name: 'mainImageId',
+      type: 'uuid',
+      isNullable: true,
+    }));
+
+    await queryRunner.addColumn('projects', new TableColumn({
+      name: 'draftId',
       type: 'uuid',
       isNullable: true,
     }));
 
     await queryRunner.createForeignKey('projects', new TableForeignKey({
-      columnNames: ['imageId'],
+      columnNames: ['mainImageId'],
+      referencedColumnNames: ['id'],
+      referencedTableName: 'file_references',
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
+    }));
+
+    await queryRunner.createForeignKey('projects', new TableForeignKey({
+      columnNames: ['draftId'],
       referencedColumnNames: ['id'],
       referencedTableName: 'file_references',
       onDelete: 'SET NULL',
