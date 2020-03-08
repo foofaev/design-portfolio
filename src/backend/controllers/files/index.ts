@@ -4,11 +4,11 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 import _ from 'lodash';
-import { imageProcessorService } from '../../domain/services';
+import { filesService } from '../../services';
 
-import { Query, Params } from '../intefaces/imageProcessorInput';
-import filesSchema from '../schemas/imageProcessorInput';
-import mapGetFileParamsToImageParams from '../mappers/getFileInputToImageProcessorInterface';
+import { Query, Params } from './intefaces/getFiles';
+import filesSchema from './schemas/getFilesInput';
+import mapGetFileParamsToImageParams from './mappers/getFiles';
 
 /* ****************************************************************************************************************** */
 const CACHE_CONTROL = 'max-age=31536000';
@@ -22,7 +22,7 @@ const handleFileRequest = ({ fastify, isFile }: { fastify: FastifyInstance; isFi
   const { fileWhere, imageParams } = mapGetFileParamsToImageParams(params, query, isFile);
   if (!fileWhere || !imageParams) return response.badRequest();
 
-  const file = await imageProcessorService.getFile(fastify, fileWhere, imageParams);
+  const file = await filesService.getFile(fastify, fileWhere, imageParams);
   if (!file) return response.notFound();
 
   const { name, content, contentType } = file;

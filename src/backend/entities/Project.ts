@@ -24,10 +24,10 @@ export default class Project {
   title: string;
 
   @Column('text', { nullable: true })
-  description: string | null;
+  description: string;
 
   @Column('varchar', { unique: true, nullable: true })
-  urlKey: string | null;
+  urlKey: string;
 
   @Column('boolean', { default: true })
   isVisible: boolean;
@@ -36,7 +36,7 @@ export default class Project {
   type: ProjectType;
 
   @Column('timestamptz', { nullable: true })
-  publishedAt: string | null;
+  publishedAt: string;
 
   @OneToOne(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()

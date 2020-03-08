@@ -1,7 +1,7 @@
 {
    "name": "design-portfolio",
    "version": "0.0.1",
-   "bin": "/src/backend/index.ts",
+   "bin": "/src/index.ts",
    "main": "frontend/index.tsx",
    "author": "foofaev",
    "license": "MIT",
