@@ -11,7 +11,7 @@ const useStyles = makeStyles(styles);
 type Props = {
   icon: typeof SvgIcon;
   title: string;
-  description: React.ReactChild;
+  description?: React.ReactChild;
   iconColor?: 'primary' | 'warning' | 'danger' | 'success' | 'info' | 'rose' | 'gray';
   vertical?: boolean;
   className?: string;

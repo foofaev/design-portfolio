@@ -14,7 +14,7 @@ const infoStyle = () => createStyles({
   infoArea: {
     maxWidth: '360px',
     margin: '0 auto',
-    padding: '20px 0 20px',
+    padding: '30px 0 30px',
   },
   iconWrapper: {
     float: 'left',

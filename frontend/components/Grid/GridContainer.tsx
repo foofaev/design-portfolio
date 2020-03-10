@@ -13,8 +13,8 @@ const styles = {
 const useStyles = makeStyles(() => createStyles(styles));
 
 interface Props extends GridProps {
-  children: React.ReactNode | React.ReactNodeArray,
-  className?: string,
+  children: React.ReactNode | React.ReactNodeArray;
+  className?: string;
 }
 
 function GridContainer({ children, className = '', ...rest }: Props) {
