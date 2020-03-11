@@ -5,9 +5,9 @@ import isEmpty from 'lodash/isEmpty';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import Parallax from '../Parallax/Parallax';
-import GridContainer from '../Grid/GridContainer';
-import GridItem from '../Grid/GridItem';
+import Parallax from '../../components/Parallax/Parallax';
+import GridContainer from '../../components/Grid/GridContainer';
+import GridItem from '../../components/Grid/GridItem';
 
 import ProjectContent from './Sections/ProjectContent/ProjectContent';
 

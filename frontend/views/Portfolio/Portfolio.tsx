@@ -6,9 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 
-import GridContainer from '../Grid/GridContainer';
-import GridItem from '../Grid/GridItem';
-import Parallax from '../Parallax/Parallax';
+import GridContainer from '../../components/Grid/GridContainer';
+import GridItem from '../../components/Grid/GridItem';
+import Parallax from '../../components/Parallax/Parallax';
 
 import PortfolioTabs from './Sections/PortfolioTabs/PortfolioTabs';
 import Avatar from './Sections/Avatar/Avatar';

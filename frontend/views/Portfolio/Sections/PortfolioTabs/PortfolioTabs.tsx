@@ -10,8 +10,8 @@ import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
 
-import GridContainer from '../../../Grid/GridContainer';
-import GridItem from '../../../Grid/GridItem';
+import GridContainer from '../../../../components/Grid/GridContainer';
+import GridItem from '../../../../components/Grid/GridItem';
 
 import { Project } from '../../../../types';
 

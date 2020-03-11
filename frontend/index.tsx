@@ -12,6 +12,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { CookiesProvider } from 'react-cookie';
 import { HashRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import thunk from 'redux-thunk';
 import reducers from './reducers';
@@ -25,13 +26,17 @@ const store = createStore(
   ),
 );
 
+const theme = createMuiTheme();
+
 ReactDOM.render(
   <HelmetProvider>
     <HashRouter>
       <CookiesProvider>
         <Provider store={store}>
-          <CssBaseline />
-          <Root />
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Root />
+          </ThemeProvider>
         </Provider>
       </CookiesProvider>
     </HashRouter>

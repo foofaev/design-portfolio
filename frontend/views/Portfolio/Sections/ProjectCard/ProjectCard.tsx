@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Card from '../../../Card/Card';
-import CardHeader from '../../../Card/CardHeader';
-import CardBody from '../../../Card/CardBody';
-import Info from '../../../Typography/Info';
+import Card from '../../../../components/Card/Card';
+import CardHeader from '../../../../components/Card/CardHeader';
+import CardBody from '../../../../components/Card/CardBody';
+import Info from '../../../../components/Typography/Info';
 
 import { Project } from '../../../../types';
 
