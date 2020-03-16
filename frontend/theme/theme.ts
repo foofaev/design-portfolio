@@ -1,6 +1,6 @@
 const drawerWidth = 260;
 
-const conatinerFluid = {
+const containerFluid = {
   paddingRight: '15px',
   paddingLeft: '15px',
   marginRight: 'auto',
@@ -8,7 +8,7 @@ const conatinerFluid = {
   width: '100%',
 };
 const container = {
-  ...conatinerFluid,
+  ...containerFluid,
   '@media (min-width: 576px)': {
     maxWidth: '540px',
   },
@@ -278,7 +278,7 @@ export {
   drawerWidth,
   transition,
   container,
-  conatinerFluid,
+  containerFluid as conatinerFluid,
   boxShadow,
   card,
   defaultFont,

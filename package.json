@@ -98,7 +98,6 @@
       "fastify-plugin": "^1.6.0",
       "fastify-sensible": "^2.1.1",
       "fastify-static": "^2.5.0",
-      "immutable": "^4.0.0-rc.12",
       "lodash": "^4.17.15",
       "mime-types": "^2.1.25",
       "moment": "^2.24.0",
@@ -118,7 +117,7 @@
       "react-slick": "^0.25.2",
       "redux": "^4.0.4",
       "redux-devtools-extension": "^2.13.8",
-      "redux-form": "^8.2.6",
+      "redux-form": "^8.3.1",
       "redux-thunk": "^2.3.0",
       "reflect-metadata": "^0.1.13",
       "reselect": "^4.0.0",
@@ -129,5 +128,8 @@
       "typeface-roboto-slab-cyrillic": "^0.0.3",
       "typeorm": "^0.2.22",
       "validator": "^12.1.0"
+   },
+   "peerDependencies": {
+      "immutable": "^3.8.2"
    }
 }

@@ -8,9 +8,9 @@ import styles from './cardStyle';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  className?: string,
-  plain?: boolean,
-  profile?: boolean,
+  className?: string;
+  plain?: boolean;
+  profile?: boolean;
   blog?: boolean,
   raised?: boolean,
   background?: boolean,

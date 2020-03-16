@@ -8,14 +8,14 @@ import GestureIcon from '@material-ui/icons/Gesture';
 import BuildIcon from '@material-ui/icons/Build';
 import CreateIcon from '@material-ui/icons/Create';
 
-import GridContainer from '../../../Grid/GridContainer';
-import GridItem from '../../../Grid/GridItem';
-import InfoArea from '../../../InfoArea/InfoArea';
+import GridContainer from '../../../../components/Grid/GridContainer';
+import GridItem from '../../../../components/Grid/GridItem';
+import InfoArea from '../../../../components/InfoArea/InfoArea';
 
-import Card from '../../../Card/Card';
-import CardHeader from '../../../Card/CardHeader';
+import Card from '../../../../components/Card/Card';
+import CardHeader from '../../../../components/Card/CardHeader';
 
-import Image from '../../../Image/Image';
+import ImagePopup from '../../../../components/ImagePopup/ImagePopup';
 
 // import routes from '../../../../actions/routes';
 
@@ -31,8 +31,6 @@ type Props = {
 
 const SectionText: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
-  const imgClasses = cn(classes.imgRaised, classes.imgRounded, classes.imgFluid, classes.imageMargin);
-
   const { images, description, preview, rooms, tenants, square, draftUrl } = project;
 
   const Features = () => (
@@ -52,7 +50,7 @@ const SectionText: React.FC<Props> = ({ project }: Props) => {
   const Draft = () => (
     <Card plain blog className={classes.card}>
       <CardHeader image plain>
-        <Image imageUrl={draftUrl || require('../../../../../assets/draft.png')} alt="..." />
+        <ImagePopup currentIndex={0} imageUrls={[draftUrl || require('../../../../../assets/draft.png')]} />
         <div
           className={classes.coloredShadow}
           style={{ backgroundImage: `url(${draftUrl || require('../../../../../assets/draft.png')})`, opacity: '1' }}
@@ -67,7 +65,7 @@ const SectionText: React.FC<Props> = ({ project }: Props) => {
     <GridContainer justify="center" className={classes.container}>
       {size(images) > 0 && imagesBy3Columns.map((column) => (
         <GridItem key={`${column[0]}-column`} xs={12} sm={4} md={4} lg={4}>
-          {column.map((imageUrl) => <Image key={imageUrl} className={imgClasses} imageUrl={imageUrl} alt="..." />)}
+          {column.map((imageUrl, index) => <ImagePopup key={imageUrl} imageUrls={column} currentIndex={index} alt="..." />)}
         </GridItem>
       ))}
     </GridContainer>
@@ -87,7 +85,7 @@ const SectionText: React.FC<Props> = ({ project }: Props) => {
             suscipit elit.
           </p>
         </GridItem>
-        <GridItem justify="center" xs={12} sm={6} md={6} className={classes.section}>
+        <GridItem xs={12} sm={6} md={6} className={classes.section}>
           <Features />
         </GridItem>
         <GridItem xs={12} sm={8} md={8}>

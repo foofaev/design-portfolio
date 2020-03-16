@@ -8,6 +8,7 @@ function useWidth(): Breakpoint {
   const theme: Theme = useTheme();
   const keys: Breakpoint[] = [...theme.breakpoints.keys].reverse();
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const widthBreakpoint = find(keys, (key) => useMediaQuery(theme.breakpoints.up(key)));
 
   return widthBreakpoint || 'xs';

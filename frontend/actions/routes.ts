@@ -11,6 +11,7 @@ export default {
 
   login: (): string => [HOST, 'api', 'session'].join('/'),
 
+  imageByParams: (url: string, width: number, height: number): string => `${url}?noUpscale=true&keepAspect=true&width=${width}&height=${height}`,
   parallaxImageUrl: (url: string, width: number, height: number): string => `${url}?noUpscale=true&fit=cover&width=${width}&height=${height}`,
   previewImageUrl: (url: string): string => `${url}?noUpscale=true&fit=contain&width=400`,
 };
