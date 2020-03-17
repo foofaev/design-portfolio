@@ -10,6 +10,7 @@ import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
 
 import ProjectContent from './Sections/ProjectContent/ProjectContent';
+import Carousel from './Sections/ProjectPhotos/ProjectPhoto';
 
 import * as actions from '../../actions/project';
 import { State } from '../../types';
@@ -70,6 +71,7 @@ function ProjectPage({ project, projectShowingState, showProject }: Props) {
       </Parallax>
       <div className={classes.main}>
         <div className={classes.container}>
+          <Carousel />
           <ProjectContent project={project} />
         </div>
       </div>

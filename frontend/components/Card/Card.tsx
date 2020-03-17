@@ -7,21 +7,21 @@ import styles from './cardStyle';
 
 const useStyles = makeStyles(styles);
 
-type Props = {
+export type CardProps = {
   className?: string;
   plain?: boolean;
   profile?: boolean;
-  blog?: boolean,
-  raised?: boolean,
-  background?: boolean,
-  pricing?: boolean,
-  testimonial?: boolean,
-  color?: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'rose',
-  product?: boolean,
-  children: React.ReactNode | React.ReactNodeArray,
+  blog?: boolean;
+  raised?: boolean;
+  background?: boolean;
+  pricing?: boolean;
+  testimonial?: boolean;
+  color?: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'rose';
+  product?: boolean;
+  children: React.ReactChildren;
 };
 
-function Card(props: Props) {
+function Card(props: CardProps) {
   const {
     className = '',
     children,

@@ -12,12 +12,12 @@ const useStyles = makeStyles(styles);
 type Props = {
   count: number;
   index: number;
-  className?: string;
-  style?: typeof Object;
-  onDotClick: Function;
+  style?: React.CSSProperties;
+  onDotClick?: Function;
+  className: string;
 };
 
-function Dots({ count, index, style, onDotClick }: Props) {
+function Dots({ count, index, style, onDotClick, className }: Props) {
   const classes = useStyles();
 
   const [previousIndex, setPreviousIndex] = React.useState(index);
@@ -42,7 +42,7 @@ function Dots({ count, index, style, onDotClick }: Props) {
   };
 
   return (
-    <div style={{ ...style, width: count * 16 }} {...other}>
+    <div style={{ ...style, width: count * 16 }} className={className}>
       <div className={classes.dots}>
         {range(count).map((dotIndex) => (
           <div

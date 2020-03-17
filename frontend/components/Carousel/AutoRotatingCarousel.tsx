@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
+
+import Button, { ButtonProps } from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { duration } from '@material-ui/core/styles/transitions';
 import Fab from '@material-ui/core/Fab';
@@ -8,50 +9,47 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Modal, { ModalProps } from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
-import classNames from 'classnames';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+
+import cn from 'classnames';
+
+import modulo from '../../helpers';
 import Dots from '../Dots/Dots';
-import Carousel from './SwipeableCarouselView';
-import { modulo } from './util';
-
-
+import SwipeableCarouselView, { CarouselChild, SwipeableCarouselViewChild } from './SwipeableCarouselView';
 import styles from './carouselStyles';
 
 const useStyles = makeStyles(styles);
 
-type Props = {
+export interface CarouselProps extends Omit<ModalProps, 'children'> {
   autoplay?: boolean;
-  ButtonProps?: typeof Object;
-  containerStyle?: typeof Object;
+  buttonProps?: ButtonProps;
+  containerStyle?: React.CSSProperties;
   interval?: number;
   label: string;
   landscape?: boolean;
   mobile?: boolean;
-  modalProps?: ModalProps;
-  onChange?: Function;
-  onClose?: Function;
-  onStart?: Function;
-  open?: boolean;
+  onSlideChange?: Function;
+  onStart?: (event: React.SyntheticEvent) => void;
   hideArrows?: boolean;
-  children: React.ReactChild | React.ReactChildren;
-};
+  children: CarouselChild[];
+}
 
-function AutoRotatingCarousel(props: Props) {
+function AutoRotatingCarousel(props: CarouselProps) {
   const {
-    ButtonProps,
+    buttonProps,
     children,
     containerStyle,
     label,
     landscape: landscapeProp,
-    modalProps,
     onClose,
     onStart,
-    onChange,
+    onSlideChange,
     autoplay = true,
     interval = 3000,
     mobile = false,
     open = false,
     hideArrows = false,
+    BackdropProps: backdropProps,
   } = props;
 
   const landscape = mobile && landscapeProp;
@@ -59,27 +57,27 @@ function AutoRotatingCarousel(props: Props) {
   const hasMultipleChildren = React.Children.count(children) > 1;
   const [slideIndex, setSlideIndex] = React.useState(0);
 
-  const handleContentClick = (e: React.SyntheticEvent) => {
+  const handleContentClick = (e: React.SyntheticEvent): void => {
     e.stopPropagation();
     e.preventDefault();
   };
 
-  const handleChange = (newSlideIndex: number) => {
+  const handleChange = (newSlideIndex: number): void => {
     setSlideIndex(newSlideIndex);
   };
   const decreaseIndex = () => setSlideIndex(slideIndex - 1);
   const increaseIndex = () => setSlideIndex(slideIndex + 1);
 
   React.useEffect(() => {
-    if (onChange) {
-      onChange(modulo(slideIndex, React.Children.count(children)));
+    if (onSlideChange) {
+      onSlideChange(modulo(slideIndex, React.Children.count(children)));
     }
-  }, [slideIndex, onChange, children]);
+  }, [slideIndex, onSlideChange, children]);
 
   const classes = useStyles();
 
   const carousel = (
-    <Carousel
+    <SwipeableCarouselView
       autoplay={open && autoplay && hasMultipleChildren}
       className={classes.carousel}
       containerStyle={{ height: '100%', ...containerStyle }}
@@ -88,65 +86,73 @@ function AutoRotatingCarousel(props: Props) {
       onChangeIndex={handleChange}
       slideClassName={classes.slide}
     >
-      {React.Children.map(children, (child) => React.cloneElement(child, {
-        mobile,
-        landscape,
-      }))}
-    </Carousel>
+      {React.Children.map<SwipeableCarouselViewChild, CarouselChild>(
+        children,
+        (child: CarouselChild) => React.cloneElement(child, { mobile, landscape }),
+      )}
+    </SwipeableCarouselView>
   );
+
+  const childrenLength = React.Children.count(children);
 
   return (
     <Modal
-      className={classNames(classes.root, {
-        [classes.rootMobile]: mobile,
-      })}
+      className={classes.root}
       open={open}
       onClose={onClose}
       BackdropComponent={Backdrop}
-      BackdropProps={ModalProps ? { transitionDuration, ...ModalProps.BackdropProps } : { transitionDuration }}
-      {...ModalProps}
+      BackdropProps={backdropProps ? { transitionDuration, ...backdropProps } : { transitionDuration }}
     >
       <Fade appear in={open} timeout={transitionDuration}>
         <div
-          className={classNames(classes.content, {
+          role="button"
+          className={cn(classes.content, {
             [classes.contentMobile]: mobile,
           })}
-          onClick={this.handleContentClick}
+          onClick={handleContentClick}
+          onKeyPress={handleContentClick}
+          tabIndex={0}
         >
           <Paper elevation={mobile ? 0 : 1} className={classes.carouselWrapper}>
             {carousel}
           </Paper>
-          <div style={landscape ? { minWidth: 300, maxWidth: 'calc(50% - 48px)', padding: 24, float: 'right' } : null}>
+          <div
+            style={landscape ? { minWidth: 300, maxWidth: 'calc(50% - 48px)', padding: 24, float: 'right' } : undefined}
+          >
             <div
-              className={classNames(classes.footer, {
+              className={cn(classes.footer, {
                 [classes.footerMobile]: mobile,
                 [classes.footerMobileLandscape]: landscape,
               })}
             >
               {label && (
-                <Button variant="contained" onClick={onStart} {...ButtonProps}>
+                <Button
+                  variant="contained"
+                  onClick={onStart}
+                  {...buttonProps /* eslint-disable-line react/jsx-props-no-spreading */}
+                >
                   {label}
                 </Button>
               )}
               {hasMultipleChildren && (
                 <Dots
-                  count={children.length}
-                  index={modulo(this.state.slideIndex, children.length)}
-                  className={classNames(classes.dots, {
+                  count={childrenLength}
+                  index={modulo(slideIndex, childrenLength)}
+                  className={cn(classes.dots, {
                     [classes.dotsMobile]: mobile,
                     [classes.dotsMobileLandscape]: landscape,
                   })}
-                  onDotClick={this.handleChange}
+                  onDotClick={handleChange}
                 />
               )}
             </div>
           </div>
           {!mobile && !hideArrows && hasMultipleChildren && (
             <div>
-              <Fab className={classNames(classes.arrow, classes.arrowLeft)} onClick={() => this.decreaseIndex()}>
+              <Fab className={cn(classes.arrow, classes.arrowLeft)} onClick={() => decreaseIndex()}>
                 <ArrowBackIcon className={classes.arrowIcon} />
               </Fab>
-              <Fab className={classNames(classes.arrow, classes.arrowRight)} onClick={() => this.increaseIndex()}>
+              <Fab className={cn(classes.arrow, classes.arrowRight)} onClick={() => increaseIndex()}>
                 <ArrowForwardIcon className={classes.arrowIcon} />
               </Fab>
             </div>
@@ -157,5 +163,4 @@ function AutoRotatingCarousel(props: Props) {
   );
 }
 
-AutoRotatingCarousel.defaultProps = {
-};
+export default AutoRotatingCarousel;

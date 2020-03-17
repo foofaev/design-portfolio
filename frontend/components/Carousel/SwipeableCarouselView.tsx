@@ -1,27 +1,58 @@
-import React from 'react'
-import autoPlay from 'react-swipeable-views-utils/lib/autoPlay'
-import virtualize from 'react-swipeable-views-utils/lib/virtualize'
-import bindKeyboard from 'react-swipeable-views-utils/lib/bindKeyboard'
-import SwipeableViews from 'react-swipeable-views'
-import { modulo } from './util'
+import React from 'react';
+import { autoPlay, virtualize, bindKeyboard, SlideRendererCallback } from 'react-swipeable-views-utils';
+import SwipeableViews, { SwipeableViewsProps } from 'react-swipeable-views';
+import modulo from '../../helpers';
 
-const VirtualizeSwipeViews = bindKeyboard(virtualize(SwipeableViews))
-const VirtualizeAutoPlaySwipeViews = autoPlay(VirtualizeSwipeViews)
+import { SlideProps } from './Slide';
+import { CardProps } from '../Card/Card';
 
-const carouselSlideRenderer = (children) =>
-  ({index, key}) => React.cloneElement(children[modulo(index, children.length)], {key})
+export type CarouselChild = React.ReactElement<SlideProps | CardProps>;
 
-export default function Carousel ({children, autoplay, ...other}) {
-  const slideRenderer = carouselSlideRenderer(children)
-  return autoplay ? (
-    <VirtualizeAutoPlaySwipeViews
-      {...other}
-      slideRenderer={slideRenderer}
-    />
-  ) : (
-    <VirtualizeSwipeViews
-      {...other}
-      slideRenderer={slideRenderer}
-    />
-  )
+export type SwipeableCarouselViewChild = CarouselChild & {
+  mobile?: boolean;
+  landscape?: boolean;
+};
+
+const VirtualizeSwipeViews = bindKeyboard(virtualize(SwipeableViews));
+const VirtualizeAutoPlaySwipeViews = autoPlay(VirtualizeSwipeViews);
+
+const carouselSlideRenderer = (
+  children: SwipeableCarouselViewChild[],
+): SlideRendererCallback => ({ index, key }): SwipeableCarouselViewChild & { key: number | null | string } => { // TODO: hack, remove
+  const childrenCount = React.Children.count(children);
+  const realIndex = modulo(index, childrenCount);
+  const currentChild: SwipeableCarouselViewChild = children[realIndex];
+
+  return React.cloneElement(currentChild, { key });
+};
+
+interface Props extends SwipeableViewsProps {
+  autoplay: boolean;
+  className: string;
+  containerStyle: React.CSSProperties;
+  index: number;
+  interval: number;
+  onChangeIndex: (index: number) => void;
+  slideClassName: string;
+  children: SwipeableCarouselViewChild[];
 }
+
+function SwipeableCarouselView(props: Props) {
+  const { children, autoplay, className, containerStyle, index, interval, onChangeIndex, slideClassName } = props;
+  const slideRenderer = carouselSlideRenderer(children);
+
+  const Views = autoplay ? VirtualizeAutoPlaySwipeViews : VirtualizeSwipeViews;
+  return (
+    <Views
+      className={className}
+      containerStyle={containerStyle}
+      slideRenderer={slideRenderer}
+      index={index}
+      interval={interval}
+      onChangeIndex={onChangeIndex}
+      slideClassName={slideClassName}
+    />
+  );
+}
+
+export default SwipeableCarouselView;
