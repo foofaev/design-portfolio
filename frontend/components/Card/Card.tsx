@@ -18,7 +18,7 @@ export type CardProps = {
   testimonial?: boolean;
   color?: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'rose';
   product?: boolean;
-  children: React.ReactChildren;
+  children: React.ReactChild | React.ReactChildren;
 };
 
 function Card(props: CardProps) {

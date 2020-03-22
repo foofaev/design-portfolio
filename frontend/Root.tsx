@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
-import Portfolio from './views/Portfolio/Portfolio';
-import ProjectPage from './views/Project/ProjectPage';
+import PortfolioPage from './views/PortfolioPage/Portfolio';
+import ProjectPage from './views/ProjectPage/ProjectPage';
 // const Portfolio = React.lazy(() => import('./components/Portfolio/Portfolio'));
 // const ProjectPage = React.lazy(() => import('./components/Project/ProjectPage'));
 // const ErrorPage = React.lazy(() => import('./components/ErrorPage/ErrorPage'));
@@ -15,7 +15,7 @@ const App = () => (
       <ProjectPage />
     </Route>
     <Route path="/">
-      <Portfolio />
+      <PortfolioPage />
     </Route>
   </Switch>
 );

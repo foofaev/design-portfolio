@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Paper from '@material-ui/core/Paper';
 import classNames from 'classnames';
 
 import styles from './slideStyles';
@@ -24,38 +25,40 @@ function Slide(props: SlideProps) {
   const mobileLandscape = mobile && landscape;
 
   return (
-    <div
-      className={classNames(classes.root, {
-        [classes.rootMobileLandscape]: mobileLandscape,
-      })}
-      style={style}
-    >
+    <Paper elevation={mobile ? 0 : 1} className={classes.slideWrapper}>
       <div
-        className={classNames(classes.mediaBackground, {
-          [classes.mediaBackgroundMobile]: mobile,
-          [classes.mediaBackgroundMobileLandscape]: mobileLandscape,
+        className={classNames(classes.root, {
+          [classes.rootMobileLandscape]: mobileLandscape,
         })}
-        style={mediaBackgroundStyle}
+        style={style}
       >
         <div
-          className={classNames(classes.media, {
-            [classes.mediaMobile]: mobile,
-            [classes.mediaMobileLandscape]: mobileLandscape,
+          className={classNames(classes.mediaBackground, {
+            [classes.mediaBackgroundMobile]: mobile,
+            [classes.mediaBackgroundMobileLandscape]: mobileLandscape,
+          })}
+          style={mediaBackgroundStyle}
+        >
+          <div
+            className={classNames(classes.media, {
+              [classes.mediaMobile]: mobile,
+              [classes.mediaMobileLandscape]: mobileLandscape,
+            })}
+          >
+            {media}
+          </div>
+        </div>
+        <div
+          className={classNames(classes.text, {
+            [classes.textMobile]: mobile,
+            [classes.textMobileLandscape]: mobileLandscape,
           })}
         >
-          {media}
+          <Typography className={classes.title}>{title}</Typography>
+          <Typography className={classes.subtitle}>{subtitle}</Typography>
         </div>
       </div>
-      <div
-        className={classNames(classes.text, {
-          [classes.textMobile]: mobile,
-          [classes.textMobileLandscape]: mobileLandscape,
-        })}
-      >
-        <Typography className={classes.title}>{title}</Typography>
-        <Typography className={classes.subtitle}>{subtitle}</Typography>
-      </div>
-    </div>
+    </Paper>
   );
 }
 

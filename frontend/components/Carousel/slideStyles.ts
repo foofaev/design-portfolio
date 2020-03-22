@@ -25,6 +25,13 @@ const styles = () => createStyles({
     top: '50%',
     transform: 'translateY(-50%)',
   },
+  slideWrapper: {
+    overflow: 'hidden',
+    borderRadius: 14,
+    transform: 'scale(1.0)',
+    background: 'transparent',
+    height: '100%',
+  },
   mediaMobileLandscape: {},
   mediaBackground: {
     backgroundColor: blue[700],
@@ -38,6 +45,18 @@ const styles = () => createStyles({
     height: '100%',
     flex: '1 1',
     alignSelf: 'stretch',
+  },
+  image: {
+    backgroundColor: 'none',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& > *': {
+      maxHeight: '100%',
+      borderRadius: '6px',
+    },
   },
   text: {
     textAlign: 'center',

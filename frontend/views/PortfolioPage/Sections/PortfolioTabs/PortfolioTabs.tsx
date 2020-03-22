@@ -25,12 +25,10 @@ type Props = {
 const projectTypesMap = {
   render: 'визуализация',
 };
-
 const defaultType = 'проект';
+const NUMBER_OF_COLUMNS = 2;
 
 const useStyles = makeStyles(styles);
-
-const NUMBER_OF_COLUMNS = 2;
 
 const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
   const classes = useStyles();

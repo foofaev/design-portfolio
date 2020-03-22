@@ -1,13 +1,8 @@
-import {
-  container,
-  description,
-  cardTitle,
-  blackColor,
-  whiteColor,
-  grayColor,
-} from '../../theme/theme';
+import { createStyles, Theme } from '@material-ui/core/styles';
 
-const styles = (theme) => ({
+import { container, description, cardTitle, blackColor, whiteColor, grayColor } from '../../theme/theme';
+
+const styles = (theme: Theme) => createStyles({
   description,
   cardTitle: {
     ...cardTitle,
@@ -15,7 +10,7 @@ const styles = (theme) => ({
   },
   container: {
     ...container,
-    zIndex: '4',
+    zIndex: 4,
     [theme.breakpoints.down('sm')]: {
       paddingBottom: '100px',
     },
@@ -69,7 +64,7 @@ const styles = (theme) => ({
   block: {
     color: 'inherit',
     padding: '0.9375rem',
-    fontWeight: '500',
+    fontWeight: 500,
     fontSize: '12px',
     textTransform: 'uppercase',
     borderRadius: '3px',
@@ -88,7 +83,7 @@ const styles = (theme) => ({
     marginTop: '0',
   },
   left: {
-    float: 'left!important',
+    float: 'left !important' as 'left',
     display: 'block',
     '&,& *,& *:hover,& *:focus': {
       color: `${whiteColor}  !important`,
@@ -114,7 +109,7 @@ const styles = (theme) => ({
     background: 'transparent',
     bottom: '0',
     color: whiteColor,
-    zIndex: '2',
+    zIndex: 2,
   },
 });
 

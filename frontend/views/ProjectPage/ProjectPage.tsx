@@ -71,7 +71,6 @@ function ProjectPage({ project, projectShowingState, showProject }: Props) {
       </Parallax>
       <div className={classes.main}>
         <div className={classes.container}>
-          <Carousel />
           <ProjectContent project={project} />
         </div>
       </div>

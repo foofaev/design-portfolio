@@ -7,28 +7,18 @@ import styles from './cardHeaderStyle';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  className?: string,
-  plain?: boolean,
-  image?: boolean,
-  contact?: boolean,
-  signup?: boolean,
-  noShadow?: boolean,
-  color?: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'rose',
-  children?: React.ReactNode | React.ReactNodeArray,
+  className?: string;
+  plain?: boolean;
+  image?: boolean;
+  contact?: boolean;
+  signup?: boolean;
+  noShadow?: boolean;
+  color?: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'rose';
+  children?: React.ReactNode | React.ReactNodeArray;
 };
 
 function CardHeader(props: Props) {
-  const {
-    className = '',
-    children,
-    color = '',
-    plain,
-    image,
-    contact,
-    signup,
-    noShadow,
-    ...rest
-  } = props;
+  const { className = '', children, color = '', plain, image, contact, signup, noShadow, ...rest } = props;
   const classes = useStyles();
   const cardHeaderClasses = cn({
     [classes.cardHeader]: true,

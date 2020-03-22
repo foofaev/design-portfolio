@@ -1,6 +1,15 @@
 import { createStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
+const contentLarge = {
+  width: '80%',
+  height: 'calc(100% - 96px)',
+  margin: '-16px auto 0',
+  position: 'relative' as 'relative',
+  top: '50%',
+  transform: 'translateY(-50%)',
+};
+
 const styles = () => createStyles({
   root: {
     '& > *:focus': {
@@ -8,15 +17,12 @@ const styles = () => createStyles({
     },
   },
   content: {
-    width: '60%',
+    ...contentLarge,
     maxWidth: 700,
-    height: 'calc(100% - 96px)',
     maxHeight: 600,
-    margin: '-16px auto 0',
-    position: 'relative',
-    top: '50%',
-    transform: 'translateY(-50%)',
+    width: '60%',
   },
+  contentLarge,
   contentMobile: {
     width: '100%',
     height: '100%',
@@ -25,7 +31,6 @@ const styles = () => createStyles({
     margin: 0,
     top: 0,
     transform: 'none',
-
     '& > $carouselWrapper': {
       borderRadius: 0,
     },
@@ -53,7 +58,7 @@ const styles = () => createStyles({
     height: '100%',
   },
   dots: {
-    paddingTop: 36,
+    paddingTop: 72,
     margin: '0 auto',
   },
   dotsMobile: {
