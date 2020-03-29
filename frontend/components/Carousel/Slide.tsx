@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 import styles from './slideStyles';
 
@@ -27,20 +27,20 @@ function Slide(props: SlideProps) {
   return (
     <Paper elevation={mobile ? 0 : 1} className={classes.slideWrapper}>
       <div
-        className={classNames(classes.root, {
+        className={cn(classes.root, {
           [classes.rootMobileLandscape]: mobileLandscape,
         })}
         style={style}
       >
         <div
-          className={classNames(classes.mediaBackground, {
+          className={cn(classes.mediaBackground, {
             [classes.mediaBackgroundMobile]: mobile,
             [classes.mediaBackgroundMobileLandscape]: mobileLandscape,
           })}
           style={mediaBackgroundStyle}
         >
           <div
-            className={classNames(classes.media, {
+            className={cn(classes.media, {
               [classes.mediaMobile]: mobile,
               [classes.mediaMobileLandscape]: mobileLandscape,
             })}
@@ -49,7 +49,7 @@ function Slide(props: SlideProps) {
           </div>
         </div>
         <div
-          className={classNames(classes.text, {
+          className={cn(classes.text, {
             [classes.textMobile]: mobile,
             [classes.textMobileLandscape]: mobileLandscape,
           })}

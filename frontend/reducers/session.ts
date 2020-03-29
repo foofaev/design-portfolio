@@ -6,7 +6,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/session'
 
 /* ****************************************************************************************************************** */
 
-const loggingInState = (state = 'none', action: Action<string>) => {
+const loggingInState = (state = 'none', action: Action<string>): string => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return 'requested';
@@ -20,10 +20,10 @@ const loggingInState = (state = 'none', action: Action<string>) => {
 };
 
 /* ****************************************************************************************************************** */
-const session = (state = { isLoggedIn: false }, action: Action<void>) => {
+const isLoggedIn = (state = false, action: Action<void>): boolean => {
   switch (action.type) {
     case LOGIN_SUCCESS: {
-      return { isLoggedIn: true };
+      return true;
     }
     default: {
       return state;
@@ -34,7 +34,7 @@ const session = (state = { isLoggedIn: false }, action: Action<void>) => {
 /* ****************************************************************************************************************** */
 export {
   loggingInState,
-  session,
+  isLoggedIn,
 };
 
 /* ****************************************************************************************************************** */

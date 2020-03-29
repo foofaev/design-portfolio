@@ -7,28 +7,18 @@ import styles from './cardBodyStyle';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  className?: string,
-  background?: boolean,
-  plain?: boolean,
-  formHorizontal?: boolean,
-  pricing?: boolean,
-  signup?: boolean,
-  color?: boolean,
-  children?: React.ReactNode | React.ReactNodeArray,
+  className?: string;
+  background?: boolean;
+  plain?: boolean;
+  formHorizontal?: boolean;
+  pricing?: boolean;
+  signup?: boolean;
+  color?: boolean;
+  children?: React.ReactNode | React.ReactNodeArray;
 };
 
 function CardBody(props: Props) {
-  const {
-    className = '',
-    children,
-    background,
-    plain,
-    formHorizontal,
-    pricing,
-    signup,
-    color,
-    ...rest
-  } = props;
+  const { className = '', children, background, plain, formHorizontal, pricing, signup, color, ...rest } = props;
   const classes = useStyles();
   const cardBodyClasses = cn({
     [classes.cardBody]: true,

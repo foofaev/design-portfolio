@@ -1,7 +1,7 @@
 /* ****************************************************************************************************************** */
 
 import axios from 'axios';
-import { ActionFunction0, AsyncActionFunction0 } from '../types';
+import { ActionFunction0, AsyncActionFunction2 } from '../types';
 import routes from './routes';
 
 /* ****************************************************************************************************************** */
@@ -16,11 +16,11 @@ const loginSuccess: ActionFunction0 = () => ({ type: LOGIN_SUCCESS, payload: {} 
 const loginFailure: ActionFunction0 = () => ({ type: LOGIN_FAILURE, payload: {} });
 
 /* ****************************************************************************************************************** */
-const login: AsyncActionFunction0<void> = () => async (dispatch) => {
+const login: AsyncActionFunction2<string, string> = ({ email, password }) => async (dispatch) => {
   dispatch(loginRequest());
   try {
     const url = routes.login();
-    await axios.put(url);
+    await axios.put(url, { email, password });
     dispatch(loginSuccess());
   } catch (error) {
     dispatch(loginFailure());

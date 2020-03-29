@@ -4,15 +4,19 @@ import { hot } from 'react-hot-loader';
 
 import PortfolioPage from './views/PortfolioPage/Portfolio';
 import ProjectPage from './views/ProjectPage/ProjectPage';
+import LoginPage from './views/LoginPage/LoginPage';
+// const LoginPage = React.lazy(() => import('./components/LoginPage/LoginPage'));
 // const Portfolio = React.lazy(() => import('./components/Portfolio/Portfolio'));
 // const ProjectPage = React.lazy(() => import('./components/Project/ProjectPage'));
 // const ErrorPage = React.lazy(() => import('./components/ErrorPage/ErrorPage'));
-// const LoginPage = React.lazy(() => import('./components/LoginPage/LoginPage'));
 
 const App = () => (
   <Switch>
     <Route path="/projects/:urlKey">
       <ProjectPage />
+    </Route>
+    <Route path="/login">
+      <LoginPage />
     </Route>
     <Route path="/">
       <PortfolioPage />

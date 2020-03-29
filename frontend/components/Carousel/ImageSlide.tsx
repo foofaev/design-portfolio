@@ -1,6 +1,6 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 import styles from './slideStyles';
 
@@ -21,12 +21,12 @@ function ImageSlide(props: SlideProps) {
 
   return (
     <div
-      className={classNames(classes.root, {
+      className={cn(classes.root, {
         [classes.rootMobileLandscape]: mobileLandscape,
       })}
       style={{ ...style, backgroundColor: 'transparent' }}
     >
-      <div className={classNames(classes.image)}>
+      <div className={cn(classes.image)}>
         <img src={image} alt="Изображение" />
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { createStyles, Theme } from '@material-ui/core/styles';
+import { container, description, cardTitle, whiteColor, grayColor } from '../../theme/theme';
 
-import { container, description, cardTitle, blackColor, whiteColor, grayColor } from '../../theme/theme';
+const rgbBlack = '0, 0, 0';
 
 const styles = (theme: Theme) => createStyles({
   description,
@@ -26,7 +27,7 @@ const styles = (theme: Theme) => createStyles({
     minHeight: '100vh',
     alignItems: 'center',
     '&:before': {
-      background: `rgba(${hexToRgb(blackColor)}, 0.5)`,
+      background: `rgba(${rgbBlack}, 0.5)`,
     },
     '&:before,&:after': {
       position: 'absolute',
@@ -61,48 +62,6 @@ const styles = (theme: Theme) => createStyles({
     marginRight: '3px !important',
     marginLeft: '3px !important',
   },
-  block: {
-    color: 'inherit',
-    padding: '0.9375rem',
-    fontWeight: 500,
-    fontSize: '12px',
-    textTransform: 'uppercase',
-    borderRadius: '3px',
-    textDecoration: 'none',
-    position: 'relative',
-    display: 'block',
-  },
-  inlineBlock: {
-    display: 'inline-block',
-    padding: '0px',
-    width: 'auto',
-  },
-  list: {
-    marginBottom: '0',
-    padding: '0',
-    marginTop: '0',
-  },
-  left: {
-    float: 'left !important' as 'left',
-    display: 'block',
-    '&,& *,& *:hover,& *:focus': {
-      color: `${whiteColor}  !important`,
-    },
-  },
-  right: {
-    padding: '15px 0',
-    margin: '0',
-    float: 'right',
-    '&,& *,& *:hover,& *:focus': {
-      color: `${whiteColor}  !important`,
-    },
-  },
-  icon: {
-    width: '18px',
-    height: '18px',
-    top: '3px',
-    position: 'relative',
-  },
   footer: {
     position: 'absolute',
     width: '100%',
@@ -110,6 +69,11 @@ const styles = (theme: Theme) => createStyles({
     bottom: '0',
     color: whiteColor,
     zIndex: 2,
+  },
+  button: {
+    '& > *': {
+      margin: theme.spacing(2),
+    },
   },
 });
 

@@ -45,6 +45,7 @@ type State = {
   projectFetchingState: string;
   projectAddingState: string;
   loggingInState: string;
+  isLoggedIn: boolean;
   projectShowingState: string;
   projectRemovingState: string;
   project: Project;

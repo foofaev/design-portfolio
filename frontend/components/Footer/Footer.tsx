@@ -1,55 +1,55 @@
-/* eslint-disable */
-import React from "react";
-// nodejs library to set properties for components
-import PropTypes from "prop-types";
-// nodejs library that concatenates classes
-import cn from "classnames";
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-// @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
+import * as React from 'react';
+import cn from 'classnames';
 
-import styles from './style';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Favorite from '@material-ui/icons/Favorite';
+
+import { makeStyles } from '@material-ui/core/styles';
+import styles from './styles';
 
 const useStyles = makeStyles(styles);
 
-export default function Footer(props) {
-  const { children, content, theme, big, className } = props;
+export type FooterProps = {
+  theme?: 'dark' | 'white' | 'transparent';
+  big?: boolean;
+  className?: string;
+  children?: React.ReactNode | React.ReactNodeArray;
+};
+
+function Footer({ children, theme, big, className = '' }: FooterProps) {
   const classes = useStyles();
-  const themeType =
-    theme === "transparent" || theme == undefined ? false : true;
+
   const footerClasses = cn({
     [classes.footer]: true,
-    [classes[theme]]: themeType,
-    [classes.big]: big || children !== undefined,
-    [className]: className !== undefined
-  });
-  const aClasses = cn({
-    [classes.a]: true
+    [classes.white]: theme === 'white',
+    [classes.dark]: theme === 'dark',
+    [classes.big]: big || !!children,
+    [className]: !!className,
   });
 
   return (
     <footer className={footerClasses}>
       <div className={classes.container}>
-        {children !== undefined ? (
+        {children ? (
           <div>
             <div className={classes.content}>{children}</div>
             <hr />
           </div>
         ) : (
-          " "
+          ''
         )}
-        {content}
+        <List className={classes.list}>
+          <ListItem className={classes.inlineBlock}>
+            <a href="https://github.com/foofaev/design-portfolio" target="_blank" className={classes.block} rel="noopener noreferrer">
+              foofaev_team
+            </a>
+          </ListItem>
+        </List>
         <div className={classes.clearFix} />
       </div>
     </footer>
   );
 }
 
-Footer.propTypes = {
-  theme: PropTypes.oneOf(["dark", "white", "transparent"]),
-  big: PropTypes.bool,
-  content: PropTypes.node.isRequired
-};
+export default Footer;
