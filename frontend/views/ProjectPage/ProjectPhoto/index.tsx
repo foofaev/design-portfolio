@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import red from '@material-ui/core/colors/red';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { AutoRotatingCarousel, ImageSlide, Slide } from '../../../../components/Carousel';
+import { AutoRotatingCarousel, ImageSlide } from '../../../components/Carousel';
 
-import modulo from '../../../../helpers';
+import modulo from '../../../helpers';
 import styles from './styles';
 
 const useStyles = makeStyles(styles);

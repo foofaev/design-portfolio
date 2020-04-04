@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import GridContainer from '../../../../components/Grid/GridContainer';
-import GridItem from '../../../../components/Grid/GridItem';
+import GridContainer from '../../../components/Grid/GridContainer';
+import GridItem from '../../../components/Grid/GridItem';
 
 import styles from './styles';
 
 type Props = {
-  avatar: string,
+  avatar: string;
 };
 
 const useStyles = makeStyles(styles);

@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
-import PortfolioPage from './views/PortfolioPage/Portfolio';
-import ProjectPage from './views/ProjectPage/ProjectPage';
-import LoginPage from './views/LoginPage/LoginPage';
+import PortfolioPage from './views/PortfolioPage';
+import ProjectPage from './views/ProjectPage';
+import LoginPage from './views/LoginPage';
 // const LoginPage = React.lazy(() => import('./components/LoginPage/LoginPage'));
 // const Portfolio = React.lazy(() => import('./components/Portfolio/Portfolio'));
 // const ProjectPage = React.lazy(() => import('./components/Project/ProjectPage'));

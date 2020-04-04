@@ -1,7 +1,7 @@
 import { createStyles } from '@material-ui/core/styles';
-import { grayColor, container, title, coloredShadow } from '../../../../theme/theme';
+import { grayColor, container, title, coloredShadow } from '../../../theme/theme';
 
-import imagesStyles from '../../../../theme/images';
+import imagesStyles from '../../../theme/images';
 
 const sectionTextStyle = () => createStyles({
   container,

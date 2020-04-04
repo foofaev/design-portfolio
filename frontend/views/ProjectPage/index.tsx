@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import Parallax from '../../components/Parallax/Parallax';
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
 
-import ProjectContent from './Sections/ProjectContent/ProjectContent';
-import Carousel from './Sections/ProjectPhotos/ProjectPhoto';
+import ProjectContent from './ProjectContent';
 
 import * as actions from '../../actions/project';
 import { State } from '../../types';
@@ -20,9 +24,10 @@ import routes from '../../actions/routes';
 import styles from './styles';
 
 
-const mapStateToProps = ({ project, projectShowingState }: State) => ({
+const mapStateToProps = ({ project, projectShowingState, isLoggedIn }: State) => ({
   project,
   projectShowingState,
+  isLoggedIn,
 });
 
 const actionCreators = {
@@ -38,7 +43,7 @@ type Props = ConnectedProps<typeof connector>;
 
 const useStyles = makeStyles(styles);
 
-function ProjectPage({ project, projectShowingState, showProject }: Props) {
+function ProjectPage({ project, projectShowingState, showProject, isLoggedIn }: Props) {
   const { pathname } = useLocation();
   const { urlKey } = useParams();
 
@@ -54,6 +59,18 @@ function ProjectPage({ project, projectShowingState, showProject }: Props) {
   const { clientWidth, clientHeight } = document.documentElement;
   return (
     <div>
+      <Header
+        color="transparent"
+        fixed
+        brand=""
+        leftLinks={(
+          <Link to="/" className={classes.mainLink}>
+            <Tooltip title="На главную" aria-label="на главную">
+              <ArrowBackIcon fontSize="large" color="inherit" />
+            </Tooltip>
+          </Link>
+        )}
+      />
       <Parallax image={routes.parallaxImageUrl(project.imageUrl, clientWidth, clientHeight)} filter>
         <div className={classes.container}>
           <GridContainer justify="center">
@@ -74,6 +91,7 @@ function ProjectPage({ project, projectShowingState, showProject }: Props) {
           <ProjectContent project={project} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

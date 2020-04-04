@@ -1,19 +1,20 @@
 /* ****************************************************************************************************************** */
 
-import { Action } from '../types';
+import get from 'lodash/get';
+import { Action, LogginInState } from '../types';
 
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/session';
 
 /* ****************************************************************************************************************** */
 
-const loggingInState = (state = 'none', action: Action<string>): string => {
+const loggingInState = (state = { error: '', status: 'none' as 'none' }, action: Action<LogginInState>): LogginInState => {
   switch (action.type) {
     case LOGIN_REQUEST:
-      return 'requested';
+      return { status: 'requested', error: '' };
     case LOGIN_SUCCESS:
-      return 'finished';
+      return { status: 'finished', error: '' };
     case LOGIN_FAILURE:
-      return 'failed';
+      return { status: 'failed', error: get(action, 'payload.error', '') };
     default:
       return state;
   }

@@ -58,11 +58,11 @@ const headerStyle = () => createStyles({
     fontSize: '18px',
     borderRadius: '3px',
     textTransform: 'none',
-    color: 'inherit' as 'inherit',
+    color: 'inherit',
     padding: '8px 16px',
     letterSpacing: 'unset',
     '&:hover,&:focus': {
-      color: 'inherit' as 'inherit',
+      color: 'inherit',
       background: 'transparent',
     },
   },

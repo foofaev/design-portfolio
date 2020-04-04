@@ -56,6 +56,10 @@ const blogPostPageStyle = () => createStyles({
     top: '3px',
     position: 'relative',
   },
+  mainLink: {
+    textDecoration: 'inherit',
+    color: 'inherit',
+  },
 });
 
 export default blogPostPageStyle;

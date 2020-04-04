@@ -1,6 +1,6 @@
 import { createStyles, Theme } from '@material-ui/core/styles';
 
-import { container, roseColor } from '../../../../theme/theme';
+import { container, roseColor } from '../../../theme/theme';
 
 const styles = (theme: Theme) => createStyles({
   container,

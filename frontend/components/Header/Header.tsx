@@ -14,8 +14,8 @@ import styles from './headerStyle';
 
 type Props = {
   color?: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'transparent' | 'white' | 'rose' | 'dark';
-  rightLinks?: React.ReactChildren;
-  leftLinks?: React.ReactChildren;
+  rightLinks?: React.ReactChild | React.ReactChildren;
+  leftLinks?: React.ReactChild | React.ReactChildren;
   brand?: string;
   fixed?: boolean;
   absolute?: boolean;
@@ -32,7 +32,7 @@ const Header: React.FC<Props> = (props: Props) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const headerColorChange = () => {
-    const { color = 'white', changeColorOnScroll } = props;
+    const { color = 'transparent', changeColorOnScroll } = props;
     if (!changeColorOnScroll) return;
 
     const windowsScrollTop = window.pageYOffset;
@@ -56,7 +56,7 @@ const Header: React.FC<Props> = (props: Props) => {
       }
     };
   });
-  const handleDrawerToggle = () => {
+  const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
   const { color, rightLinks, leftLinks, brand, fixed, absolute } = props;
@@ -72,7 +72,7 @@ const Header: React.FC<Props> = (props: Props) => {
   return (
     <AppBar className={appBarClasses}>
       <Toolbar className={classes.container}>
-        {leftLinks ? brandComponent : null}
+        {leftLinks && brandComponent}
         <div className={classes.flex}>
           {leftLinks ? (
             <Hidden smDown implementation="css">

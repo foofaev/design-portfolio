@@ -10,10 +10,10 @@ import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
 
-import GridContainer from '../../../../components/Grid/GridContainer';
-import GridItem from '../../../../components/Grid/GridItem';
+import GridContainer from '../../../components/Grid/GridContainer';
+import GridItem from '../../../components/Grid/GridItem';
 
-import { Project } from '../../../../types';
+import { Project } from '../../../types';
 
 import ProjectCard from '../ProjectCard/ProjectCard';
 import styles from './styles';

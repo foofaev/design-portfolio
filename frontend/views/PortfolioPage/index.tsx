@@ -9,9 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
 import Parallax from '../../components/Parallax/Parallax';
+import Footer from '../../components/Footer/Footer';
 
-import PortfolioTabs from './Sections/PortfolioTabs/PortfolioTabs';
-import Avatar from './Sections/Avatar/Avatar';
+import PortfolioTabs from './PortfolioTabs/PortfolioTabs';
+import Avatar from './Avatar/Avatar';
 
 import styles from './styles';
 
@@ -88,6 +89,7 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects }: Props) => {
         <Avatar avatar={avatar} />
         {projects.length !== 0 && <PortfolioTabs projects={projects} />}
       </div>
+      <Footer />
     </div>
   );
 };

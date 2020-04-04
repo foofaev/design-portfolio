@@ -8,15 +8,15 @@ import GestureIcon from '@material-ui/icons/Gesture';
 import BuildIcon from '@material-ui/icons/Build';
 import CreateIcon from '@material-ui/icons/Create';
 
-import GridContainer from '../../../../components/Grid/GridContainer';
-import GridItem from '../../../../components/Grid/GridItem';
-import InfoArea from '../../../../components/InfoArea/InfoArea';
+import GridContainer from '../../../components/Grid/GridContainer';
+import GridItem from '../../../components/Grid/GridItem';
+import InfoArea from '../../../components/InfoArea/InfoArea';
 
-import ProjectPhoto from '../ProjectPhotos/ProjectPhoto';
+import ProjectPhoto from '../ProjectPhoto';
 
 // import routes from '../../../../actions/routes';
 
-import { Project } from '../../../../types';
+import { Project } from '../../../types';
 
 import styles from './styles';
 
@@ -29,7 +29,7 @@ type Props = {
 const SectionText: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
   const { images = [], description, preview, rooms, tenants, square, draftUrl } = project;
-  const draftImage = draftUrl || require('../../../../../assets/draft.png');
+  const draftImage = draftUrl || require('../../../../assets/draft.png');
   const allImages = compact([draftImage, ...images]);
 
   const Features = () => (

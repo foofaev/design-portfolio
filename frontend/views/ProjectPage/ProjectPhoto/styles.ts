@@ -1,6 +1,6 @@
 import { createStyles, Theme } from '@material-ui/core/styles';
-import imagesStyles from '../../../../theme/images';
-import { coloredShadow } from '../../../../theme/theme';
+import imagesStyles from '../../../theme/images';
+import { coloredShadow } from '../../../theme/theme';
 
 const carouselStyle = () => createStyles({
   ...imagesStyles,

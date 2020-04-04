@@ -39,12 +39,17 @@ type ProjectsState = {
   count: number;
 };
 
+type LogginInState = {
+  status: 'requested' | 'finished' | 'failed' | 'none';
+  error: string; // TODO: fields
+};
+
 type State = {
   projects: ProjectsState;
   projectUpdatingState: string;
   projectFetchingState: string;
   projectAddingState: string;
-  loggingInState: string;
+  loggingInState: LogginInState;
   isLoggedIn: boolean;
   projectShowingState: string;
   projectRemovingState: string;
@@ -110,6 +115,7 @@ export {
   AsyncActionFunction2,
   AsyncActionFunction3,
   ProjectsState,
+  LogginInState,
   State,
   ProjectAction,
   Paging,

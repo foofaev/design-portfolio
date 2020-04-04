@@ -54,6 +54,7 @@ const styles = () => createStyles({
     justifyContent: 'center',
     alignItems: 'center',
     '& > *': {
+      maxWidth: '100%',
       maxHeight: '100%',
       borderRadius: '6px',
     },

@@ -1,7 +1,7 @@
 import { createStyles } from '@material-ui/core/styles';
 
-import { coloredShadow, description } from '../../../../theme/theme';
-import imagesStyles from '../../../../theme/images';
+import { coloredShadow, description } from '../../../theme/theme';
+import imagesStyles from '../../../theme/images';
 
 const styles = () => createStyles({
   cardDescription: {

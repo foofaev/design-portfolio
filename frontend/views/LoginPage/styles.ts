@@ -75,6 +75,10 @@ const styles = (theme: Theme) => createStyles({
       margin: theme.spacing(2),
     },
   },
+  mainLink: {
+    textDecoration: 'inherit',
+    color: 'inherit',
+  },
 });
 
 export default styles;

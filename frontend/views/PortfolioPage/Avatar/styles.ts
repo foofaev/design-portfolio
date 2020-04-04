@@ -1,6 +1,6 @@
 import { createStyles } from '@material-ui/core/styles';
 
-import imagesStyle from '../../../../theme/images';
+import imagesStyle from '../../../theme/images';
 
 const styles = () => createStyles({
   profile: {
