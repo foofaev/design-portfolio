@@ -38,8 +38,6 @@ export default class ProjectRepository extends Repository<Project> {
       relations: ['file', 'item'],
       order: { ord: 'DESC' },
     });
-    console.log('updateMainImageId - item', item);
-    console.log('updateMainImageId - fileref', mainImageRef);
 
     return this.save(this.merge(item, { mainImage: mainImageRef }));
   }

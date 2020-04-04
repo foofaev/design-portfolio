@@ -118,7 +118,7 @@ const save = (fastify: FastifyInstance) => fastify.route({
 /* ****************************************************************************************************************** */
 const update = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
-  url: '/api/projects/:projectId',
+  url: '/api/projects/:urlKey',
   schema: {
     body: {
       type: 'object',
@@ -134,10 +134,10 @@ const update = (fastify: FastifyInstance) => fastify.route({
     params: {
       type: 'object',
       properties: {
-        projectId: { type: 'string', minLength: 1 },
+        urlKey: { type: 'string', minLength: 1 },
       },
       additionalProperties: false,
-      required: ['projectId'],
+      required: ['urlKey'],
     },
     response: {
       200: {
@@ -152,16 +152,46 @@ const update = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository } = fastify;
-    const { body, params: { projectId } } = request;
+    const { body, params: { urlKey } } = request;
 
-    await projectRepository.update(projectId, body);
+    await projectRepository.update({ urlKey }, body);
     return projectRepository
-      .findOneOrFail(projectId, { relations: ['mainImage', 'images', 'draft'] })
+      .findOneOrFail({ urlKey }, { relations: ['mainImage', 'images', 'draft'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw))
       .then((project) => ({ project }));
   },
 });
 
+/* ****************************************************************************************************************** */
+const remove = (fastify: FastifyInstance) => fastify.route({
+  method: 'DELETE',
+  url: '/api/projects/:urlKey',
+  schema: {
+    params: {
+      type: 'object',
+      properties: {
+        urlKey: { type: 'string', minLength: 1 },
+      },
+      additionalProperties: false,
+      required: ['urlKey'],
+    },
+    response: {
+      200: {
+        type: 'object',
+        properties: {},
+        additionalProperties: false,
+      },
+    },
+  },
+  preHandler: fastify.checkSession(true),
+  handler: async (request) => {
+    const { projectRepository } = fastify;
+    const { params: { urlKey } } = request;
+
+    await projectRepository.delete({ urlKey });
+    return {};
+  },
+});
 /* ****************************************************************************************************************** */
 const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'PATCH',
@@ -319,6 +349,7 @@ export {
   index,
   show,
   save,
+  remove,
   update,
   saveProjectImage,
   updateProjectImageOrd,

@@ -69,7 +69,7 @@ const showProject: AsyncActionFunction1<string> = ({ urlKey }) => async (dispatc
 const removeProject: AsyncActionFunction1<Project> = ({ project }) => async (dispatch): Promise<void> => {
   dispatch(removeProjectsRequest());
   try {
-    const url = routes.projectUrl(project.id);
+    const url = routes.projectUrl(project.urlKey);
     await axios.delete(url);
     dispatch(removeProjectsSuccess({ id: project.id }));
   } catch (error) {

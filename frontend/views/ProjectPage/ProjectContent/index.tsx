@@ -26,7 +26,7 @@ type Props = {
   project: Project;
 };
 
-const SectionText: React.FC<Props> = ({ project }: Props) => {
+const Content: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
   const { images = [], description, preview, rooms, tenants, square, draftUrl } = project;
   const draftImage = draftUrl || require('../../../../assets/draft.png');
@@ -101,4 +101,4 @@ const SectionText: React.FC<Props> = ({ project }: Props) => {
   );
 };
 
-export default SectionText;
+export default Content;
