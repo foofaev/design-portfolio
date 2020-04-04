@@ -33,6 +33,7 @@ export interface CarouselProps extends Omit<ModalProps, 'children'> {
   hideArrows?: boolean;
   children: CarouselChild[];
   large?: boolean;
+  hideFooter?: boolean;
 }
 
 function AutoRotatingCarousel(props: CarouselProps) {
@@ -42,7 +43,7 @@ function AutoRotatingCarousel(props: CarouselProps) {
     children,
     containerStyle,
     label,
-    landscape: landscapeProp,
+    landscape,
     onClose,
     onStart,
     onSlideChange,
@@ -53,11 +54,12 @@ function AutoRotatingCarousel(props: CarouselProps) {
     hideArrows = false,
     BackdropProps: backdropProps,
     large = false,
+    hideFooter = false,
   } = props;
 
   const [slideIndex, setSlideIndex] = React.useState(currentIndex);
 
-  const useLandscapeMode = mobile && landscapeProp;
+  const useLandscapeMode = mobile && landscape;
   const transitionDuration = { enter: duration.enteringScreen, exit: duration.leavingScreen };
   const childrenLength = React.Children.count(children);
   const hasMultipleChildren = childrenLength > 1;
@@ -165,7 +167,7 @@ function AutoRotatingCarousel(props: CarouselProps) {
           tabIndex={0}
         >
           <Carousel />
-          <Footer />
+          {!hideFooter && <Footer />}
           {shouldShowArrows && <Arrows />}
         </div>
       </Fade>

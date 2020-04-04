@@ -24,7 +24,8 @@ function Photos({ imageUrls, currentImage }: Props) {
   const handleClick = (): void => setHandleOpen(true);
   const currentIndex = modulo(imageUrls.indexOf(currentImage), imageUrls.length);
 
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isLandscape = useMediaQuery('(orientation:landscape)');
+  const isMobile = useMediaQuery(`(${isLandscape ? 'max-height' : 'max-width'}:600px)`);
 
   if (imageUrls.length === 0 || imageUrls.indexOf(currentImage) === -1) return <div />;
 
@@ -41,10 +42,12 @@ function Photos({ imageUrls, currentImage }: Props) {
           onStart={(): void => setHandleOpen(false)}
           autoplay={false}
           mobile={isMobile}
+          landscape={isLandscape}
           style={{ position: 'absolute' }}
           large
+          hideFooter={isMobile}
         >
-          {imageUrls.map((url) => <ImageSlide key={url} image={url} />)}
+          {imageUrls.map((url) => <ImageSlide key={url} mobile={isMobile} landscape={isLandscape} image={url} />)}
         </AutoRotatingCarousel>
       </div>
     </>
