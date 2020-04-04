@@ -6,7 +6,6 @@ import { Action, LogginInState } from '../types';
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/session';
 
 /* ****************************************************************************************************************** */
-
 const loggingInState = (state = { error: '', status: 'none' as 'none' }, action: Action<LogginInState>): LogginInState => {
   switch (action.type) {
     case LOGIN_REQUEST:
@@ -21,7 +20,7 @@ const loggingInState = (state = { error: '', status: 'none' as 'none' }, action:
 };
 
 /* ****************************************************************************************************************** */
-const isLoggedIn = (state = false, action: Action<void>): boolean => {
+const isLoggedIn = (state = localStorage.getItem('isLoggedIn') === 'true', action: Action<void>): boolean => { // TODO
   switch (action.type) {
     case LOGIN_SUCCESS: {
       return true;
