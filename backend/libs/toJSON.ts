@@ -31,7 +31,7 @@ const projectsToJSON = (fastify: FastifyInstance, projects: Project | Project[])
 const userToJSON = (fastify: FastifyInstance, { image, password, ...user }: User) => {
   const { fileReferenceRepository } = fastify;
   const imageUrl = image ? fileReferenceRepository.generateExtendedURL(image, user) : '';
-  return { ...user, imageUrl };
+  return { ...user, imageUrl, image };
 };
 
 export {

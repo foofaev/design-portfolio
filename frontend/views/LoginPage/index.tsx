@@ -1,4 +1,6 @@
-import * as React from 'react';
+/* ****************************************************************************************************************** */
+
+import React from 'react';
 import cn from 'classnames';
 import { connect, ConnectedProps } from 'react-redux';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
@@ -26,6 +28,7 @@ import * as actions from '../../actions/session';
 
 import styles from './styles';
 
+/* ****************************************************************************************************************** */
 const mapStateToProps = ({ isLoggedIn, loggingInState }: State) => ({
   isLoggedIn,
   loggingInState,
@@ -35,6 +38,7 @@ const actionCreators = {};
 
 const connector = connect(mapStateToProps, actionCreators);
 
+/* ****************************************************************************************************************** */
 export type LoginProps = ConnectedProps<typeof connector> & InjectedFormProps;
 
 const backgroundImage = require('../../../assets/img/login.jpg');
@@ -58,11 +62,8 @@ function LoginPage(props: LoginProps) {
     toggleAlert(!!error);
   }, [error]);
 
-  const closeAlert = (event?: React.SyntheticEvent, reason?: string): void => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
+  const closeAlert = (__?: React.SyntheticEvent, reason?: string): void => {
+    if (reason === 'clickaway') return;
     toggleAlert(false);
   };
 
@@ -126,8 +127,13 @@ function LoginPage(props: LoginProps) {
   );
 }
 
+/* ****************************************************************************************************************** */
 const ConnectedLoginPage = connector(LoginPage);
+
+/* ****************************************************************************************************************** */
 
 export default reduxForm({
   form: 'loginForm',
 })(ConnectedLoginPage);
+
+/* ****************************************************************************************************************** */

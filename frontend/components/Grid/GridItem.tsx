@@ -16,7 +16,7 @@ const styles = {
 const useStyles = makeStyles(() => createStyles(styles));
 
 interface Props extends GridProps {
-  className?: string
+  className?: string;
 }
 
 function GridItem({ children, className = '', ...rest }: Props) {

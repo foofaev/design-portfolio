@@ -3,6 +3,17 @@ import { createStyles, Theme } from '@material-ui/core/styles';
 import { container, roseColor } from '../../../theme/theme';
 
 const styles = (theme: Theme) => createStyles({
+  // container: {
+  //   ...containerFluid,
+  //   marginRight: theme.spacing(2),
+  //   marginLeft: theme.spacing(2),
+  //   paddingRight: theme.spacing(3),
+  //   paddingLeft: theme.spacing(3),
+  // },
+  root: {
+    marginTop: '4.284rem',
+    marginBottom: '50px',
+  },
   container,
   pills: {
     float: 'left',
@@ -30,7 +41,7 @@ const styles = (theme: Theme) => createStyles({
       flexWrap: 'wrap',
     },
   },
-  root: {
+  tabRoot: {
     marginTop: '20px',
     paddingLeft: '0',
     marginBottom: '0',

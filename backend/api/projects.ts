@@ -86,6 +86,7 @@ const save = (fastify: FastifyInstance) => fastify.route({
         title: { type: 'string' },
         description: { type: 'string' },
         isVisible: { type: 'boolean' },
+        ord: { type: 'integer' },
         publishedAt: { type: 'string' },
       },
       required: ['title', 'description', 'isVisible'],
@@ -118,7 +119,7 @@ const save = (fastify: FastifyInstance) => fastify.route({
 /* ****************************************************************************************************************** */
 const update = (fastify: FastifyInstance) => fastify.route({
   method: 'PATCH',
-  url: '/api/projects/:urlKey',
+  url: '/api/projects/:id',
   schema: {
     body: {
       type: 'object',
@@ -134,10 +135,10 @@ const update = (fastify: FastifyInstance) => fastify.route({
     params: {
       type: 'object',
       properties: {
-        urlKey: { type: 'string', minLength: 1 },
+        id: { type: 'string', minLength: 1 },
       },
       additionalProperties: false,
-      required: ['urlKey'],
+      required: ['id'],
     },
     response: {
       200: {
@@ -152,11 +153,11 @@ const update = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository } = fastify;
-    const { body, params: { urlKey } } = request;
+    const { body, params: { id } } = request;
 
-    await projectRepository.update({ urlKey }, body);
+    await projectRepository.update(id, body);
     return projectRepository
-      .findOneOrFail({ urlKey }, { relations: ['mainImage', 'images', 'draft'] })
+      .findOneOrFail(id, { relations: ['mainImage', 'images', 'draft'] })
       .then((projectsRaw: Project) => projectsToJSON(fastify, projectsRaw))
       .then((project) => ({ project }));
   },

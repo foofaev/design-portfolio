@@ -1,8 +1,10 @@
 /* ****************************************************************************************************************** */
 
 import axios from 'axios';
+import { SubmissionError, FormSubmitHandler } from 'redux-form';
 import {
-  Project, ActionFunction0, ActionFunction1, ActionFunction2, AsyncActionFunction1, AsyncActionFunctionWithPaging,
+  Project, ActionFunction0, ActionFunction1, ActionFunction2,
+  AsyncActionFunctionWithPaging, ProjectInput,
 } from '../types';
 import routes from './routes';
 
@@ -34,14 +36,14 @@ const addProjectSuccess: ActionFunction1<Project> = ({ project }) => ({
 const addProjectFailure: ActionFunction0 = () => ({ type: PROJECT_ADD_FAILURE, payload: {} });
 
 /* ****************************************************************************************************************** */
-const addProject: AsyncActionFunction1<Project> = ({ project }) => async (dispatch) => {
+const addProject: FormSubmitHandler<{ project: ProjectInput }> = async ({ project }, dispatch) => {
   dispatch(addProjectRequest());
   try {
     const response = await axios.put(routes.projectUrl(), { ...project });
     dispatch(addProjectSuccess({ project: response.data }));
   } catch (error) {
-    console.error(error);
     dispatch(addProjectFailure());
+    throw new SubmissionError({ _error: error.message });
   }
 };
 

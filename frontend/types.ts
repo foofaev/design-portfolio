@@ -9,7 +9,7 @@ type File = {
   url: string;
 };
 
-type Project = {
+type ProjectOutput = {
   id: string;
   title: string;
   subtitle: string;
@@ -31,9 +31,43 @@ type Project = {
   updatedAt: string;
 };
 
+type ProjectInput = {
+  id?: string;
+  title: string;
+  subtitle: string;
+  preview: string;
+  description: string;
+  square: number;
+  tenants: number;
+  rooms: number;
+  isVisible: boolean;
+  type: 'render';
+  publishedAt: string;
+  ord: number;
+};
+
+type UserOutput = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  about: string;
+  description: string;
+  image: File[];
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type UserInput = {
+  email: string;
+  firstName: string;
+  lastName: string;
+};
+
 type ProjectsState = {
   byId: {
-    [key: string]: Project;
+    [key: string]: ProjectOutput;
   };
   allIds: string[];
   count: number;
@@ -53,20 +87,21 @@ type State = {
   isLoggedIn: boolean;
   projectShowingState: string;
   projectRemovingState: string;
-  project: Project;
+  project: ProjectOutput;
+  user: UserOutput;
 };
 
-interface Action<Payload> {
+interface Action<Payload = {}> {
   type: string;
-  payload: Payload | {};
+  payload: Payload;
 }
 
 // oneOf
 type ProjectAction = {
   type: string;
   payload: {
-    projects: Project[];
-    project: Project;
+    projects: ProjectOutput[];
+    project: ProjectOutput;
     id: string;
   };
 };
@@ -80,7 +115,7 @@ type Paging = {
   limit: number;
 };
 
-type ActionFunction0 = () => Action<null>;
+type ActionFunction0 = () => Action;
 type ActionFunction1<Data> = (payload: Container<Data>) => Action<Container<Data>>;
 type ActionFunction2<Data1, Data2> = (payload: Container<Data1 | Data2>) => Action<Container<Data1 | Data2>>;
 
@@ -92,19 +127,20 @@ type AsyncActionFunctionWithPaging<Data> = (
 
 type AsyncActionFunction1<Data> = (
   data: Container<Data>
-) => ThunkAction<void, ProjectsState, null, Action<Container<Data>>>;
+) => ThunkAction<void, State, null, Action<Container<Data>>>;
 
 type AsyncActionFunction2<Data1, Data2> = (
   data: Container<Data1 | Data2>
-) => ThunkAction<void, ProjectsState, null, Action<Container<Data1 | Data2>>>;
+) => ThunkAction<void, State, null, Action<Container<Data1 | Data2>>>;
 
 type AsyncActionFunction3<Data1, Data2, Data3> = (
   data: Container<Data1 | Data2 | Data3>
-) => ThunkAction<void, ProjectsState, null, Action<Container<Data1 | Data2 | Data3>>>;
+) => ThunkAction<void, State, null, Action<Container<Data1 | Data2 | Data3>>>;
 
 export {
   File,
-  Project,
+  ProjectOutput as Project,
+  ProjectInput,
   Action,
   ActionFunction0,
   ActionFunction1,
@@ -119,4 +155,6 @@ export {
   State,
   ProjectAction,
   Paging,
+  UserInput,
+  UserOutput,
 };

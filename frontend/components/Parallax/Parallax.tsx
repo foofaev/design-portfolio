@@ -13,20 +13,21 @@ type ParallaxProps = {
   image?: string;
   small?: boolean;
   project?: React.ReactNode;
+  className?: string;
 };
 
 
-function Parallax({ filter, children, image, small, project }: ParallaxProps) {
+function Parallax({ filter, children, image, small, project, className }: ParallaxProps) {
   const windowScrollTop = window.innerWidth >= 768 ? (window.pageYOffset / 3) : 0;
 
   const [transform, setTransform] = React.useState(`translate3d(0,${windowScrollTop}px,0)`);
 
-  const resetTransform = () => {
+  const resetTransform = (): void => {
     const windowScrollTopOnReset = window.pageYOffset / 3;
     setTransform(`translate3d(0,${windowScrollTopOnReset}px,0)`);
   };
 
-  const removeResetTransform = () => {
+  const removeResetTransform = (): void => {
     if (window.innerWidth >= 768) {
       window.removeEventListener('scroll', resetTransform);
     }
@@ -40,7 +41,7 @@ function Parallax({ filter, children, image, small, project }: ParallaxProps) {
   });
 
   const classes = useStyles();
-  const parallaxClasses = cn({
+  const parallaxClasses = cn(className, {
     [classes.parallax]: true,
     [classes.filter]: filter,
     [classes.small]: small,

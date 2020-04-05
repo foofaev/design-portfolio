@@ -1,4 +1,7 @@
 import { createStyles } from '@material-ui/core/styles';
+import commonColors from '@material-ui/core/colors/common';
+import grey from '@material-ui/core/colors/grey';
+
 import { container, title, main, mainRaised } from '../../theme/theme';
 
 const style = () => createStyles({
@@ -13,7 +16,7 @@ const style = () => createStyles({
     zIndex: 3,
     '&, & + h4': {
       zIndex: 3,
-      color: '#FFFFFF',
+      color: commonColors.black,
     },
   },
   mlAuto: {
@@ -24,6 +27,14 @@ const style = () => createStyles({
   },
   textCenter: {
     textAlign: 'center',
+  },
+  description: {
+    margin: '1.071rem auto 0',
+    maxWidth: '600px',
+    color: grey[600],
+  },
+  parallax: {
+    height: '380px',
   },
 });
 

@@ -1,3 +1,5 @@
+/* ****************************************************************************************************************** */
+
 import * as React from 'react';
 import { WrappedFieldProps } from 'redux-form';
 
@@ -6,9 +8,10 @@ import Email from '@material-ui/icons/Email';
 
 import CustomInput, { CustomInputProps } from '../../../components/CustomInput/CustomInput';
 
+/* ****************************************************************************************************************** */
 type InputProps = WrappedFieldProps & CustomInputProps & { className: string };
 
-const EmailField = (props: InputProps) => {
+const EmailField: React.FC<InputProps> = (props: InputProps) => {
   const {
     className,
     input: { value, onChange },
@@ -39,4 +42,7 @@ const EmailField = (props: InputProps) => {
   );
 };
 
+/* ****************************************************************************************************************** */
 export default EmailField;
+
+/* ****************************************************************************************************************** */

@@ -8,6 +8,7 @@ import chunk from 'lodash/chunk';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
+import orderBy from 'lodash/orderBy';
 import uniq from 'lodash/uniq';
 
 import GridContainer from '../../../components/Grid/GridContainer';
@@ -26,7 +27,7 @@ const projectTypesMap = {
   render: 'визуализация',
 };
 const defaultType = 'проект';
-const NUMBER_OF_COLUMNS = 2;
+const NUMBER_OF_COLUMNS = 3;
 
 const useStyles = makeStyles(styles);
 
@@ -34,7 +35,7 @@ const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
   const classes = useStyles();
 
   const projectTypes = uniq(map(projects, 'type'));
-  const byType = groupBy<Project>(projects, 'type');
+  const byType = groupBy<Project>(orderBy(projects, ['ord'], ['asc']), 'type');
 
   const [activeButton, setActiveButton] = React.useState(projectTypes[0]);
 
@@ -43,7 +44,7 @@ const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
   const pills = (
     <Tabs
       classes={{
-        root: classes.root,
+        root: classes.tabRoot,
         fixed: classes.fixed,
         flexContainer: classes.flexContainer,
         indicator: classes.displayNone,
@@ -70,7 +71,7 @@ const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
   const cards = (
     <GridContainer justify="center" className={classes.container}>
       {inColumns.map((column, index) => (
-        <GridItem key={get(column, '0.imageUrl', index)} xs={12} sm={6} md={6} lg={6}>
+        <GridItem key={get(column, '0.imageUrl', index)} xs={12} sm={6} md={6} lg={4}>
           {column.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
@@ -80,10 +81,10 @@ const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
   );
 
   return (
-    <>
+    <div className={classes.root}>
       {pills}
       {cards}
-    </>
+    </div>
   );
 };
 

@@ -1,3 +1,5 @@
+/* ****************************************************************************************************************** */
+
 import * as React from 'react';
 import { WrappedFieldProps } from 'redux-form';
 
@@ -9,9 +11,12 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import CustomInput, { CustomInputProps } from '../../../components/CustomInput/CustomInput';
 
+/* ****************************************************************************************************************** */
+
 type InputProps = WrappedFieldProps & CustomInputProps & { className: string };
 
-const PasswordField = (props: InputProps) => {
+/* ****************************************************************************************************************** */
+const PasswordField: React.FC<InputProps> = (props: InputProps) => {
   const {
     className,
     input: { value, onChange },
@@ -64,4 +69,7 @@ const PasswordField = (props: InputProps) => {
   );
 };
 
+/* ****************************************************************************************************************** */
 export default PasswordField;
+
+/* ****************************************************************************************************************** */
