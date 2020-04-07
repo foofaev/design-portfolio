@@ -73,20 +73,21 @@ type ProjectsState = {
   count: number;
 };
 
+type RequestStatus = 'requested' | 'finished' | 'failed' | 'none';
 type LogginInState = {
-  status: 'requested' | 'finished' | 'failed' | 'none';
+  status: RequestStatus;
   error: string; // TODO: fields
 };
 
 type State = {
   projects: ProjectsState;
-  projectUpdatingState: string;
-  projectFetchingState: string;
-  projectAddingState: string;
+  projectUpdatingState: RequestStatus;
+  projectFetchingState: RequestStatus;
+  projectAddingState: RequestStatus;
   loggingInState: LogginInState;
   isLoggedIn: boolean;
-  projectShowingState: string;
-  projectRemovingState: string;
+  projectShowingState: RequestStatus;
+  projectRemovingState: RequestStatus;
   project: ProjectOutput;
   user: UserOutput;
 };
@@ -116,18 +117,20 @@ type Paging = {
 };
 
 type ActionFunction0 = () => Action;
+type ActionFunction<Input = void, Output = {}> = (payload: Input) => Action<Output>;
 type ActionFunction1<Data> = (payload: Container<Data>) => Action<Container<Data>>;
 type ActionFunction2<Data1, Data2> = (payload: Container<Data1 | Data2>) => Action<Container<Data1 | Data2>>;
 
+type AsyncActionFunction<Input = void, Output = {}> = (input: Input) => ThunkAction<void, State, null, Action<Output>>;
 type AsyncActionFunction0<Data> = () => ThunkAction<void, State, null, Action<Container<Data>>>;
 
 type AsyncActionFunctionWithPaging<Data> = (
   paging: Paging
 ) => ThunkAction<void, State, null, Action<Container<Data | number>>>;
 
-type AsyncActionFunction1<Data> = (
-  data: Container<Data>
-) => ThunkAction<void, State, null, Action<Container<Data>>>;
+type AsyncActionFunction1<Input, Output> = (
+  data: Container<Input>
+) => ThunkAction<void, State, null, Action<Container<Output>>>;
 
 type AsyncActionFunction2<Data1, Data2> = (
   data: Container<Data1 | Data2>
@@ -142,9 +145,11 @@ export {
   ProjectOutput as Project,
   ProjectInput,
   Action,
+  ActionFunction,
   ActionFunction0,
   ActionFunction1,
   ActionFunction2,
+  AsyncActionFunction,
   AsyncActionFunction0,
   AsyncActionFunctionWithPaging,
   AsyncActionFunction1,

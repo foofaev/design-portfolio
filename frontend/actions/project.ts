@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { SubmissionError, FormSubmitHandler } from 'redux-form';
 import {
-  Project, ProjectInput, ActionFunction0, ActionFunction1, AsyncActionFunction1,
+  Project, ProjectInput, ActionFunction0, ActionFunction1, AsyncActionFunction1, ActionFunction, AsyncActionFunction,
 } from '../types';
 import routes from './routes';
 
@@ -21,12 +21,12 @@ const PROJECT_REMOVE_SUCCESS = 'PROJECT_REMOVE_SUCCESS';
 const PROJECT_REMOVE_FAILURE = 'PROJECT_REMOVE_FAILURE';
 
 /* ****************************************************************************************************************** */
-const showProjectRequest: ActionFunction0 = () => ({ type: PROJECT_SHOW_REQUEST, payload: {} });
+const showProjectRequest: ActionFunction = () => ({ type: PROJECT_SHOW_REQUEST, payload: {} });
 const showProjectSuccess: ActionFunction1<Project> = ({ project }) => ({
   type: PROJECT_SHOW_SUCCESS,
   payload: { project },
 });
-const showProjectFailure: ActionFunction0 = () => ({ type: PROJECT_SHOW_FAILURE, payload: {} });
+const showProjectFailure: ActionFunction = () => ({ type: PROJECT_SHOW_FAILURE, payload: {} });
 
 /* ****************************************************************************************************************** */
 const updateProjectRequest: ActionFunction0 = () => ({ type: PROJECT_UPDATE_REQUEST, payload: {} });
@@ -54,7 +54,7 @@ const updateProject: FormSubmitHandler<{ project: ProjectInput }> = async ({ pro
 };
 
 /* ****************************************************************************************************************** */
-const showProject: AsyncActionFunction1<string> = ({ urlKey }) => async (dispatch): Promise<void> => {
+const showProject: AsyncActionFunction1<string, Project> = ({ urlKey }) => async (dispatch): Promise<void> => {
   dispatch(showProjectRequest());
   try {
     const response = await axios.get(routes.projectUrl(urlKey));
@@ -67,7 +67,7 @@ const showProject: AsyncActionFunction1<string> = ({ urlKey }) => async (dispatc
 
 
 /* ****************************************************************************************************************** */
-const removeProject: AsyncActionFunction1<Project> = ({ project }) => async (dispatch): Promise<void> => {
+const removeProject: AsyncActionFunction1<Project, string> = ({ project }) => async (dispatch): Promise<void> => {
   dispatch(removeProjectsRequest());
   try {
     const url = routes.projectUrl(project.urlKey);
