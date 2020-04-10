@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { FormSubmitHandler } from 'redux-form';
 
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -8,7 +9,7 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import { Project, AsyncActionFunction1 } from '../../../types';
+import { Project, ProjectInput, AsyncActionFunction1 } from '../../../types';
 
 import DeleteDialog from './DeleteDialog';
 
@@ -24,8 +25,8 @@ const actions = [
 export type ProjectSpeedDialProps = {
   hidden: boolean;
   project: Project;
-  removeProject: AsyncActionFunction1<Project>;
-  updateProject: AsyncActionFunction1<Project>;
+  removeProject: AsyncActionFunction1<Project, string>;
+  updateProject: FormSubmitHandler<{ project: ProjectInput }>;
 };
 
 function ProjectSpeedDial({ hidden, removeProject, updateProject, project }: ProjectSpeedDialProps) {

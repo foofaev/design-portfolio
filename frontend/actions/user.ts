@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { SubmissionError, FormSubmitHandler } from 'redux-form';
-import { ActionFunction0, ActionFunction1, AsyncActionFunction0, UserInput, UserOutput } from '../types';
+import { ActionFunction, ActionFunction0, ActionFunction1, AsyncActionFunction0, UserInput, UserOutput } from '../types';
 import routes from './routes';
 
 /* ****************************************************************************************************************** */
@@ -15,7 +15,7 @@ const USER_UPDATE_SUCCESS = 'USER_UPDATE_SUCCESS';
 const USER_UPDATE_FAILURE = 'USER_UPDATE_FAILURE';
 
 /* ****************************************************************************************************************** */
-const showUserRequest: ActionFunction0 = () => ({ type: USER_SHOW_REQUEST, payload: {} });
+const showUserRequest: ActionFunction = () => ({ type: USER_SHOW_REQUEST, payload: {} });
 const showUserSuccess: ActionFunction1<UserOutput> = ({ user }) => ({
   type: USER_SHOW_SUCCESS,
   payload: { user },
