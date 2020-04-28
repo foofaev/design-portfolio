@@ -1,6 +1,7 @@
 
 /* ****************************************************************************************************************** */
 
+import get from 'lodash/get';
 import { Action, UserOutput } from '../types';
 
 /* ****************************************************************************************************************** */
@@ -8,9 +9,18 @@ import {
   USER_SHOW_REQUEST,
   USER_SHOW_SUCCESS,
   USER_SHOW_FAILURE,
+
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
+
+  USER_IMAGE_REMOVE_REQUEST,
+  USER_IMAGE_REMOVE_SUCCESS,
+  USER_IMAGE_REMOVE_FAILURE,
+
+  USER_IMAGE_SAVE_REQUEST,
+  USER_IMAGE_SAVE_SUCCESS,
+  USER_IMAGE_SAVE_FAILURE,
 } from '../actions/user';
 
 /* ****************************************************************************************************************** */
@@ -43,15 +53,46 @@ const userShowingState = (state = 'none', action: Action<string>) => {
 };
 
 /* ****************************************************************************************************************** */
+const userImageSavingState = (state = 'none', action: Action<string>) => {
+  switch (action.type) {
+    case USER_IMAGE_SAVE_REQUEST:
+      return 'requested';
+    case USER_IMAGE_SAVE_SUCCESS:
+      return 'finished';
+    case USER_IMAGE_SAVE_FAILURE:
+      return 'failed';
+    default:
+      return state;
+  }
+};
+
+/* ****************************************************************************************************************** */
+const userImageRemovingState = (state = 'none', action: Action<string>) => {
+  switch (action.type) {
+    case USER_IMAGE_REMOVE_REQUEST:
+      return 'requested';
+    case USER_IMAGE_REMOVE_SUCCESS:
+      return 'finished';
+    case USER_IMAGE_REMOVE_FAILURE:
+      return 'failed';
+    default:
+      return state;
+  }
+};
+/* ****************************************************************************************************************** */
 const user = (state = { user: {} }, action: Action<{ user: UserOutput }>) => {
   switch (action.type) {
     case USER_SHOW_SUCCESS: {
-      const { payload = { user: {} } } = action;
-      return payload.user;
+      return get(action, 'payload.user');
     }
     case USER_UPDATE_SUCCESS: {
-      const { payload = { user: {} } } = action;
-      return payload.user;
+      return get(action, 'payload.user');
+    }
+    case USER_IMAGE_SAVE_SUCCESS: {
+      return get(action, 'payload.user');
+    }
+    case USER_IMAGE_REMOVE_SUCCESS: {
+      return get(action, 'payload.user');
     }
     default: {
       return state;
@@ -63,6 +104,8 @@ const user = (state = { user: {} }, action: Action<{ user: UserOutput }>) => {
 export {
   userShowingState,
   userUpdatingState,
+  userImageSavingState,
+  userImageRemovingState,
 
   user,
 };

@@ -13,17 +13,19 @@ type Props = {
   contact?: boolean;
   signup?: boolean;
   noShadow?: boolean;
+  icon?: boolean;
   color?: 'primary' | 'info' | 'success' | 'warning' | 'danger' | 'rose';
   children?: React.ReactNode | React.ReactNodeArray;
 };
 
 function CardHeader(props: Props) {
-  const { className = '', children, color = '', plain, image, contact, signup, noShadow, ...rest } = props;
+  const { className = '', children, color = '', plain, image, contact, signup, noShadow, icon, ...rest } = props;
   const classes = useStyles();
   const cardHeaderClasses = cn({
     [classes.cardHeader]: true,
     [classes[`${color}CardHeader` as 'primaryCardHeader']]: !!color, // TODO
     [classes.cardHeaderPlain]: plain,
+    [classes.cardHeaderIcon]: icon,
     [classes.cardHeaderImage]: image,
     [classes.cardHeaderContact]: contact,
     [classes.cardHeaderSignup]: signup,

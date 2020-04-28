@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 export default class CreateFileReferencesTable1574450802622 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     const fileTable = new Table({
       name: 'file_references',
       columns: [
@@ -42,7 +42,7 @@ export default class CreateFileReferencesTable1574450802622 implements Migration
     }));
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('file_references');
   }
 }

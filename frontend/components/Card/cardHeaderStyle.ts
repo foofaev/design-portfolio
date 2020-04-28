@@ -62,6 +62,25 @@ const cardHeaderStyle = () => createStyles({
     width: '100%',
     marginBottom: '15px',
   },
+  cardHeaderIcon: {
+    '&$warningCardHeader,&$successCardHeader,&$dangerCardHeader,&$infoCardHeader,&$primaryCardHeader,&$roseCardHeader': {
+      background: 'transparent',
+      boxShadow: 'none',
+    },
+    '& i,& .material-icons': {
+      width: '33px',
+      height: '33px',
+      textAlign: 'center',
+      lineHeight: '33px',
+    },
+    '& svg': {
+      width: '24px',
+      height: '24px',
+      textAlign: 'center',
+      lineHeight: '33px',
+      margin: '5px 4px 0px',
+    },
+  },
   warningCardHeader,
   successCardHeader,
   dangerCardHeader,

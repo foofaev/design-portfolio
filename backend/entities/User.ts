@@ -20,11 +20,26 @@ export default class User {
   @Column('varchar', { transformer: { to: _.toLower, from: _.identity } })
   email: string;
 
-  @Column('varchar')
+  @Column('varchar', { transformer: { to: _.trim, from: _.identity } })
   firstName: string;
 
-  @Column('varchar')
+  @Column('varchar', { transformer: { to: _.trim, from: _.identity } })
   lastName: string;
+
+  @Column('varchar', { transformer: { to: _.trim, from: _.identity } })
+  about: string;
+
+  @Column('varchar', { transformer: { to: _.trim, from: _.identity } })
+  description: string;
+
+  @Column('varchar')
+  facebookLink: string;
+
+  @Column('varchar')
+  vkLink: string;
+
+  @Column('varchar')
+  instagramLink: string;
 
   @OneToOne(() => FileReference, (fileRef) => fileRef.item)
   @JoinColumn()
@@ -39,3 +54,19 @@ export default class User {
   @UpdateDateColumn()
   updatedAt: string;
 }
+
+export type UserOutput = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  about: string;
+  description: string;
+  facebookLink: string;
+  instagramLink: string;
+  vkLink: string;
+  image: File[];
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+};

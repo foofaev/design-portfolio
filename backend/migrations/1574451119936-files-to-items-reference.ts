@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 export default class FilesToItemsReference1574451119936 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn('users', new TableColumn({
       name: 'imageId',
       type: 'uuid',
@@ -50,7 +50,7 @@ export default class FilesToItemsReference1574451119936 implements MigrationInte
     }));
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     const userTable = await queryRunner.getTable('users');
     if (!userTable) return;
     const userImageId = userTable.foreignKeys.find((fk) => fk.columnNames.indexOf('imageId') !== -1);

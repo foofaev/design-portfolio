@@ -1,14 +1,8 @@
 /* ****************************************************************************************************************** */
 
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-import {
-  Project,
-  ActionFunction0,
-  ActionFunction1,
-  ActionFunction2,
-  AsyncActionFunction,
-} from '../types';
+import { Project, ActionFunction0, ActionFunction1, ActionFunction2, AsyncActionFunction } from '../types';
 
 import routes from './routes';
 
@@ -30,9 +24,9 @@ const PROJECT_IMAGE_REMOVE_FAILURE = 'PROJECT_IMAGE_REMOVE_FAILURE';
 
 /* ****************************************************************************************************************** */
 const saveProjectImageRequest: ActionFunction0 = () => ({ type: PROJECT_IMAGE_SAVE_REQUEST, payload: {} });
-const saveProjectImageSuccess: ActionFunction2<number, Buffer> = ({ ord, data }) => ({
+const saveProjectImageSuccess: ActionFunction1<Project> = ({ project }) => ({
   type: PROJECT_IMAGE_SAVE_SUCCESS,
-  payload: { ord, data },
+  payload: { project },
 });
 const saveProjectImageFailure: ActionFunction0 = () => ({ type: PROJECT_IMAGE_SAVE_FAILURE, payload: {} });
 
@@ -57,7 +51,7 @@ const removeProjectImageFailure: ActionFunction0 = () => ({ type: PROJECT_IMAGE_
 
 /* ****************************************************************************************************************** */
 type SaveProjectImageInput = {
-  file: Buffer;
+  file: Blob;
   ord: number;
   projectId: string;
 };
@@ -69,7 +63,10 @@ const saveProjectImage: AsyncActionFunction<SaveProjectImageInput, ProjectOutput
 }) => async (dispatch) => {
   dispatch(saveProjectImageRequest());
   try {
-    const response = await axios.patch(routes.projectImageUrl({ id: projectId as string }), { file, ord });
+    const response: AxiosResponse<{ project: Project }> = await axios.patch(
+      routes.projectImageUrl({ id: projectId as string }),
+      { file, ord },
+    );
     dispatch(saveProjectImageSuccess({ ...response.data }));
   } catch (error) {
     dispatch(saveProjectImageFailure());
@@ -92,7 +89,7 @@ const updateProjectImageOrd: AsyncActionFunction<UpdateProjectImageOrdInput, Pro
   dispatch(updateProjectImageOrdRequest());
   try {
     const route = routes.projectImageUrl({ id: projectId as string, fileId: fileId as string });
-    const response = await axios.patch(route, { ord });
+    const response: AxiosResponse<{ project: Project }> = await axios.patch(route, { ord });
     dispatch(updateProjectImageOrdSuccess({ ...response.data }));
   } catch (error) {
     dispatch(updateProjectImageOrdFailure());
@@ -113,10 +110,10 @@ const removeProjectImage: AsyncActionFunction<RemoveProjectImageInput, ProjectOu
   dispatch(removeProjectImageRequest());
   try {
     const route = routes.projectImageUrl({ id: projectId, fileId });
-    const response = await axios.delete(route);
-    dispatch(updateProjectImageOrdSuccess({ ...response.data }));
+    const response: AxiosResponse<{ project: Project }> = await axios.delete(route);
+    dispatch(removeProjectImageSuccess({ ...response.data }));
   } catch (error) {
-    dispatch(updateProjectImageOrdFailure());
+    dispatch(removeProjectImageFailure());
     throw error;
   }
 };

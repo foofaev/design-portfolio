@@ -5,7 +5,7 @@ import {
 } from 'typeorm';
 
 export default class CreateFileTable1574450802622 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     const fileTable = new Table({
       name: 'files',
       columns: [
@@ -23,7 +23,7 @@ export default class CreateFileTable1574450802622 implements MigrationInterface 
     await queryRunner.createTable(fileTable, true);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('files');
   }
 }

@@ -4,6 +4,7 @@ import * as projectsReducers from './projects';
 import * as projectReducers from './project';
 import * as projectFilesReducers from './projectFiles';
 import * as sessionReducers from './session';
+import * as userReducers from './user';
 
 
 export default combineReducers({
@@ -12,4 +13,5 @@ export default combineReducers({
   ...projectReducers,
   ...projectFilesReducers,
   ...sessionReducers,
+  ...userReducers,
 });

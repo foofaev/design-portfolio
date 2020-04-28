@@ -14,7 +14,7 @@ type DeleteAlertDialogProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   project: Project;
-  removeProject: AsyncActionFunction1<Project>;
+  removeProject: AsyncActionFunction1<Project, string>;
 };
 
 function DeleteAlertDialog({ open, setOpen, project, removeProject }: DeleteAlertDialogProps) {

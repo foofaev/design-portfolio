@@ -3,7 +3,9 @@
 import get from 'lodash/get';
 import { Action, LogginInState } from '../types';
 
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/session';
+import {
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, CHECK_SESSION_SUCCESS, CHECK_SESSION_FAILURE,
+} from '../actions/session';
 
 /* ****************************************************************************************************************** */
 const loggingInState = (state = { error: '', status: 'none' as 'none' }, action: Action<LogginInState>): LogginInState => {
@@ -20,10 +22,19 @@ const loggingInState = (state = { error: '', status: 'none' as 'none' }, action:
 };
 
 /* ****************************************************************************************************************** */
-const isLoggedIn = (state = localStorage.getItem('isLoggedIn') === 'true', action: Action<void>): boolean => { // TODO
+const isLoggedIn = (state = false, action: Action<void>): boolean => {
   switch (action.type) {
     case LOGIN_SUCCESS: {
       return true;
+    }
+    case LOGIN_FAILURE: {
+      return false;
+    }
+    case CHECK_SESSION_SUCCESS: {
+      return true;
+    }
+    case CHECK_SESSION_FAILURE: {
+      return false;
     }
     default: {
       return state;

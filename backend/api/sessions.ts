@@ -3,9 +3,21 @@
 import { FastifyInstance } from 'fastify';
 import * as moment from 'moment';
 import helpers from '../libs/helpers';
+import { userToJSON } from '../libs/toJSON';
 
 /* ****************************************************************************************************************** */
 const SESSION_EXPIRES_DAYS = process.env.SESSION_EXPIRES_DAYS || 30;
+
+/* ****************************************************************************************************************** */
+export const checkSession = (fastify: FastifyInstance): FastifyInstance => fastify.route({
+  method: 'GET',
+  url: '/api/session/check',
+  preHandler: fastify.checkSession(true),
+  handler: async (request) => {
+    const { user } = request;
+    return { user: userToJSON(fastify, user) };
+  },
+});
 
 /* ****************************************************************************************************************** */
 type CreateBody = {

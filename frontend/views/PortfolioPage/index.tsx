@@ -33,7 +33,6 @@ const actionCreators = {
   addProject: projectActions.addProject,
   fetchProjects: projectActions.fetchProjects,
   showUser: userActions.showUser,
-  updateUser: userActions.updateUser,
 };
 
 /* ****************************************************************************************************************** */
@@ -45,7 +44,7 @@ const connector = connect(mapStateToProps, actionCreators);
 type Props = ConnectedProps<typeof connector>;
 
 /* ****************************************************************************************************************** */
-const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, updateUser }: Props) => {
+const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser }: Props) => {
   React.useEffect(() => {
     fetchProjects({ offset: 0, limit: 20 });
     showUser();
@@ -68,12 +67,13 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, u
     <div>
       <Parallax image={background} filter className={classes.parallax} />
       <div className={cn(classes.main, classes.mainRaised)}>
-        <About avatar={avatar} user={user} />
+        {user && <About avatar={avatar} user={user} />}
         <div className={cn(classes.description, classes.textCenter)}>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a egestas purus, id pretium quam. Vivamus id
             suscipit elit. Sed euismod dui leo, id facilisis lorem elementum vel. Sed quis libero magna. Quisque
             ultrices nunc quam,
+            {user.description}
           </p>
         </div>
         {projects.length !== 0 && <PortfolioTabs projects={projects} />}

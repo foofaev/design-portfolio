@@ -5,7 +5,7 @@ import {
 } from 'typeorm';
 
 export default class CreateProjectTable1574450769363 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TYPE project_types as enum('render', 'stainedGlass', 'fullProject');
     `);
@@ -33,7 +33,7 @@ export default class CreateProjectTable1574450769363 implements MigrationInterfa
     await queryRunner.createTable(projectTable, true);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('projects');
   }
 }

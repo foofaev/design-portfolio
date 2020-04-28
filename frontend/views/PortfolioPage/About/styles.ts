@@ -3,6 +3,7 @@ import grey from '@material-ui/core/colors/grey';
 
 import imagesStyle from '../../../theme/images';
 import { title } from '../../../theme/theme';
+import tooltip from '../../../theme/tooltip';
 
 const styles = (theme: Theme) => createStyles({
   profile: {
@@ -38,6 +39,57 @@ const styles = (theme: Theme) => createStyles({
     ...imagesStyle.imgRoundedCircle,
     ...imagesStyle.imgFluid,
   },
+  edit: {
+    position: 'absolute',
+    top: '0',
+    right: '0',
+  },
+  editIcon: {
+    width: '20px',
+    height: '20px',
+  },
+  editButton: {
+    borderRadius: '30px',
+    marginTop: '-28px !important',
+    paddingLeft: '12px',
+    color: 'primary',
+    paddingRight: '12px',
+    fontSize: '20px',
+    height: '41px',
+    minWidth: '41px',
+    width: '41px',
+    '& .fab,& .fas,& .far,& .fal,& svg,& .material-icons': {
+      marginRight: '0px',
+    },
+    '&$lg': {
+      height: '57px',
+      minWidth: '57px',
+      width: '57px',
+      lineHeight: '56px',
+      '& .fab,& .fas,& .far,& .fal,& .material-icons': {
+        fontSize: '32px',
+        lineHeight: '56px',
+      },
+      '& svg': {
+        width: '32px',
+        height: '32px',
+      },
+    },
+    '&$sm': {
+      height: '30px',
+      minWidth: '30px',
+      width: '30px',
+      '& .fab,& .fas,& .far,& .fal,& .material-icons': {
+        fontSize: '17px',
+        lineHeight: '29px',
+      },
+      '& svg': {
+        width: '17px',
+        height: '17px',
+      },
+    },
+  },
+  ...tooltip(),
 });
 
 export default styles;

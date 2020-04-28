@@ -11,7 +11,7 @@ export const show = (fastify: FastifyInstance): FastifyInstance => fastify.route
   url: '/api/user',
   preHandler: fastify.checkSession(),
   handler: async (request) => {
-    const { user } = request;
+    const user = await fastify.userRepository.findOneOrFail();
     return { user: userToJSON(fastify, user) };
   },
 });

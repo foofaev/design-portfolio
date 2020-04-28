@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import { Action, ProjectAction } from '../types';
+import { Action } from '../types';
 
 import {
   PROJECT_IMAGE_SAVE_REQUEST,
@@ -60,33 +60,10 @@ const removeProjectImageState = (state = 'none', action: Action<string>) => {
 };
 
 /* ****************************************************************************************************************** */
-const projectImage = (state = {}, action: ProjectAction) => {
-  switch (action.type) {
-    case 'PROJECT_IMAGE_SAVE_SUCCESS': {
-      const { payload } = action;
-      return payload.project;
-    }
-    case 'PROJECT_IMAGE_ORD_UPDATE_SUCCESS': {
-      const { payload } = action;
-      return payload.project;
-    }
-    case 'PROJECT_IMAGE_REMOVE_SUCCESS': {
-      const { payload } = action;
-      return payload.project;
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-/* ****************************************************************************************************************** */
 export {
   saveProjectImageState,
   updateProjectImageOrdState,
   removeProjectImageState,
-
-  projectImage,
 };
 
 /* ****************************************************************************************************************** */

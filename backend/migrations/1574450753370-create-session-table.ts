@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 export default class CreateSessionTable1574450753370 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     const sessionTable = new Table({
       name: 'sessions',
       columns: [
@@ -29,7 +29,7 @@ export default class CreateSessionTable1574450753370 implements MigrationInterfa
     }));
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('sessions');
   }
 }

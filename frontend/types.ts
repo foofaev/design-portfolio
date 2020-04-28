@@ -53,6 +53,9 @@ type UserOutput = {
   lastName: string;
   about: string;
   description: string;
+  facebookLink: string;
+  instagramLink: string;
+  vkLink: string;
   image: File[];
   imageUrl: string;
   createdAt: string;
@@ -63,6 +66,8 @@ type UserInput = {
   email: string;
   firstName: string;
   lastName: string;
+  about: string;
+  description: string;
 };
 
 type ProjectsState = {
@@ -90,11 +95,14 @@ type State = {
   projectRemovingState: RequestStatus;
   project: ProjectOutput;
   user: UserOutput;
+  userUpdatingState: RequestStatus;
+  userImageSavingState: RequestStatus;
+  userImageRemovingState: RequestStatus;
 };
 
 interface Action<Payload = {}> {
   type: string;
-  payload: Payload;
+  payload: Payload | {};
 }
 
 // oneOf

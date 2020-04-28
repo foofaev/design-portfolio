@@ -9,16 +9,18 @@ import { FastifyInstance } from 'fastify';
 import getServer from './backend';
 import seedProjects from './backend/scripts/seedProjects';
 
-process.on('unhandledRejection', (reason, promise) => {
-  if (reason) {
-    console.error(`Possibly Unhandled Rejection at: Promise ${promise}, reason: ${JSON.stringify(reason)}`);
-  }
-});
+process
+  .on('unhandledRejection', (reason, promise) => {
+    if (reason) {
+      console.error(`Possibly Unhandled Rejection at: Promise ${promise}, reason: ${JSON.stringify(reason)}`);
+    }
+  });
 
-process.on('uncaughtException', (error) => {
-  console.error(`Exception: ${error.toString()} ${error.stack}`);
-  setTimeout(() => process.exit(-1), 200);
-});
+process
+  .on('uncaughtException', (error) => {
+    console.error(`Exception: ${error.toString()} ${error.stack}`);
+    setTimeout(() => process.exit(-1), 200);
+  });
 
 program
   .command('repl')
@@ -32,7 +34,8 @@ program
     replServer.context._ = _;
   });
 
-program.command('server')
+program
+  .command('server')
   .action(async () => {
     try {
       const server = await getServer();

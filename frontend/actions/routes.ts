@@ -15,7 +15,9 @@ export default {
   projectImageUrl: ({ id, fileId = '' }: { id: string; fileId?: string }): string => [HOST, 'api', 'projects', 'image', id, fileId].join('/'),
 
   login: (): string => [HOST, 'api', 'session'].join('/'),
+  checkSessionUrl: (): string => [HOST, 'api', 'session', 'check'].join('/'),
   userUrl: (): string => [HOST, 'api', 'user'].join('/'),
+  userImageUrl: (): string => [HOST, 'api', 'user', 'image'].join('/'),
 
   imageByParams: (url: string, width: number, height: number): string => `${url}?noUpscale=true&keepAspect=true&width=${width}&height=${height}`,
   parallaxImageUrl: (url: string, width: number, height: number): string => `${url}?noUpscale=true&fit=cover&width=${width}&height=${height}`,
