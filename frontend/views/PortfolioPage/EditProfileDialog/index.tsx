@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
@@ -19,32 +22,81 @@ import CardFooter from '../../../components/Card/CardFooter';
 import CardIcon from '../../../components/Card/CardIcon';
 import GridItem from '../../../components/Grid/GridItem';
 import GridContainer from '../../../components/Grid/GridContainer';
+import { EmailField, PasswordField, CustomInput } from '../../../components/inputs';
+
+import { State, RequestStatus, AsyncActionFunction, UserOutput, UserInput } from '../../../types';
 
 import styles from './styles';
 
+import * as userActions from '../../../actions/user';
+
+/* ****************************************************************************************************************** */
+type StateProps = Pick<State, 'userUpdatingState' | 'userImageSavingState' | 'userImageRemovingState'>;
+
+// TODO: change AsyncActionFunction to ThunkActionResult, because connector casts types??
+type DispatchProps = {
+  updateUser: typeof userActions.updateUser;
+  saveUserImage: (input: { file: Blob }) => void;
+  removeUserImage: (input: void) => void;
+};
+type OwnProps = {
+  open: boolean;
+  setOpen: (arg: boolean) => void;
+} & InjectedFormProps<{ user: UserInput }>;
+
+/* ****************************************************************************************************************** */
+const mapStateToProps = ({ userUpdatingState, userImageSavingState, userImageRemovingState }: State): StateProps => ({
+  userUpdatingState,
+  userImageSavingState,
+  userImageRemovingState,
+});
+
+/* ****************************************************************************************************************** */
+const actionCreators = {
+  updateUser: userActions.updateUser,
+  saveUserImage: userActions.saveUserImage,
+  removeUserImage: userActions.removeUserImage,
+};
+
+/* ****************************************************************************************************************** */
+const connector = connect<StateProps, DispatchProps, OwnProps, State>(mapStateToProps, actionCreators);
+
+/* ****************************************************************************************************************** */
+
+export type EditProfileProps = StateProps & DispatchProps & OwnProps;
+
+/* ****************************************************************************************************************** */
 const useStyles = makeStyles(styles);
 
+/* ****************************************************************************************************************** */
 const Transition = React.forwardRef(
   (props: TransitionProps & { children?: React.ReactElement }, ref: React.Ref<unknown>) => (
+    // eslint-disable-next-line
     <Slide direction="up" ref={ref} {...props} />
   ),
 );
 
-type Props = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-function FullScreenDialog({ open, setOpen }: Props) {
+/* ****************************************************************************************************************** */
+function EditProfileDialog({
+  open,
+  setOpen,
+  updateUser,
+  saveUserImage,
+  removeUserImage,
+  userUpdatingState,
+  userImageSavingState,
+  userImageRemovingState,
+  handleSubmit,
+}: EditProfileProps) {
   const classes = useStyles();
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setOpen(false);
   };
 
@@ -63,111 +115,107 @@ function FullScreenDialog({ open, setOpen }: Props) {
       <GridContainer spacing={2}>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
-            <CardHeader color="warning" className={classes.cardHeader} icon>
-              <CardIcon color="warning">
-                <PersonOutlineOutlinedIcon />
-              </CardIcon>
-              <p>Редактировать профиль</p>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={5}>
-                  <CustomInput
-                    labelText="Company (disabled)"
-                    id="company-disabled"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email address"
-                    id="email-address"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="First Name"
-                    id="first-name"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Last Name"
-                    id="last-name"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="City"
-                    id="city"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Country"
-                    id="country"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Postal Code"
-                    id="postal-code"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
-                  <CustomInput
-                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                    id="about-me"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      multiline: true,
-                      rows: 5
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
+            <form onSubmit={handleSubmit(updateUser)}>
+              <CardHeader color="warning" className={classes.cardHeader} icon>
+                <CardIcon color="warning">
+                  <PersonOutlineOutlinedIcon />
+                </CardIcon>
+                <p>Редактировать профиль</p>
+              </CardHeader>
+              <CardBody>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={5}>
+                    <CustomInput
+                      labelText="Company (disabled)"
+                      id="company-disabled"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{
+                        disabled: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={3}>
+                    <CustomInput
+                      labelText="Username"
+                      id="username"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <EmailField />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="First Name"
+                      id="first-name"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Last Name"
+                      id="last-name"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="City"
+                      id="city"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="Country"
+                      id="country"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="Postal Code"
+                      id="postal-code"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <InputLabel style={{ color: '#AAAAAA' }}>About me</InputLabel>
+                    <CustomInput
+                      labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
+                      id="about-me"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 5,
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+              </CardBody>
+            </form>
           </Card>
         </GridItem>
       </GridContainer>
@@ -175,8 +223,15 @@ function FullScreenDialog({ open, setOpen }: Props) {
   );
 }
 
-export default FullScreenDialog;
+/* ****************************************************************************************************************** */
+const ConnectedDialog = connector(EditProfileDialog);
 
+/* ****************************************************************************************************************** */
+export default reduxForm<UserInput, OwnProps>({
+  form: 'editProfileForm',
+})(ConnectedDialog);
+
+/* ****************************************************************************************************************** */
 // import React from "react";
 // // @material-ui/core components
 // import { makeStyles } from "@material-ui/core/styles";

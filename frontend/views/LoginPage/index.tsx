@@ -21,7 +21,7 @@ import Card from '../../components/Card/Card';
 import CardBody from '../../components/Card/CardBody';
 import CardHeader from '../../components/Card/CardHeader';
 
-import { EmailField, PasswordField } from './inputs';
+import { EmailField, PasswordField } from '../../components/inputs';
 
 import { State } from '../../types';
 import * as actions from '../../actions/session';

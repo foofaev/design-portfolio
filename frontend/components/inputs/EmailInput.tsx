@@ -6,7 +6,7 @@ import { WrappedFieldProps } from 'redux-form';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Email from '@material-ui/icons/Email';
 
-import CustomInput, { CustomInputProps } from '../../../components/CustomInput/CustomInput';
+import CustomInput, { CustomInputProps } from './CustomInput';
 
 /* ****************************************************************************************************************** */
 type InputProps = WrappedFieldProps & CustomInputProps & { className: string };

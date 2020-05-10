@@ -15,7 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import GridContainer from '../../../components/Grid/GridContainer';
 import GridItem from '../../../components/Grid/GridItem';
 
-import EditProfileDialog from '../EditProfileModal';
+import EditProfileDialog from '../EditProfileDialog';
 
 import styles from './styles';
 import { UserOutput, State } from '../../../types';
@@ -47,21 +47,18 @@ const connector = connect(mapStateToProps, actionCreators);
 type Props = {
   avatar: string;
   user: UserOutput;
+  isLoggedIn: boolean;
 } & ConnectedProps<typeof connector>;
 
 /* ****************************************************************************************************************** */
 const useStyles = makeStyles(styles);
 
 /* ****************************************************************************************************************** */
-const About: React.FC<Props> = ({
-  avatar, user, isLoggedIn, userUpdatingState, userImageSavingState, userImageRemovingState, checkSession,
-  saveUserImage, removeUserImage, updateUser,
-}: Props) => {
+const About: React.FC<Props> = ({ avatar, user, isLoggedIn }: Props) => {
   const classes = useStyles();
-  React.useEffect(() => {
-    if (checkSession) checkSession();
-  }, [checkSession]);
+
   const [modalOpen, setModalOpen] = React.useState(false);
+
   return (
     <GridContainer justify="center">
       <GridItem xs={12} sm={12} md={6}>

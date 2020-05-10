@@ -15,17 +15,19 @@ import styles from './styles';
 
 import * as projectActions from '../../actions/projects';
 import * as userActions from '../../actions/user';
+import * as sessionsActions from '../../actions/session';
 import { State } from '../../types';
 
 /* ****************************************************************************************************************** */
 const useStyles = makeStyles(styles);
 
 /* ****************************************************************************************************************** */
-const mapStateToProps = ({ projects: { byId, allIds, count }, projectFetchingState, user }: State) => ({
+const mapStateToProps = ({ projects: { byId, allIds, count }, projectFetchingState, user, isLoggedIn }: State) => ({
   projects: allIds.map((id) => byId[id]),
   projectsCount: count,
   projectFetchingState,
   user,
+  isLoggedIn,
 });
 
 /* ****************************************************************************************************************** */
@@ -33,6 +35,7 @@ const actionCreators = {
   addProject: projectActions.addProject,
   fetchProjects: projectActions.fetchProjects,
   showUser: userActions.showUser,
+  checkSession: sessionsActions.checkSession,
 };
 
 /* ****************************************************************************************************************** */
@@ -44,12 +47,15 @@ const connector = connect(mapStateToProps, actionCreators);
 type Props = ConnectedProps<typeof connector>;
 
 /* ****************************************************************************************************************** */
-const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser }: Props) => {
+const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, checkSession, isLoggedIn }: Props) => {
   React.useEffect(() => {
     fetchProjects({ offset: 0, limit: 20 });
     showUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  React.useEffect(() => {
+    if (checkSession) checkSession();
+  }, [checkSession]);
 
   const classes = useStyles();
 

@@ -1,0 +1,35 @@
+import { createStyles } from '@material-ui/core/styles';
+import { whiteColor } from './theme';
+
+
+const rgbGrey = '85,85,85';
+const rgbBlack = '0, 0, 0';
+
+const tooltipsStyle = () => createStyles({
+  tooltip: {
+    padding: '10px 15px',
+    minWidth: '130px',
+    color: whiteColor,
+    lineHeight: '1.7em',
+    background: `rgba(${rgbGrey},0.9)`,
+    border: 'none',
+    borderRadius: '3px',
+    boxShadow: `0 8px 10px 1px rgba(${rgbBlack}, 0.14), 0 3px 14px 2px rgba(${rgbBlack}, 0.12), 0 5px 5px -3px rgba(${rgbBlack}, 0.2)`,
+    maxWidth: '200px',
+    textAlign: 'center',
+    fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif',
+    fontSize: '0.875em',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    textShadow: 'none',
+    textTransform: 'none',
+    letterSpacing: 'normal',
+    wordBreak: 'normal',
+    wordSpacing: 'normal',
+    wordWrap: 'normal',
+    whiteSpace: 'normal',
+    lineBreak: 'auto',
+  },
+});
+
+export default tooltipsStyle;

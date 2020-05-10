@@ -40,7 +40,7 @@ function DeleteAlertDialog({ open, setOpen, project, removeProject }: DeleteAler
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Эта операция не обратима, фотографии проекта тоже будут удалены.
+            Эта операция не обратима, все изображения проекта тоже будут удалены.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

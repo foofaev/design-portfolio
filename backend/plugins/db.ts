@@ -1,4 +1,4 @@
-import * as fp from 'fastify-plugin';
+import * as fastifyPlugin from 'fastify-plugin';
 import { createConnection, getConnectionOptions } from 'typeorm';
 import ProjectRepository from '../repositories/ProjectRepository';
 import FileRepository from '../repositories/FileRepository';
@@ -7,7 +7,7 @@ import UserRepository from '../repositories/UserRepository';
 
 import Session from '../entities/Session';
 
-export default fp(async (fastify, __, next) => {
+export default fastifyPlugin(async (fastify, __, next) => {
   try {
     const connectionOptions = await getConnectionOptions();
     Object.assign(connectionOptions, {
