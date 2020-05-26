@@ -40,7 +40,7 @@ const card = {
 };
 
 const defaultFont = {
-  fontFamily: 'Roboto',
+  fontFamily: 'Roboto Slab',
   fontWeight: 300,
   lineHeight: '1.5em',
 };

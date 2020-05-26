@@ -75,12 +75,7 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, c
       <div className={cn(classes.main, classes.mainRaised)}>
         {user && <About avatar={avatar} user={user} />}
         <div className={cn(classes.description, classes.textCenter)}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a egestas purus, id pretium quam. Vivamus id
-            suscipit elit. Sed euismod dui leo, id facilisis lorem elementum vel. Sed quis libero magna. Quisque
-            ultrices nunc quam,
-            {user.description}
-          </p>
+          <p>{user.description}</p>
         </div>
         {projects.length !== 0 && <PortfolioTabs projects={projects} />}
       </div>

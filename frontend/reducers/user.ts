@@ -21,6 +21,10 @@ import {
   USER_IMAGE_SAVE_REQUEST,
   USER_IMAGE_SAVE_SUCCESS,
   USER_IMAGE_SAVE_FAILURE,
+
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
 } from '../actions/user';
 
 /* ****************************************************************************************************************** */
@@ -79,6 +83,21 @@ const userImageRemovingState = (state = 'none', action: Action<string>) => {
       return state;
   }
 };
+
+/* ****************************************************************************************************************** */
+const userPasswordChangeState = (state = 'none', action: Action<string>) => {
+  switch (action.type) {
+    case UPDATE_PASSWORD_REQUEST:
+      return 'requested';
+    case UPDATE_PASSWORD_SUCCESS:
+      return 'finished';
+    case UPDATE_PASSWORD_FAILURE:
+      return 'failed';
+    default:
+      return state;
+  }
+};
+
 /* ****************************************************************************************************************** */
 const user = (state = { user: {} }, action: Action<{ user: UserOutput }>) => {
   switch (action.type) {
@@ -106,6 +125,7 @@ export {
   userUpdatingState,
   userImageSavingState,
   userImageRemovingState,
+  userPasswordChangeState,
 
   user,
 };

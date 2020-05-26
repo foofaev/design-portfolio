@@ -61,33 +61,6 @@ const styles = (theme: Theme) => createStyles({
     '& .fab,& .fas,& .far,& .fal,& svg,& .material-icons': {
       marginRight: '0px',
     },
-    '&$lg': {
-      height: '57px',
-      minWidth: '57px',
-      width: '57px',
-      lineHeight: '56px',
-      '& .fab,& .fas,& .far,& .fal,& .material-icons': {
-        fontSize: '32px',
-        lineHeight: '56px',
-      },
-      '& svg': {
-        width: '32px',
-        height: '32px',
-      },
-    },
-    '&$sm': {
-      height: '30px',
-      minWidth: '30px',
-      width: '30px',
-      '& .fab,& .fas,& .far,& .fal,& .material-icons': {
-        fontSize: '17px',
-        lineHeight: '29px',
-      },
-      '& svg': {
-        width: '17px',
-        height: '17px',
-      },
-    },
   },
   ...tooltip(),
 });

@@ -1,6 +1,6 @@
+/* ****************************************************************************************************************** */
 import React from 'react';
 import cn from 'classnames';
-
 
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl, { FormControlProps } from '@material-ui/core/FormControl';
@@ -12,11 +12,11 @@ import Check from '@material-ui/icons/Check';
 
 import styles from './styles';
 
-
+/* ****************************************************************************************************************** */
 export type CustomInputProps = {
   labelText?: React.ReactNode;
   labelProps?: InputLabelProps;
-  id?: string;
+  id: string;
   inputProps?: InputProps;
   formControlProps?: FormControlProps;
   inputRootCustomClasses?: string;
@@ -25,8 +25,10 @@ export type CustomInputProps = {
   white?: boolean;
 };
 
+/* ****************************************************************************************************************** */
 const useStyles = makeStyles(styles);
 
+/* ****************************************************************************************************************** */
 function CustomInput(props: CustomInputProps) {
   const {
     formControlProps,
@@ -83,4 +85,7 @@ function CustomInput(props: CustomInputProps) {
   );
 }
 
+/* ****************************************************************************************************************** */
 export default CustomInput;
+
+/* ****************************************************************************************************************** */

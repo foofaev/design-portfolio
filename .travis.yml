@@ -17,7 +17,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - docker-compose exec -T design-server yarn run lint
+  # - docker-compose exec -T design-server yarn run lint
   # - docker-compose exec -T design-server yarn run typecheck
   # - docker-compose exec -T design-server yarn run spellcheck
   - docker-compose exec -T design-server yarn run migrate

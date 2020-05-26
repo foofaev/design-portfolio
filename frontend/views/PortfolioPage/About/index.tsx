@@ -71,7 +71,6 @@ const About: React.FC<Props> = ({ avatar, user, isLoggedIn }: Props) => {
               {`${user.firstName} ${user.lastName}`}
             </Typography>
             <h4>
-              дизайнер интерьера, художник, декоратор
               {user.about}
             </h4>
             <IconButton aria-label="facebook link" href={user.facebookLink}>

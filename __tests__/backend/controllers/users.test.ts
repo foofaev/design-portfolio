@@ -39,7 +39,7 @@ describe('USER / Private', () => {
 
   it('PATCH /user/password', () => callAPI
     .patch('/api/user')
-    .send({ password: 'abracadabra' })
+    .send({ newPassword: 'abracadabra', oldPassword: 'passw0rd' }) // TODO
     .set('Cookie', cookie)
     .expect(200));
 

@@ -2,9 +2,9 @@ import 'jest-extended';
 import * as path from 'path';
 import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
-import { startServer, stopServer, TEST_PROJECTS, Project } from '../../helpers';
+import { startServer, stopServer, TEST_PROJECTS, Project, ProjectOutput } from '../../helpers';
 
-let newProject: Project;
+let newProject: ProjectOutput;
 
 const newProjectData: Partial<Project> = {
   title: 'newProject',
@@ -27,8 +27,8 @@ describe('PROJECTS / public', () => {
     PROJECT = TEST_PROJECTS.project;
   });
   afterAll(async () => {
-    await fastify.fileReferenceRepository.remove(newProject.files);
-    await fastify.projectRepository.remove(newProject);
+    await fastify.fileReferenceRepository.delete(newProject.files.map(({ id }) => id));
+    await fastify.projectRepository.delete(newProject.id);
     await stopServer(fastify);
   });
 

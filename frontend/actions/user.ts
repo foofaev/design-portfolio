@@ -2,7 +2,15 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { SubmissionError, FormSubmitHandler } from 'redux-form';
-import { ActionFunction, ActionFunction0, ActionFunction1, AsyncActionFunction0, AsyncActionFunction, UserInput, UserOutput } from '../types';
+import {
+  ActionFunction,
+  ActionFunction0,
+  ActionFunction1,
+  AsyncActionFunction0,
+  AsyncActionFunction,
+  UserInput,
+  UserOutput,
+} from '../types';
 import routes from './routes';
 
 /* ****************************************************************************************************************** */
@@ -18,10 +26,13 @@ const USER_IMAGE_SAVE_REQUEST = 'USER_IMAGE_SAVE_REQUEST';
 const USER_IMAGE_SAVE_SUCCESS = 'USER_IMAGE_SAVE_SUCCESS';
 const USER_IMAGE_SAVE_FAILURE = 'USER_IMAGE_SAVE_FAILURE';
 
-
 const USER_IMAGE_REMOVE_REQUEST = 'USER_IMAGE_REMOVE_REQUEST';
 const USER_IMAGE_REMOVE_SUCCESS = 'USER_IMAGE_REMOVE_SUCCESS';
 const USER_IMAGE_REMOVE_FAILURE = 'USER_IMAGE_REMOVE_FAILURE';
+
+const UPDATE_PASSWORD_REQUEST = 'UPDATE_PASSWORD_REQUEST';
+const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
+const UPDATE_PASSWORD_FAILURE = 'UPDATE_PASSWORD_FAILURE';
 
 /* ****************************************************************************************************************** */
 const showUserRequest: ActionFunction = () => ({ type: USER_SHOW_REQUEST, payload: {} });
@@ -56,13 +67,34 @@ const removeUserImageSuccess: ActionFunction1<UserOutput> = ({ user }) => ({
 const removeUserImageFailure: ActionFunction = () => ({ type: USER_IMAGE_REMOVE_FAILURE, payload: {} });
 
 /* ****************************************************************************************************************** */
-const updateUser: FormSubmitHandler<{ user: UserInput }> = async ({ user }, dispatch) => {
+const updatePasswordRequest: ActionFunction = () => ({ type: UPDATE_PASSWORD_REQUEST, payload: {} });
+const updatePasswordSuccess: ActionFunction = () => ({ type: UPDATE_PASSWORD_SUCCESS, payload: {} });
+const updatePasswordFailure: ActionFunction = () => ({ type: UPDATE_PASSWORD_FAILURE, payload: {} });
+
+/* ****************************************************************************************************************** */
+const updateUser: FormSubmitHandler<UserInput> = async ({ ...user }, dispatch) => {
   dispatch(updateUserRequest());
   try {
     const response: AxiosResponse<{ user: UserOutput }> = await axios.patch(routes.userUrl(), { ...user });
     dispatch(updateUserSuccess({ ...response.data }));
   } catch (error) {
     dispatch(updateUserFailure());
+    throw new SubmissionError({ _error: error });
+  }
+};
+
+/* ****************************************************************************************************************** */
+const changePassword: FormSubmitHandler<{
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+}> = async ({ oldPassword, newPassword }, dispatch) => {
+  dispatch(updatePasswordRequest());
+  try {
+    await axios.patch(routes.changePassword(), { oldPassword, newPassword });
+    dispatch(updatePasswordSuccess());
+  } catch (error) {
+    dispatch(updatePasswordFailure());
     throw new SubmissionError({ _error: error });
   }
 };
@@ -108,31 +140,32 @@ export {
   showUserRequest,
   showUserFailure,
   showUserSuccess,
-
   updateUserRequest,
   updateUserFailure,
   updateUserSuccess,
-
+  updatePasswordRequest,
+  updatePasswordSuccess,
+  updatePasswordFailure,
   showUser,
   updateUser,
   saveUserImage,
   removeUserImage,
-
+  changePassword,
   USER_SHOW_REQUEST,
   USER_SHOW_SUCCESS,
   USER_SHOW_FAILURE,
-
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
-
   USER_IMAGE_REMOVE_REQUEST,
   USER_IMAGE_REMOVE_SUCCESS,
   USER_IMAGE_REMOVE_FAILURE,
-
   USER_IMAGE_SAVE_REQUEST,
   USER_IMAGE_SAVE_SUCCESS,
   USER_IMAGE_SAVE_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
 };
 
 /* ****************************************************************************************************************** */

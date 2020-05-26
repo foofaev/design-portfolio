@@ -8,9 +8,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import FileReference from './FileReference'; // eslint-disable-line import/no-cycle
+import FileReference, { FileReferenceOutput } from './FileReference'; // eslint-disable-line import/no-cycle
 
-const PROJECT_TYPES = ['render'];
+const PROJECT_TYPES = ['render', 'fullProject', 'stainedGlass'];
 
 // ProjectType = 'render' | 'project' | 'schema' | 'art';
 export type ProjectType = 'render' | 'fullProject' | 'stainedGlass';
@@ -78,3 +78,25 @@ export default class Project {
   @UpdateDateColumn()
   updatedAt: string;
 }
+
+export type ProjectOutput = {
+  id: string;
+  title: string;
+  subtitle: string;
+  preview: string;
+  description: string;
+  square: number;
+  tenants: number;
+  rooms: number;
+  urlKey: string;
+  isVisible: boolean;
+  type: ProjectType;
+  publishedAt: string;
+  draftUrl: string;
+  imageUrl: string;
+  images: string[];
+  files: FileReferenceOutput[];
+  ord: number;
+  createdAt: string;
+  updatedAt: string;
+};

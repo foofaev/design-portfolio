@@ -21,7 +21,7 @@ import Card from '../../components/Card/Card';
 import CardBody from '../../components/Card/CardBody';
 import CardHeader from '../../components/Card/CardHeader';
 
-import { EmailField, PasswordField } from '../../components/inputs';
+import { EmailField, PasswordField } from './inputs';
 
 import { State } from '../../types';
 import * as actions from '../../actions/session';
@@ -46,7 +46,7 @@ const backgroundImage = require('../../../assets/img/login.jpg');
 const useStyles = makeStyles(styles);
 
 function LoginPage(props: LoginProps) {
-  const { isLoggedIn, loggingInState, handleSubmit, submitting, error, reset } = props;
+  const { isLoggedIn, loggingInState, handleSubmit, submitting, error } = props;
   const history = useHistory();
 
   React.useEffect(() => {

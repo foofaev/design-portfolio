@@ -1,54 +1,57 @@
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Field, reduxForm, InjectedFormProps } from 'redux-form';
+/* ****************************************************************************************************************** */
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Button from '@material-ui/core/Button';
+import React from 'react';
+import { connect } from 'react-redux';
+
+import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 
-import Card from '../../../components/Card/Card';
-import CardBody from '../../../components/Card/CardBody';
-import CardHeader from '../../../components/Card/CardHeader';
-import CardFooter from '../../../components/Card/CardFooter';
-import CardIcon from '../../../components/Card/CardIcon';
 import GridItem from '../../../components/Grid/GridItem';
 import GridContainer from '../../../components/Grid/GridContainer';
-import { EmailField, PasswordField, CustomInput } from '../../../components/inputs';
 
-import { State, RequestStatus, AsyncActionFunction, UserOutput, UserInput } from '../../../types';
+import EditUserForm from './EditUserForm';
+import ChangePasswordForm from './ChangePasswordForm';
+import AvatarForm from './AvatarForm';
+
+import { State } from '../../../types';
 
 import styles from './styles';
 
 import * as userActions from '../../../actions/user';
 
 /* ****************************************************************************************************************** */
-type StateProps = Pick<State, 'userUpdatingState' | 'userImageSavingState' | 'userImageRemovingState'>;
+type StateProps = Pick<State, 'userUpdatingState' | 'userImageSavingState' | 'userImageRemovingState' | 'user'>;
 
 // TODO: change AsyncActionFunction to ThunkActionResult, because connector casts types??
 type DispatchProps = {
   updateUser: typeof userActions.updateUser;
+  changePassword: typeof userActions.changePassword;
   saveUserImage: (input: { file: Blob }) => void;
   removeUserImage: (input: void) => void;
 };
+
 type OwnProps = {
   open: boolean;
   setOpen: (arg: boolean) => void;
-} & InjectedFormProps<{ user: UserInput }>;
+};
 
 /* ****************************************************************************************************************** */
-const mapStateToProps = ({ userUpdatingState, userImageSavingState, userImageRemovingState }: State): StateProps => ({
+const mapStateToProps = ({
   userUpdatingState,
   userImageSavingState,
   userImageRemovingState,
+  user,
+}: State): StateProps => ({
+  userUpdatingState,
+  userImageSavingState,
+  userImageRemovingState,
+  user,
 });
 
 /* ****************************************************************************************************************** */
@@ -56,6 +59,7 @@ const actionCreators = {
   updateUser: userActions.updateUser,
   saveUserImage: userActions.saveUserImage,
   removeUserImage: userActions.removeUserImage,
+  changePassword: userActions.changePassword,
 };
 
 /* ****************************************************************************************************************** */
@@ -86,15 +90,10 @@ function EditProfileDialog({
   userUpdatingState,
   userImageSavingState,
   userImageRemovingState,
-  handleSubmit,
+  user,
+  changePassword,
 }: EditProfileProps) {
   const classes = useStyles();
-  // const theme = useTheme();
-  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleClickOpen = (): void => {
-    setOpen(true);
-  };
 
   const handleClose = (): void => {
     setOpen(false);
@@ -107,116 +106,15 @@ function EditProfileDialog({
           <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
             <CloseIcon />
           </IconButton>
-          <Button autoFocus color="inherit" onClick={handleClose}>
-            Сохранить изменения
-          </Button>
         </Toolbar>
       </AppBar>
-      <GridContainer spacing={2}>
-        <GridItem xs={12} sm={12} md={8}>
-          <Card>
-            <form onSubmit={handleSubmit(updateUser)}>
-              <CardHeader color="warning" className={classes.cardHeader} icon>
-                <CardIcon color="warning">
-                  <PersonOutlineOutlinedIcon />
-                </CardIcon>
-                <p>Редактировать профиль</p>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={5}>
-                    <CustomInput
-                      labelText="Company (disabled)"
-                      id="company-disabled"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      inputProps={{
-                        disabled: true,
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={3}>
-                    <CustomInput
-                      labelText="Username"
-                      id="username"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <EmailField />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="First Name"
-                      id="first-name"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Last Name"
-                      id="last-name"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="City"
-                      id="city"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Country"
-                      id="country"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Postal Code"
-                      id="postal-code"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel style={{ color: '#AAAAAA' }}>About me</InputLabel>
-                    <CustomInput
-                      labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                      id="about-me"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      inputProps={{
-                        multiline: true,
-                        rows: 5,
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-            </form>
-          </Card>
+      <GridContainer spacing={2} justify="center">
+        <GridItem xs={12} sm={12} md={8} lg={8}>
+          <EditUserForm form="editProfileForm" initialValues={user} onSubmit={updateUser} />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={8} lg={4}>
+          <AvatarForm form="changeAvatarForm" onSubmit={saveUserImage} />
+          <ChangePasswordForm form="changePasswordForm" onSubmit={changePassword} />
         </GridItem>
       </GridContainer>
     </Dialog>
@@ -224,12 +122,13 @@ function EditProfileDialog({
 }
 
 /* ****************************************************************************************************************** */
-const ConnectedDialog = connector(EditProfileDialog);
+export default connector(EditProfileDialog);
 
 /* ****************************************************************************************************************** */
-export default reduxForm<UserInput, OwnProps>({
-  form: 'editProfileForm',
-})(ConnectedDialog);
+// export default reduxForm<UserInput, OwnProps>({
+//   form: 'editProfileForm',
+//   enableReinitialize: true,
+// })(ConnectedDialog);
 
 /* ****************************************************************************************************************** */
 // import React from "react";

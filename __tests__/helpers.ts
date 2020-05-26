@@ -4,8 +4,8 @@ import { FastifyInstance } from 'fastify';
 import * as supertest from 'supertest';
 
 import getServer from '../backend';
-import Project from '../backend/entities/Project';
-import User from '../backend/entities/User';
+import Project, { ProjectOutput } from '../backend/entities/Project';
+import User, { UserOutput } from '../backend/entities/User';
 
 /* ****************************************************************************************************************** */
 
@@ -44,8 +44,7 @@ const TEST_PROJECTS: TEST_PROJECTS_TYPE = {
 async function syncTestUser(fastify: FastifyInstance): Promise<User> {
   const { userRepository } = fastify;
   const admin = await userRepository.findOne(TEST_USERS.administrator.id);
-  if (admin) return admin;
-  return userRepository.save(TEST_USERS.administrator);
+  return userRepository.save({ ...admin, ...TEST_USERS.administrator });
 }
 
 /* ****************************************************************************************************************** */
@@ -110,6 +109,8 @@ export {
   TEST_PROJECTS,
   TEST_USERS,
   Project,
+  ProjectOutput,
+  UserOutput,
 };
 
 /* ****************************************************************************************************************** */

@@ -1,7 +1,8 @@
 /* ****************************************************************************************************************** */
 
 import { FastifyInstance } from 'fastify';
-import _ from 'lodash';
+import * as _ from 'lodash';
+import helpers from '../libs/helpers';
 import { userToJSON } from '../libs/toJSON';
 
 /* ****************************************************************************************************************** */
@@ -27,6 +28,11 @@ export const update = (fastify: FastifyInstance): FastifyInstance => fastify.rou
         email: { type: 'string', format: 'email' },
         firstName: { type: 'string', minLength: 1 },
         lastName: { type: 'string' },
+        about: { type: 'string' },
+        description: { type: 'string' },
+        facebookLink: { anyOf: [{ type: 'string', format: 'url' }, { type: 'string', maxLength: 0 }] },
+        instagramLink: { anyOf: [{ type: 'string', format: 'url' }, { type: 'string', maxLength: 0 }] },
+        vkLink: { anyOf: [{ type: 'string', format: 'url' }, { type: 'string', maxLength: 0 }] },
       },
       additionalProperties: false,
     },
@@ -34,9 +40,8 @@ export const update = (fastify: FastifyInstance): FastifyInstance => fastify.rou
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { body, user } = request;
-    const { email, firstName, lastName } = body;
     const { userRepository } = fastify;
-    const updateData = userRepository.merge(user, _.pickBy({ email, firstName, lastName }));
+    const updateData = userRepository.merge(user, body);
     await userRepository.save(updateData);
     const updatedUser = await userRepository
       .findOneOrFail(user.id, { relations: ['image'] })
@@ -53,18 +58,33 @@ export const updatePassword = (fastify: FastifyInstance): FastifyInstance => fas
     body: {
       type: 'object',
       properties: {
-        password: { type: 'string', minLength: 10 },
+        oldPassword: { type: 'string', minLength: 1 },
+        newPassword: { type: 'string', minLength: 1 },
       },
       additionalProperties: false,
     },
+    response: {
+      200: {
+        type: 'object',
+        properties: {},
+        additionalProperties: false,
+      },
+    },
   },
   preHandler: fastify.checkSession(true),
-  handler: async (request) => {
+  handler: async (request, reply): Promise<{} | void> => {
     const { body, user } = request;
-    const { password } = body;
+    const { oldPassword, newPassword } = body;
+
+    if (!helpers.verifyPassword(oldPassword, user.password)) {
+      request.log.info(oldPassword);
+      request.log.info(user.password);
+      reply.unauthorized();
+      return;
+    }
     const { userRepository } = fastify;
-    await userRepository.update(user.id, { password });
-    return {};
+    await userRepository.update(user.id, { password: newPassword });
+    reply.code(200).send({});
   },
 });
 

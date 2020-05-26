@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classNames from 'classnames';
+import cn from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 
 import styles from './cardIconStyle';
@@ -15,7 +15,7 @@ export type CardIconProps = {
 
 const CardIcon: React.FC<CardIconProps> = ({ className = '', children, color = 'primary', ...rest }: CardIconProps) => {
   const classes = useStyles();
-  const cardIconClasses = classNames({
+  const cardIconClasses = cn({
     [classes.cardIcon]: true,
     [classes[`${color}CardHeader` as 'primaryCardHeader']]: !!color,
     [className]: !!className,

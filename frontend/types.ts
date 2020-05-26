@@ -68,6 +68,9 @@ type UserInput = {
   lastName: string;
   about: string;
   description: string;
+  facebookLink: string;
+  instagramLink: string;
+  vkLink: string;
 };
 
 type ProjectsState = {

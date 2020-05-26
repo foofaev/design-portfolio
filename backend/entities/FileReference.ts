@@ -50,3 +50,12 @@ export default class FileReference {
   @UpdateDateColumn()
   updatedAt: string;
 }
+
+export type FileReferenceOutput = {
+  id: string;
+  num: number;
+  filePath: string;
+  ord: number;
+  contentType: string;
+  url: string;
+};

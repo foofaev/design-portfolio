@@ -93,9 +93,6 @@ const footerStyle = () => createStyles({
     '& hr': {
       borderColor: 'rgba(0,0,0,0.2)',
     },
-    '& $btnTwitter, & $btnDribbble, & $btnInstagram': {
-      color: whiteColor,
-    },
   },
   white: {
     backgroundColor: whiteColor,

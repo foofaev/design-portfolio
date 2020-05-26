@@ -7,24 +7,16 @@ import styles from './cardAvatarStyle';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  children?: React.ReactNode | React.ReactNodeArray,
-  className?: string,
-  profile?: boolean,
-  plain?: boolean,
-  testimonial?: boolean,
-  testimonialFooter?: boolean,
+  children?: React.ReactNode | React.ReactNodeArray;
+  className?: string;
+  profile?: boolean;
+  plain?: boolean;
+  testimonial?: boolean;
+  testimonialFooter?: boolean;
 };
 
 function CardAvatar(props: Props) {
-  const {
-    children,
-    className = '',
-    plain,
-    profile,
-    testimonial,
-    testimonialFooter,
-    ...rest
-  } = props;
+  const { children, className = '', plain, profile, testimonial, testimonialFooter, ...rest } = props;
   const classes = useStyles();
   const cardAvatarClasses = cn({
     [classes.cardAvatar]: true,
