@@ -112,10 +112,16 @@ const showUser: AsyncActionFunction0<UserOutput> = () => async (dispatch): Promi
 };
 
 /* ****************************************************************************************************************** */
-const saveUserImage: AsyncActionFunction<{ file: Blob }, { user: UserOutput }> = ({ file }) => async (dispatch) => {
+const saveUserImage: FormSubmitHandler<{ avatar: File }> = async ({ avatar }, dispatch) => {
   dispatch(saveUserImageRequest());
   try {
-    const response: AxiosResponse<{ user: UserOutput }> = await axios.patch(routes.userImageUrl(), { file });
+    const body = new FormData();
+    body.append('file', avatar);
+    const response: AxiosResponse<{ user: UserOutput }> = await axios({
+      method: 'PATCH',
+      url: routes.userImageUrl(),
+      data: body,
+    });
     dispatch(saveUserImageSuccess({ ...response.data }));
   } catch (error) {
     dispatch(saveUserImageFailure());

@@ -59,12 +59,8 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, c
 
   const classes = useStyles();
 
-  // TODO: load from profile
-  // eslint-disable-next-line global-require
-  const avatar = require('../../../assets/img/nastya.png');
-
   // TODO: load from static
-  // eslint-disable-next-line global-require
+  // eslint-disable-next-line
   const background = require('../../../assets/img/bg2.jpg');
 
   // TODO: add skeletons
@@ -73,7 +69,7 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, c
     <div>
       <Parallax image={background} filter className={classes.parallax} />
       <div className={cn(classes.main, classes.mainRaised)}>
-        {user && <About avatar={avatar} user={user} />}
+        {user && <About avatar={user.imageUrl} user={user} />}
         <div className={cn(classes.description, classes.textCenter)}>
           <p>{user.description}</p>
         </div>

@@ -41,7 +41,7 @@ export default class User {
   @Column('varchar')
   instagramLink: string;
 
-  @OneToOne(() => FileReference, (fileRef) => fileRef.item)
+  @OneToOne(() => FileReference, (fileRef) => fileRef.item, { eager: true })
   @JoinColumn()
   image: FileReference;
 

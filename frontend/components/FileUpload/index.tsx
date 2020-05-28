@@ -1,6 +1,7 @@
 /* ****************************************************************************************************************** */
 import React from 'react';
 import cn from 'classnames';
+import { WrappedFieldProps } from 'redux-form';
 
 import Button, { ButtonProps } from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,27 +15,36 @@ import defaultAvatar from '../../../assets/img/placeholder.jpg';
 /* ****************************************************************************************************************** */
 export type ImageUploadProps = {
   avatar?: boolean;
+  imageUrl?: string;
   addButtonProps?: ButtonProps;
   changeButtonProps?: ButtonProps;
   removeButtonProps?: ButtonProps;
 };
 
 /* ****************************************************************************************************************** */
+type Props = WrappedFieldProps & ImageUploadProps;
+
+/* ****************************************************************************************************************** */
 const useStyles = makeStyles(styles);
 
 /* ****************************************************************************************************************** */
-const ImageUpload: React.FC<ImageUploadProps> = ({
+const ImageUpload: React.FC<Props> = ({
+  input: { value, onChange },
+  meta: { touched, error, invalid },
   avatar,
-  addButtonProps,
-  changeButtonProps,
-  removeButtonProps,
-}: ImageUploadProps) => {
+  addButtonProps = {},
+  changeButtonProps = {},
+  removeButtonProps = {},
+  imageUrl = '',
+}: Props) => {
   const [file, setFile] = React.useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = React.useState(avatar ? defaultAvatar : defaultImage);
+  const defaultPreviewUrl = imageUrl || (avatar ? defaultAvatar : defaultImage);
+  const [imagePreviewUrl, setImagePreviewUrl] = React.useState(defaultPreviewUrl);
 
   const classes = useStyles();
 
   const fileInput = React.createRef<HTMLInputElement>();
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
     const reader = new FileReader();
@@ -42,6 +52,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     const fileFromInput = event.target.files[0];
     reader.onloadend = (): void => {
       setFile(fileFromInput); // sets input
+      onChange(fileFromInput);
       setImagePreviewUrl(reader.result); // sets preview image
     };
     reader.readAsDataURL(fileFromInput);
@@ -53,7 +64,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   const handleRemove = (): void => {
     setFile(null);
-    setImagePreviewUrl(avatar ? defaultAvatar : defaultImage);
+    setImagePreviewUrl(defaultPreviewUrl);
     if (fileInput.current) fileInput.current.value = '';
   };
 
@@ -66,18 +77,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       <div>
         {file === null ? (
           <Button {...addButtonProps} onClick={handleClick}>
-            {avatar ? 'Add Photo' : 'Select image'}
+            {avatar ? 'Загрузить фото' : 'Выбрать изображение'}
           </Button>
         ) : (
           <span>
             <Button {...changeButtonProps} onClick={handleClick}>
-              Change
+              Изменить
             </Button>
-            {avatar ? <br /> : null}
             <Button {...removeButtonProps} onClick={handleRemove}>
               <i className="fas fa-times" />
               {' '}
-              Remove
+              Очистить
             </Button>
           </span>
         )}

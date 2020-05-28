@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 import React from 'react';
-import { reduxForm, InjectedFormProps, Form } from 'redux-form';
+import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -20,33 +20,28 @@ import ImageUpload from '../../../components/FileUpload';
 import styles from './styles';
 
 /* ****************************************************************************************************************** */
-type InputProps = { file: File };
+type InputProps = { avatar: File };
+type OwnProps = { imageUrl?: string };
 
 /* ****************************************************************************************************************** */
-type Props = InjectedFormProps<InputProps>;
+type Props = InjectedFormProps<InputProps, OwnProps> & OwnProps;
 
 /* ****************************************************************************************************************** */
-const useStyles = makeStyles(styles);
+const ChangeAvatarForm: React.FC<Props> = ({ handleSubmit, submitting, pristine, imageUrl }: Props) => (
+  <form onSubmit={handleSubmit}>
+    <Card>
+      <Field name="avatar" type="file" props={{ avatar: true, imageUrl }} required component={ImageUpload} />
+      <CardFooter>
+        <Button type="submit" disabled={submitting || pristine} color="inherit" autoFocus>
+          Сохранить аватар
+        </Button>
+      </CardFooter>
+    </Card>
+  </form>
+);
 
 /* ****************************************************************************************************************** */
-const ChangeAvatarForm: React.FC<Props> = ({
-  handleSubmit,
-  submitting,
-  pristine,
-  reset,
-}: Props) => {
-  const classes = useStyles();
-  return (
-    <form onSubmit={handleSubmit}>
-      <Card>
-        <ImageUpload avatar />
-      </Card>
-    </form>
-  );
-};
-
-/* ****************************************************************************************************************** */
-export default reduxForm<InputProps>({
+export default reduxForm<InputProps, OwnProps>({
   enableReinitialize: true,
 })(ChangeAvatarForm);
 

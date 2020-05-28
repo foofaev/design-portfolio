@@ -36,7 +36,7 @@ const styles = () => createStyles({
     },
     '& $imgCircle': {
       borderRadius: '50%',
-      margin: 'auto 0',
+      marginBottom: 'auto 10',
       maxWidth: '130px',
       maxHeight: '130px',
     },
