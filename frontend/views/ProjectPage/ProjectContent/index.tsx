@@ -14,8 +14,6 @@ import InfoArea from '../../../components/InfoArea/InfoArea';
 
 import ProjectPhoto from '../ProjectPhoto';
 
-// import routes from '../../../../actions/routes';
-
 import { Project } from '../../../types';
 
 import styles from './styles';
@@ -29,7 +27,7 @@ type Props = {
 const Content: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
   const { images = [], description, preview, rooms, tenants, square, draftUrl } = project;
-  const draftImage = draftUrl || require('../../../../assets/draft.png');
+  const draftImage = draftUrl || require('../../../../assets/draft.png'); // eslint-disable-line
   const allImages = compact([draftImage, ...images]);
 
   const Features = () => (

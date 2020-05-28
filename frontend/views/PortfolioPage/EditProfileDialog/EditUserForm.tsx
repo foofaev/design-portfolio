@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 import React from 'react';
-import { reduxForm, InjectedFormProps, FormSubmitHandler } from 'redux-form';
+import { reduxForm, InjectedFormProps } from 'redux-form';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';

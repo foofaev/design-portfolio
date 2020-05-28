@@ -50,7 +50,7 @@ const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
         indicator: classes.displayNone,
       }}
       value={activeButton}
-      onChange={(_, newValue) => setActiveButton(newValue)}
+      onChange={(_, newValue): void => setActiveButton(newValue)}
       centered
     >
       {projectTypes.map((projectType) => (

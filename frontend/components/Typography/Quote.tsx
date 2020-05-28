@@ -6,10 +6,10 @@ import styles from './style';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  text: React.ReactNode | React.ReactNodeArray,
-  author: React.ReactNode | React.ReactNodeArray,
-  textClassName?: string,
-  authorClassName?: string,
+  text: React.ReactNode | React.ReactNodeArray;
+  author: React.ReactNode | React.ReactNodeArray;
+  textClassName?: string;
+  authorClassName?: string;
 };
 
 export default function Quote(props: Props) {

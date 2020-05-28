@@ -29,12 +29,14 @@ const TEST_PROJECTS: TEST_PROJECTS_TYPE = {
   project: {
     id: '63cdd5f8-29dd-41c2-97d9-09c46fe4b9e8',
     title: 'testProject',
+    urlKey: 'testProject-1',
     type: 'render',
     isVisible: false,
   },
   otherProject: {
     id: '0f616b15-0b8e-4767-b2fa-243c0865cd1d',
     title: 'otherTestProject',
+    urlKey: 'testProject-2',
     type: 'render',
     isVisible: false,
   },

@@ -81,18 +81,18 @@ const Transition = React.forwardRef(
 );
 
 /* ****************************************************************************************************************** */
-function EditProfileDialog({
+const EditProfileDialog: React.FC<EditProfileProps> = ({
   open,
   setOpen,
   updateUser,
   saveUserImage,
-  removeUserImage,
+  /* removeUserImage,
   userUpdatingState,
   userImageSavingState,
-  userImageRemovingState,
+  userImageRemovingState, */
   user,
   changePassword,
-}: EditProfileProps) {
+}: EditProfileProps) => {
   const classes = useStyles();
 
   const handleClose = (): void => {
@@ -119,7 +119,7 @@ function EditProfileDialog({
       </GridContainer>
     </Dialog>
   );
-}
+};
 
 /* ****************************************************************************************************************** */
 export default connector(EditProfileDialog);

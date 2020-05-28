@@ -8,16 +8,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { Project, AsyncActionFunction1 } from '../../../../types';
+import { Project } from '../../../../types';
 
 type DeleteAlertDialogProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   project: Project;
-  removeProject: AsyncActionFunction1<Project, string>;
+  removeProject: ({ project }: { project: Project }) => void;
 };
 
-function DeleteAlertDialog({ open, setOpen, project, removeProject }: DeleteAlertDialogProps) {
+const DeleteAlertDialog: React.FC<DeleteAlertDialogProps> = ({
+  open,
+  setOpen,
+  project,
+  removeProject,
+}: DeleteAlertDialogProps) => {
   const history = useHistory();
   const handleClose = (): void => {
     setOpen(false);
@@ -35,9 +40,7 @@ function DeleteAlertDialog({ open, setOpen, project, removeProject }: DeleteAler
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {`Вы уверены, что хотите удалить проект ${project.title}?`}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{`Вы уверены, что хотите удалить проект ${project.title}?`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Эта операция не обратима, все изображения проекта тоже будут удалены.
@@ -54,6 +57,6 @@ function DeleteAlertDialog({ open, setOpen, project, removeProject }: DeleteAler
       </Dialog>
     </div>
   );
-}
+};
 
 export default DeleteAlertDialog;

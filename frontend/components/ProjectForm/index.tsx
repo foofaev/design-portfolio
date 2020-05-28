@@ -15,14 +15,14 @@ import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 
 import styles from './styles';
-import { Project, AsyncActionFunction1 } from '../../types';
+import { Project, AsyncActionFunction } from '../../types';
 
 export type ProjectFormProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   project?: Project;
-  saveProject?: AsyncActionFunction1<Project>;
-  updateProject?: AsyncActionFunction1<Project>;
+  saveProject?: AsyncActionFunction<Project>;
+  updateProject?: AsyncActionFunction<Project>;
   edit?: boolean;
   create?: boolean;
 };
@@ -37,11 +37,19 @@ const useStyles = makeStyles(styles);
 
 const Transition = React.forwardRef(
   (props: TransitionProps & { children?: React.ReactElement }, ref: React.Ref<unknown>) => (
-    <Slide direction="up" ref={ref} {...props} />
+    <Slide direction="up" ref={ref} {...props} /> // eslint-disable-line react/jsx-props-no-spreading
   ),
 );
 
-function ProjectFormDialog({ edit, create, open, setOpen, updateProject, saveProject, project }: ProjectFormProps) {
+const ProjectFormDialog: React.FC<ProjectFormProps> = ({
+  edit,
+  create,
+  open,
+  setOpen,
+  updateProject,
+  saveProject,
+  project,
+}: ProjectFormProps) => {
   const classes = useStyles();
 
   const handleClose = (): void => {
@@ -74,5 +82,6 @@ function ProjectFormDialog({ edit, create, open, setOpen, updateProject, savePro
       </List>
     </Dialog>
   );
-}
+};
+
 export default ProjectFormDialog;

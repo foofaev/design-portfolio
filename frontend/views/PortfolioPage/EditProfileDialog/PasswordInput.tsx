@@ -1,7 +1,7 @@
 /* ****************************************************************************************************************** */
 
 import * as React from 'react';
-import { WrappedFieldProps, Field } from 'redux-form';
+import { WrappedFieldProps, Field, BaseFieldProps } from 'redux-form';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';

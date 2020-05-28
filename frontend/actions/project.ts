@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { SubmissionError, FormSubmitHandler } from 'redux-form';
 import {
-  Project, ProjectInput, ActionFunction0, ActionFunction1, AsyncActionFunction1, ActionFunction, AsyncActionFunction,
+  Project, ProjectInput, ActionFunction0, ActionFunction1, AsyncActionFunction1, ActionFunction,
 } from '../types';
 import routes from './routes';
 
@@ -64,7 +64,6 @@ const showProject: AsyncActionFunction1<string, Project> = ({ urlKey }) => async
     throw error;
   }
 };
-
 
 /* ****************************************************************************************************************** */
 const removeProject: AsyncActionFunction1<Project, string> = ({ project }) => async (dispatch): Promise<void> => {

@@ -41,7 +41,8 @@ const connector = connect(mapStateToProps, actionCreators);
 /* ****************************************************************************************************************** */
 export type LoginProps = ConnectedProps<typeof connector> & InjectedFormProps;
 
-const backgroundImage = require('../../../assets/img/login.jpg');
+// TODO: take from static
+const backgroundImage = require('../../../assets/img/login.jpg'); // eslint-disable-line
 
 const useStyles = makeStyles(styles);
 

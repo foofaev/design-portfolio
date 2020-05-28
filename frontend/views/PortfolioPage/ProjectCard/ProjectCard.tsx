@@ -41,7 +41,6 @@ const ProjectCard: React.FC<Props> = ({ project }: Props) => {
         </Info>
         <div className={classes.cardDescription}>
           {project.preview}
-          AAAAAA
         </div>
       </CardBody>
     </Card>

@@ -8,24 +8,16 @@ import styles from './cardFooterStyle';
 const useStyles = makeStyles(styles);
 
 type Props = {
-  className?: string,
-  plain?: boolean,
-  profile?: boolean,
-  pricing?: boolean,
-  testimonial?: boolean,
-  children?: React.ReactNode | React.ReactNodeArray,
+  className?: string;
+  plain?: boolean;
+  profile?: boolean;
+  pricing?: boolean;
+  testimonial?: boolean;
+  children?: React.ReactNode | React.ReactNodeArray;
 };
 
 function CardFooter(props: Props) {
-  const {
-    className = '',
-    children,
-    plain,
-    profile,
-    pricing,
-    testimonial,
-    ...rest
-  } = props;
+  const { className = '', children, plain, profile, pricing, testimonial, ...rest } = props;
   const classes = useStyles();
   const cardFooterClasses = cn({
     [classes.cardFooter]: true,

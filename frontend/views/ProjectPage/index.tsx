@@ -24,7 +24,11 @@ import routes from '../../actions/routes';
 
 import styles from './styles';
 
-const mapStateToProps = ({ project, projectShowingState, isLoggedIn }: State) => ({
+const mapStateToProps = ({
+  project,
+  projectShowingState,
+  isLoggedIn,
+}: State): Pick<State, 'project' | 'projectShowingState' | 'isLoggedIn'> => ({
   project,
   projectShowingState,
   isLoggedIn,
@@ -42,7 +46,14 @@ type Props = ConnectedProps<typeof connector>;
 
 const useStyles = makeStyles(styles);
 
-function ProjectPage({ project, projectShowingState, showProject, removeProject, updateProject, isLoggedIn }: Props) {
+const ProjectPage: React.FC<Props> = ({
+  project,
+  // projectShowingState,
+  showProject,
+  removeProject,
+  updateProject,
+  isLoggedIn,
+}: Props) => {
   const { pathname } = useLocation();
   const { urlKey } = useParams();
   const [speedDialHidden, setSpeedDialHidden] = React.useState(!isLoggedIn);
@@ -100,6 +111,6 @@ function ProjectPage({ project, projectShowingState, showProject, removeProject,
       <Footer />
     </div>
   );
-}
+};
 
 export default connector(ProjectPage);

@@ -1,14 +1,21 @@
 /* ****************************************************************************************************************** */
 
 import get from 'lodash/get';
-import { Action, LogginInState } from '../types';
+import { Action, LoggingInState } from '../types';
 
 import {
-  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, CHECK_SESSION_SUCCESS, CHECK_SESSION_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  CHECK_SESSION_SUCCESS,
+  CHECK_SESSION_FAILURE,
 } from '../actions/session';
 
 /* ****************************************************************************************************************** */
-const loggingInState = (state = { error: '', status: 'none' as 'none' }, action: Action<LogginInState>): LogginInState => {
+const loggingInState = (
+  state = { error: '', status: 'none' as 'none' },
+  action: Action<LoggingInState>,
+): LoggingInState => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return { status: 'requested', error: '' };
@@ -43,9 +50,6 @@ const isLoggedIn = (state = false, action: Action<void>): boolean => {
 };
 
 /* ****************************************************************************************************************** */
-export {
-  loggingInState,
-  isLoggedIn,
-};
+export { loggingInState, isLoggedIn };
 
 /* ****************************************************************************************************************** */

@@ -25,6 +25,14 @@
       "timestamptz",
       "translit",
       "fileref",
-      "ossp"
+      "ossp",
+      "smallint",
+      "signup",
+      "roboto",
+      "nowrap",
+      "helvetica",
+      "arial",
+      "neue",
+      "logging"
    ]
   }

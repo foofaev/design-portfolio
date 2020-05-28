@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 import React from 'react';
-import { reduxForm, InjectedFormProps, FormErrors, FormSubmitHandler } from 'redux-form';
+import { reduxForm, InjectedFormProps, FormErrors } from 'redux-form';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -41,7 +41,6 @@ const ChangePasswordForm: React.FC<Props> = ({
   handleSubmit,
   submitting,
   pristine,
-  reset,
 }: Props) => {
   const classes = useStyles();
   return (

@@ -8,9 +8,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import styles from './styles';
 
+/* eslint-disable react/jsx-props-no-spreading */
+
 /* ****************************************************************************************************************** */
-import defaultImage from '../../../assets/img/image_placeholder.jpg';
-import defaultAvatar from '../../../assets/img/placeholder.jpg';
+// TODO: take from static
+
+const defaultImage = require('../../../assets/img/image_placeholder.jpg'); // eslint-disable-line
+const defaultAvatar = require('../../../assets/img/placeholder.jpg'); // eslint-disable-line
 
 /* ****************************************************************************************************************** */
 export type ImageUploadProps = {

@@ -1,6 +1,5 @@
 import { createStyles, Theme } from '@material-ui/core/styles';
 import grey from '@material-ui/core/colors/grey';
-import { container, card } from '../../../theme/theme';
 
 export default (theme: Theme) => createStyles({
   appBar: {

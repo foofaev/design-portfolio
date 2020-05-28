@@ -6,10 +6,9 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import { Project, ProjectInput, AsyncActionFunction1 } from '../../../types';
+import { Project, ProjectInput } from '../../../types';
 
 import DeleteDialog from './DeleteDialog';
 
@@ -17,19 +16,19 @@ import styles from './styles';
 
 const useStyles = makeStyles(styles);
 
-const actions = [
-  { icon: <EditIcon />, name: 'Редактировать' },
-  { icon: <DeleteForeverIcon />, name: 'Удалить навсегда' },
-];
-
 export type ProjectSpeedDialProps = {
   hidden: boolean;
   project: Project;
-  removeProject: AsyncActionFunction1<Project, string>;
+  removeProject: ({ project }: { project: Project }) => void;
   updateProject: FormSubmitHandler<{ project: ProjectInput }>;
 };
 
-function ProjectSpeedDial({ hidden, removeProject, updateProject, project }: ProjectSpeedDialProps) {
+const ProjectSpeedDial: React.FC<ProjectSpeedDialProps> = ({
+  // hidden,
+  removeProject,
+  // updateProject,
+  project,
+}: ProjectSpeedDialProps) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -73,6 +72,6 @@ function ProjectSpeedDial({ hidden, removeProject, updateProject, project }: Pro
       />
     </>
   );
-}
+};
 
 export default ProjectSpeedDial;
