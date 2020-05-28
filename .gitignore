@@ -90,4 +90,4 @@ flow-typed
 public/assets
 .bash_history
 /\.storage/
-.yarn
+yarn.lock

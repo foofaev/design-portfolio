@@ -12,7 +12,7 @@
     "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n table",
     "seedProjects": "npx ts-node --files ./index.ts seedProjects",
     "lint": "npx eslint --ext .js,.jsx,.ts,.tsx ./",
-    "spellcheck": "cspell '**/*.ts'",
+    "spellcheck": "cspell '**/*.ts[x]'",
     "typecheck": "npx tsc -p . --noEmit",
     "repl": "ts-node bin/app.ts repl",
     "test": "NODE_ENV=test DEBUG=app npx jest --detectOpenHandles",

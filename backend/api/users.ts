@@ -119,7 +119,7 @@ export const saveImage = (fastify: FastifyInstance): FastifyInstance => fastify.
     const fileData = { name: rawFile.filename, contentType: rawFile.mimetype, data: rawFile.data };
     await userRepository.updateImage(fastify, user.id, fileData);
     const updatedUser = await userRepository
-      .findOneOrFail(user.id, { relations: ['image'] })
+      .findOneOrFail(user.id)
       .then((found) => userToJSON(fastify, found));
     return { user: updatedUser };
   },

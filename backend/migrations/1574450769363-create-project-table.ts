@@ -21,7 +21,7 @@ export default class CreateProjectTable1574450769363 implements MigrationInterfa
         { name: 'square', type: 'float', isNullable: true, default: null },
         { name: 'tenants', type: 'smallint', isNullable: true, default: null },
         { name: 'rooms', type: 'smallint', isNullable: true, default: null },
-        { name: 'urlKey', type: 'varchar', isUnique: true, isNullable: false },
+        { name: 'urlKey', type: 'varchar', isUnique: true, isNullable: true, default: null },
         { name: 'isVisible', type: 'boolean', isNullable: false, default: true },
         { name: 'type', type: 'project_types', default: '\'render\'' },
         { name: 'ord', type: 'int', isNullable: false, default: 0 },

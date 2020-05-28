@@ -1,14 +1,8 @@
-import { Repository, EntityRepository } from 'typeorm';
+import { FastifyInstance } from 'fastify';
+import { Repository, EntityRepository, UpdateResult } from 'typeorm';
 import User from '../entities/User';
-import FileRepository from './FileRepository';
-import FileReferenceRepository from './FileReferenceRepository';
 
-type Container = {
-  fileRepository: FileRepository;
-  fileReferenceRepository: FileReferenceRepository;
-  [key: string]: any;
-};
-
+type Container = Pick<FastifyInstance, 'fileRepository' | 'fileReferenceRepository'>;
 
 type RawFile = {
   path?: string;
@@ -21,7 +15,7 @@ type RawFile = {
 
 @EntityRepository(User)
 export default class ProjectRepository extends Repository<User> {
-  async updateImage(container: Container, userId: string, rawFileRequest: RawFile) {
+  async updateImage(container: Container, userId: string, rawFileRequest: RawFile): Promise<UpdateResult> {
     if (!rawFileRequest) {
       throw new Error('File does not exist');
     }
@@ -42,7 +36,7 @@ export default class ProjectRepository extends Repository<User> {
     return this.update(userId, { image: newFileref });
   }
 
-  async removeImage(container: Container, userId: string) {
+  async removeImage(container: Container, userId: string): Promise<void> {
     const { fileReferenceRepository } = container;
 
     const fileref = await fileReferenceRepository.findOne({ where: { itemId: userId, itemType: 'user', purpose: 'photo' } });

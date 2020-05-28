@@ -1,20 +1,15 @@
-import * as _ from 'lodash';
+import * as _ from 'lodash'; // TODO: ts-node somehow not using tsconfig
+import { FastifyInstance } from 'fastify';
 import { Repository, Not, EntityRepository } from 'typeorm';
 import { toURI } from '../libs/translit';
 import Project from '../entities/Project';
-import FileRepository from './FileRepository';
-import FileReferenceRepository from './FileReferenceRepository';
+
+type Container = Pick<FastifyInstance, 'fileRepository' | 'fileReferenceRepository'>;
 
 const toUrl = (str: string) => _.truncate(
   toURI(_.replace(str, /[$&_+.]/g, ' ')),
   { length: 255, omission: '' },
 );
-
-type Container = {
-  fileRepository: FileRepository;
-  fileReferenceRepository: FileReferenceRepository;
-  [key: string]: any;
-};
 
 @EntityRepository(Project)
 export default class ProjectRepository extends Repository<Project> {
@@ -28,7 +23,7 @@ export default class ProjectRepository extends Repository<Project> {
     const instanceWithSameUrlKey = await this.findOne({ where: { urlKey, id: Not(item.id) } });
     if (instanceWithSameUrlKey) return this.generateUrlKey(item, uriPart + 1);
 
-    return actuallyUpdateUrlKey ? this.save({ ...item, urlKey }) : Promise.resolve(urlKey);
+    return actuallyUpdateUrlKey ? this.save({ ...item, urlKey }) : urlKey;
   }
 
   async updateMainImageId(container: Container, item: Project): Promise<Project> {

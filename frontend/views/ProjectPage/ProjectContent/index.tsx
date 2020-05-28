@@ -20,6 +20,8 @@ import styles from './styles';
 
 const useStyles = makeStyles(styles);
 
+/* cspell: disable */
+
 type Props = {
   project: Project;
 };

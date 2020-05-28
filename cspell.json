@@ -11,6 +11,7 @@
     "dictionaries": [
         "russian"
     ],
+    "allowCompoundWords": true,
     "words": [
       "fastify",
       "typeorm",
@@ -33,6 +34,11 @@
       "helvetica",
       "arial",
       "neue",
-      "logging"
+      "logging",
+      "swipeable",
+      "foofaev",
+      "аватар",
+      "вконтакте",
+      "devtools"
    ]
   }

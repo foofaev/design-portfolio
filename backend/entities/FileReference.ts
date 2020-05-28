@@ -24,6 +24,9 @@ export default class FileReference {
   @Column('varchar')
   purpose: string;
 
+  @Column('uuid', { nullable: true })
+  itemId: string;
+
   @OneToOne(() => Project, (project) => project.mainImage)
   @OneToOne(() => Project, (project) => project.draft)
   @ManyToOne(() => Project, (project) => project.images)
