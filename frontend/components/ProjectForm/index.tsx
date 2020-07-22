@@ -1,11 +1,12 @@
+/* ****************************************************************************************************************** */
+
 import React from 'react';
+import { connect } from 'react-redux';
+import { FormSubmitHandler } from 'redux-form';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,47 +15,86 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 
-import styles from './styles';
-import { Project, AsyncActionFunction } from '../../types';
+import GridItem from '../Grid/GridItem';
+import GridContainer from '../Grid/GridContainer';
 
-export type ProjectFormProps = {
+import { State, Project, AsyncActionFunction } from '../../types';
+import styles from './styles';
+import EditImagesForm from './EditImages';
+import AddImageForm from './AddImage';
+
+import { addProject } from '../../actions/projects';
+import { updateProject } from '../../actions/project';
+import { saveProjectImage, updateProjectImageOrd, removeProjectImage } from '../../actions/projectFiles';
+
+/* ****************************************************************************************************************** */
+type StateProps = Pick<State, 'projectUpdatingState' | 'projectAddingState'>;
+
+type DispatchProps = {
+  updateProject: typeof updateProject;
+  addProject: typeof addProject;
+  // saveProjectImage: (projectId: string) => FormSubmitHandler<{ file: File }>;
+  saveProjectImage: typeof saveProjectImage;
+  updateProjectImageOrd: typeof updateProjectImageOrd; // invalid type && change to updateProjectImagesOrd
+  removeProjectImage: (data: { fileId: string; projectId: string }) => void;
+};
+
+type OwnProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   project?: Project;
-  saveProject?: AsyncActionFunction<Project>;
-  updateProject?: AsyncActionFunction<Project>;
-  edit?: boolean;
   create?: boolean;
 };
 
-// title: { type: 'string' },
-// ord: { type: 'integer' },
-// description: { type: 'string' },
-// isVisible: { type: 'boolean' },
-// publishedAt: { type: 'string' },
+/* ****************************************************************************************************************** */
+const mapStateToProps = ({ projectUpdatingState, projectAddingState }: State): StateProps => ({
+  projectUpdatingState,
+  projectAddingState,
+});
 
+/* ****************************************************************************************************************** */
+const actionCreators = {
+  addProject,
+  updateProject,
+  saveProjectImage,
+  updateProjectImageOrd,
+  removeProjectImage,
+};
+
+/* ****************************************************************************************************************** */
+const connector = connect<StateProps, DispatchProps, OwnProps, State>(mapStateToProps, actionCreators);
+
+/* ****************************************************************************************************************** */
+
+export type ProjectFormProps = StateProps & DispatchProps & OwnProps;
+
+/* ****************************************************************************************************************** */
 const useStyles = makeStyles(styles);
 
+/* ****************************************************************************************************************** */
 const Transition = React.forwardRef(
   (props: TransitionProps & { children?: React.ReactElement }, ref: React.Ref<unknown>) => (
     <Slide direction="up" ref={ref} {...props} /> // eslint-disable-line react/jsx-props-no-spreading
   ),
 );
 
+/* ****************************************************************************************************************** */
 const ProjectFormDialog: React.FC<ProjectFormProps> = ({
-  edit,
   create,
   open,
   setOpen,
-  updateProject,
-  saveProject,
   project,
+  projectAddingState,
+  projectUpdatingState,
+  ...actions
 }: ProjectFormProps) => {
   const classes = useStyles();
 
   const handleClose = (): void => {
     setOpen(false);
   };
+
+  const onSaveImageSubmit = project && actions.saveProjectImage(project.id);
 
   return (
     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -64,24 +104,24 @@ const ProjectFormDialog: React.FC<ProjectFormProps> = ({
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {edit && project ? `Обновление проекта ${project.title}` : 'Создание нового проекта'}
+            {!create && project ? `Обновление проекта ${project.title}` : 'Создание нового проекта'}
           </Typography>
           <Button autoFocus color="inherit" onClick={handleClose}>
             Сохранить
           </Button>
         </Toolbar>
       </AppBar>
-      <List>
-        <ListItem button>
-          <ListItemText primary="Phone ringtone" secondary="Titania" />
-        </ListItem>
-        <Divider />
-        <ListItem button>
-          <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-        </ListItem>
-      </List>
+      <GridContainer spacing={2} justify="center">
+        <GridItem xs={12} sm={12} md={8} lg={8}>
+          {project && project.id && <AddImageForm form="addImageForm" onSubmit={onSaveImageSubmit} />}
+          {project && <EditImagesForm projectId={project.id} images={project.files} />}
+        </GridItem>
+      </GridContainer>
     </Dialog>
   );
 };
 
-export default ProjectFormDialog;
+/* ****************************************************************************************************************** */
+export default connector(ProjectFormDialog);
+
+/* ****************************************************************************************************************** */

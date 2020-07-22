@@ -13,7 +13,7 @@ import CardFooter from '../../../components/Card/CardFooter';
 import CardIcon from '../../../components/Card/CardIcon';
 import GridItem from '../../../components/Grid/GridItem';
 import GridContainer from '../../../components/Grid/GridContainer';
-import TextField from './TextField';
+import TextField from '../../../components/Inputs/TextField';
 
 import { UserInput } from '../../../types';
 

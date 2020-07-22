@@ -1,5 +1,6 @@
 /* ****************************************************************************************************************** */
 
+import compact from 'lodash/compact';
 import { Paging } from '../types';
 
 /* ****************************************************************************************************************** */
@@ -12,7 +13,7 @@ const buildPaging = ({ offset, limit }: Paging) => `?offset=${offset}&limit=${li
 export default {
   projectsUrl: (paging: Paging): string => [HOST, 'api', `projects${buildPaging(paging)}`].join('/'),
   projectUrl: (urlKey: string | void = ''): string => [HOST, 'api', 'projects', urlKey].join('/'),
-  projectImageUrl: ({ id, fileId = '' }: { id: string; fileId?: string }): string => [HOST, 'api', 'projects', 'image', id, fileId].join('/'),
+  projectImageUrl: ({ id, fileId = '' }: { id: string; fileId?: string }): string => compact([HOST, 'api', 'projects', 'image', id, fileId]).join('/'),
 
   login: (): string => [HOST, 'api', 'session'].join('/'),
   checkSessionUrl: (): string => [HOST, 'api', 'session', 'check'].join('/'),

@@ -4,25 +4,24 @@ import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 
 import Button from '@material-ui/core/Button';
 
-import Card from '../../../components/Card/Card';
-import CardFooter from '../../../components/Card/CardFooter';
-import ImageUpload from '../../../components/Inputs/FileUpload';
+import Card from '../Card/Card';
+import CardFooter from '../Card/CardFooter';
+import ImageUpload from '../Inputs/FileUpload';
 
 /* ****************************************************************************************************************** */
-type InputProps = { avatar: File };
-type OwnProps = { imageUrl?: string };
+type InputProps = { file: File };
 
 /* ****************************************************************************************************************** */
-type Props = InjectedFormProps<InputProps, OwnProps> & OwnProps;
+type Props = InjectedFormProps<InputProps>;
 
 /* ****************************************************************************************************************** */
-const ChangeAvatarForm: React.FC<Props> = ({ handleSubmit, submitting, pristine, imageUrl }: Props) => (
+const AddImageForm: React.FC<Props> = ({ handleSubmit, submitting, pristine }: Props) => (
   <form onSubmit={handleSubmit}>
     <Card>
-      <Field name="avatar" type="file" props={{ avatar: true, imageUrl }} required component={ImageUpload} />
+      <Field name="file" type="file" required component={ImageUpload} />
       <CardFooter>
         <Button type="submit" disabled={submitting || pristine} color="inherit" autoFocus>
-          Сохранить аватар
+          Добавить изображение
         </Button>
       </CardFooter>
     </Card>
@@ -30,8 +29,6 @@ const ChangeAvatarForm: React.FC<Props> = ({ handleSubmit, submitting, pristine,
 );
 
 /* ****************************************************************************************************************** */
-export default reduxForm<InputProps, OwnProps>({
-  enableReinitialize: true,
-})(ChangeAvatarForm);
+export default reduxForm<InputProps>({})(AddImageForm);
 
 /* ****************************************************************************************************************** */

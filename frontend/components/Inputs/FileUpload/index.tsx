@@ -13,8 +13,8 @@ import styles from './styles';
 /* ****************************************************************************************************************** */
 // TODO: take from static
 
-const defaultImage = require('../../../assets/img/image_placeholder.jpg'); // eslint-disable-line
-const defaultAvatar = require('../../../assets/img/placeholder.jpg'); // eslint-disable-line
+const defaultImage = require('../../../../assets/img/image_placeholder.jpg'); // eslint-disable-line
+const defaultAvatar = require('../../../../assets/img/placeholder.jpg'); // eslint-disable-line
 
 /* ****************************************************************************************************************** */
 export type ImageUploadProps = {

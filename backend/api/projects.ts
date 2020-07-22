@@ -33,8 +33,7 @@ const index = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(),
   handler: async (request) => {
     const { offset: skip, limit: take } = request.query;
-    const projects = await fastify
-      .projectRepository
+    const projects = await fastify.projectRepository
       .find({ relations: ['mainImage', 'images', 'draft'], skip, take })
       .then((projectsRaw) => projectsToJSON(fastify, projectsRaw));
     return { projects };
@@ -67,8 +66,7 @@ const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, D
   preHandler: fastify.checkSession(),
   handler: (request: FastifyRequest) => {
     const { urlKey } = request.params;
-    return fastify
-      .projectRepository
+    return fastify.projectRepository
       .findOneOrFail({ urlKey }, { relations: ['mainImage', 'images', 'draft'] })
       .then((projectRaw) => projectsToJSON(fastify, projectRaw))
       .then((project) => ({ project }));
@@ -153,7 +151,10 @@ const update = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository } = fastify;
-    const { body, params: { id } } = request;
+    const {
+      body,
+      params: { id },
+    } = request;
 
     await projectRepository.update(id, body);
     return projectRepository
@@ -187,7 +188,9 @@ const remove = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository } = fastify;
-    const { params: { urlKey } } = request;
+    const {
+      params: { urlKey },
+    } = request;
 
     await projectRepository.delete({ urlKey });
     return {};
@@ -201,16 +204,15 @@ const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify.
     body: {
       type: 'object',
       properties: {
-        ord: { type: 'integer' },
         file: { type: 'array', items: 'rawFileSchema#' },
       },
-      required: ['file', 'ord'],
+      required: ['file'],
       additionalProperties: false,
     },
     params: {
       type: 'object',
       properties: {
-        projectId: { type: 'string', minLength: 1 },
+        projectId: { type: 'string', format: 'uuid' },
       },
       additionalProperties: false,
       required: ['projectId'],
@@ -228,7 +230,10 @@ const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify.
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository, fileRepository, fileReferenceRepository } = fastify;
-    const { body, params: { projectId } } = request;
+    const {
+      body,
+      params: { projectId },
+    } = request;
     const rawFile = body.file[0];
     const fileData = { name: rawFile.filename, contentType: rawFile.mimetype, data: rawFile.data };
 
@@ -237,10 +242,7 @@ const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify.
       fileRepository.createFromFileIfNotExists(fileData),
     ]);
 
-    await fileReferenceRepository.createWithFile(
-      file,
-      { item: project, itemType: 'project', purpose: 'file', ord: body.ord },
-    );
+    await fileReferenceRepository.createWithFile(file, { item: project, itemType: 'project', purpose: 'file' });
 
     await projectRepository.updateMainImageId(fastify, project);
 
@@ -286,7 +288,10 @@ const updateProjectImageOrd = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository, fileReferenceRepository } = fastify;
-    const { body: { ord }, params: { projectId, fileId } } = request;
+    const {
+      body: { ord },
+      params: { projectId, fileId },
+    } = request;
 
     const project = await projectRepository.findOneOrFail(projectId);
 
@@ -328,7 +333,9 @@ const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository, fileReferenceRepository } = fastify;
-    const { params: { projectId, fileId: fileRefId } } = request;
+    const {
+      params: { projectId, fileId: fileRefId },
+    } = request;
 
     const project = await projectRepository.findOneOrFail(projectId);
     const fileref = await fileReferenceRepository.findOneOrFail(fileRefId);
@@ -346,15 +353,7 @@ const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
 
 // TODO: buildRelations() =>
 /* ****************************************************************************************************************** */
-export {
-  index,
-  show,
-  save,
-  remove,
-  update,
-  saveProjectImage,
-  updateProjectImageOrd,
-  removeProjectImage,
-};
+export { index, show, save, remove, update, saveProjectImage, updateProjectImageOrd, removeProjectImage };
 
 /* ****************************************************************************************************************** */
+

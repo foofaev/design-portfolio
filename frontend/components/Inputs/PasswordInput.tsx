@@ -1,14 +1,14 @@
 /* ****************************************************************************************************************** */
 
 import * as React from 'react';
-import { WrappedFieldProps, Field, BaseFieldProps } from 'redux-form';
+import { WrappedFieldProps, Field } from 'redux-form';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import CustomInput, { CustomInputProps } from '../../../components/CustomInput';
+import CustomInput, { CustomInputProps } from './CustomInput';
 
 /* ****************************************************************************************************************** */
 type InputProps = WrappedFieldProps & CustomInputProps;

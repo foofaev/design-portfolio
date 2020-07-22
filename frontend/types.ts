@@ -1,6 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
 
-type File = {
+type ImageOutput = {
   id: string;
   num: number;
   filePath: string;
@@ -25,7 +25,7 @@ type ProjectOutput = {
   draftUrl: string;
   imageUrl: string;
   images: string[];
-  files: File[];
+  files: ImageOutput[];
   ord: number;
   createdAt: string;
   updatedAt: string;
@@ -56,7 +56,7 @@ type UserOutput = {
   facebookLink: string;
   instagramLink: string;
   vkLink: string;
-  image: File[];
+  image: ImageOutput[];
   imageUrl: string;
   createdAt: string;
   updatedAt: string;
@@ -152,7 +152,8 @@ type AsyncActionFunction3<Data1, Data2, Data3> = (
 ) => ThunkAction<void, State, null, Action<Container<Data1 | Data2 | Data3>>>;
 
 export {
-  File,
+  ImageOutput as File,
+  ImageOutput,
   ProjectOutput as Project,
   ProjectInput,
   Action,

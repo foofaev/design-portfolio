@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { WrappedFieldProps, Field } from 'redux-form';
 
-import CustomInput, { CustomInputProps } from '../../../components/CustomInput';
+import CustomInput, { CustomInputProps } from './CustomInput';
 
 /* ****************************************************************************************************************** */
 type FieldProps = CustomInputProps & { className?: string };

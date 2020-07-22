@@ -1,6 +1,7 @@
 /* ****************************************************************************************************************** */
 
 import axios, { AxiosResponse } from 'axios';
+import { SubmissionError, FormSubmitHandler } from 'redux-form';
 
 import { Project, ActionFunction0, ActionFunction1, ActionFunction2, AsyncActionFunction } from '../types';
 
@@ -51,22 +52,25 @@ const removeProjectImageFailure: ActionFunction0 = () => ({ type: PROJECT_IMAGE_
 
 /* ****************************************************************************************************************** */
 type SaveProjectImageInput = {
-  file: Blob;
-  ord: number;
-  projectId: string;
+  file: File;
 };
 
-const saveProjectImage: AsyncActionFunction<SaveProjectImageInput, ProjectOutput> = ({
+const saveProjectImage = (projectId: string): FormSubmitHandler<{ file: File }> => async ({
   file,
-  ord,
-  projectId,
-}) => async (dispatch) => {
+}, dispatch) => {
   dispatch(saveProjectImageRequest());
   try {
-    const response: AxiosResponse<{ project: Project }> = await axios.patch(
-      routes.projectImageUrl({ id: projectId as string }),
-      { file, ord },
-    );
+    const body = new FormData();
+    // const response: AxiosResponse<{ project: Project }> = await axios.patch(
+    //   routes.projectImageUrl({ id: projectId as string }),
+    //   { file, ord },
+    // );
+    body.append('file', file);
+    const response: AxiosResponse<{ project: Project }> = await axios({
+      method: 'PATCH',
+      url: routes.projectImageUrl({ id: projectId as string }),
+      data: body,
+    });
     dispatch(saveProjectImageSuccess({ ...response.data }));
   } catch (error) {
     dispatch(saveProjectImageFailure());
