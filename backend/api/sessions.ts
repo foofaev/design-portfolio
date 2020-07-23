@@ -1,7 +1,7 @@
 /* ****************************************************************************************************************** */
 
 import { FastifyInstance } from 'fastify';
-import * as moment from 'moment';
+import moment from 'moment';
 import helpers from '../libs/helpers';
 import { userToJSON } from '../libs/toJSON';
 

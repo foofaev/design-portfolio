@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import * as React from 'react';
+import React from 'react';
 import { WrappedFieldInputProps, WrappedFieldMetaProps, Field } from 'redux-form';
 
 import CustomInput, { CustomInputProps } from '../../../components/CustomInput';

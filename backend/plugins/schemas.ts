@@ -1,4 +1,4 @@
-import * as fp from 'fastify-plugin';
+import fp from 'fastify-plugin';
 
 import { projectInput, projectOutput, projectTypeSchema } from '../schemas/project';
 import { sessionHeader } from '../schemas/session';

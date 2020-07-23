@@ -1,5 +1,5 @@
 import 'jest-extended';
-import * as path from 'path';
+import path from 'path';
 import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
 import { startServer, stopServer, TEST_PROJECTS, Project, ProjectOutput } from '../../helpers';

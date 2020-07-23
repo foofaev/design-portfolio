@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import * as React from 'react';
+import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid, { GridProps } from '@material-ui/core/Grid';
 

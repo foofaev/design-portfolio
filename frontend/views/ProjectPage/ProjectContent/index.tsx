@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import size from 'lodash/size';
 import chunk from 'lodash/chunk';
 import compact from 'lodash/compact';
@@ -16,6 +16,8 @@ import ProjectPhoto from '../ProjectPhoto';
 
 import { Project } from '../../../types';
 
+import defaultDraftImage from '../../../../assets/draft.png';
+
 import styles from './styles';
 
 const useStyles = makeStyles(styles);
@@ -29,7 +31,7 @@ type Props = {
 const Content: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
   const { images = [], description, preview, rooms, tenants, square, draftUrl = '' } = project;
-  const draftImage = draftUrl || require('../../../../assets/draft.png') as string; // eslint-disable-line
+  const draftImage = draftUrl || defaultDraftImage as string;
   const allImages = compact([draftImage, ...images]);
 
   const Features = () => (

@@ -13,8 +13,8 @@ import styles from './styles';
 /* ****************************************************************************************************************** */
 // TODO: take from static
 
-const defaultImage = require('../../../assets/img/image_placeholder.jpg') as string; // eslint-disable-line
-const defaultAvatar = require('../../../assets/img/placeholder.jpg') as string; // eslint-disable-line
+import defaultImage from '../../../assets/img/image_placeholder.jpg';
+import defaultAvatar from '../../../assets/img/placeholder.jpg';
 
 /* ****************************************************************************************************************** */
 export type ImageUploadProps = {
@@ -41,7 +41,7 @@ const ImageUpload: React.FC<Props> = ({
   imageUrl = '',
 }: Props) => {
   const [file, setFile] = React.useState<File | null>(null);
-  const defaultPreviewUrl = imageUrl || (avatar ? defaultAvatar : defaultImage);
+  const defaultPreviewUrl = imageUrl || (avatar ? defaultAvatar as string : defaultImage as string);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>(defaultPreviewUrl);
 
   const classes = useStyles();

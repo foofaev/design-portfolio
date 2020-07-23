@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import cn from 'classnames';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Favorite from '@material-ui/icons/Favorite';
 
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './styles';

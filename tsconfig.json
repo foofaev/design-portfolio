@@ -2,7 +2,8 @@
   "compilerOptions": {
     "lib": [
       "es6",
-      "dom"
+      "dom",
+      "esnext"
     ],
     "target": "es5",
     "module": "commonjs",
@@ -10,6 +11,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "allowJs": true,
+    "esModuleInterop": true,
 
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
 import { startServer, stopServer, TEST_USERS, UserOutput } from '../../helpers';

@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import Project, { ProjectOutput } from '../entities/Project';
 import User from '../entities/User';
 
