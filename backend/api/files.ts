@@ -5,8 +5,8 @@ import { readFileSync } from 'fs';
 import { ServerResponse } from 'http';
 import { FastifyInstance, FastifyReply } from 'fastify';
 
-import * as _ from 'lodash';
-import * as sharp from 'sharp';
+import _ from 'lodash';
+import sharp from 'sharp';
 import validator from 'validator';
 import File from '../entities/File';
 

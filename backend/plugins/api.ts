@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
-import * as fp from 'fastify-plugin';
+import _ from 'lodash';
+import fp from 'fastify-plugin';
 
 import * as projectRoutes from '../api/projects';
 import * as fileRoutes from '../api/files';

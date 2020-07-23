@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
-import * as fp from 'lodash/fp';
+import _ from 'lodash';
+import fp from 'lodash/fp';
 
 // substrings with larger length goes at first due to #translit implementation
 // cspell:disable-next-line

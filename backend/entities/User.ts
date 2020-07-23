@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import helpers from '../libs/helpers';
 import FileReference from './FileReference'; // eslint-disable-line import/no-cycle
 

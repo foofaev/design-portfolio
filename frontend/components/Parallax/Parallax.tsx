@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import pickBy from 'lodash/pickBy';

@@ -1,14 +1,14 @@
 import 'reflect-metadata';
-import * as path from 'path';
+import path from 'path';
 
-import * as Fastify from 'fastify';
-import * as dotenv from 'dotenv';
+import Fastify from 'fastify';
+import dotenv from 'dotenv';
 
-import * as fastifySensible from 'fastify-sensible';
-import * as fastifyStatic from 'fastify-static';
-import * as fastifyHelmet from 'fastify-helmet';
-import * as fastifyMultipart from 'fastify-multipart';
-import * as Rollbar from 'rollbar';
+import fastifySensible from 'fastify-sensible';
+import fastifyStatic from 'fastify-static';
+import fastifyHelmet from 'fastify-helmet';
+import fastifyMultipart from 'fastify-multipart';
+import Rollbar from 'rollbar';
 // import * as Bundler from 'parcel-bundler';
 
 import api from './plugins/api';

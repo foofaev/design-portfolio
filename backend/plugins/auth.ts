@@ -1,11 +1,11 @@
 /* ****************************************************************************************************************** */
 
 import { FastifyInstance, FastifyRequest, FastifyMiddlewareWithPayload, FastifyMiddlewareWithOpts } from 'fastify';
-import * as fp from 'fastify-plugin';
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import fp from 'fastify-plugin';
+import _ from 'lodash';
+import moment from 'moment';
 
-import * as fastifyCookie from 'fastify-cookie';
+import fastifyCookie from 'fastify-cookie';
 // import fastifyCsurf from 'fastify-csrf';
 
 import helpers from '../libs/helpers';

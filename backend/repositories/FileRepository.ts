@@ -1,8 +1,8 @@
-import * as path from 'path';
-import * as fs from 'fs';
+import path from 'path';
+import fs from 'fs';
 import { createHash } from 'crypto';
-import * as _ from 'lodash';
-import * as sharp from 'sharp';
+import _ from 'lodash';
+import sharp from 'sharp';
 import { Repository, EntityRepository, ObjectLiteral } from 'typeorm';
 import File from '../entities/File';
 

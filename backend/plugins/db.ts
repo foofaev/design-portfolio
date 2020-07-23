@@ -1,5 +1,5 @@
 import { callbackify } from 'util';
-import * as fastifyPlugin from 'fastify-plugin';
+import fastifyPlugin from 'fastify-plugin';
 import { createConnection, getConnectionOptions, ConnectionOptions } from 'typeorm';
 import ProjectRepository from '../repositories/ProjectRepository';
 import FileRepository from '../repositories/FileRepository';

@@ -1,7 +1,7 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import * as bluebird from 'bluebird';
-import * as _ from 'lodash';
+import path from 'path';
+import fs from 'fs';
+import bluebird from 'bluebird';
+import _ from 'lodash';
 import { createConnection } from 'typeorm';
 
 import Project from '../entities/Project';

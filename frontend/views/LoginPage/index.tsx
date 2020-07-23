@@ -21,6 +21,9 @@ import * as actions from '../../actions/session';
 
 import styles from './styles';
 
+// TODO: take from static
+import backgroundImage from '../../../assets/img/login.jpg';
+
 /* ****************************************************************************************************************** */
 type StateProps = Pick<State, 'isLoggedIn' | 'loggingInState'>;
 type DispatchProps = {
@@ -40,9 +43,6 @@ const connector = connect<StateProps, DispatchProps, unknown, State>(
 
 /* ****************************************************************************************************************** */
 export type LoginProps = StateProps & DispatchProps;
-
-// TODO: take from static
-const backgroundImage = require('../../../assets/img/login.jpg') as string; // eslint-disable-line
 
 const useStyles = makeStyles(styles);
 
@@ -75,7 +75,7 @@ function LoginPage({ isLoggedIn, loggingInState, login }: LoginProps) {
       <div
         className={classes.pageHeader}
         style={{
-          backgroundImage: `url(${backgroundImage})`,
+          backgroundImage: `url(${backgroundImage as string})`,
           backgroundSize: 'cover',
           backgroundPosition: 'top center',
         }}

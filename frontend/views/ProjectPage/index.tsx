@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
