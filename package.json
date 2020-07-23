@@ -111,7 +111,7 @@
     "fastify-plugin": "^1.6.0",
     "fastify-sensible": "^2.1.1",
     "fastify-static": "^2.5.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mime-types": "^2.1.25",
     "moment": "^2.24.0",
     "mysql": "^2.14.1",
