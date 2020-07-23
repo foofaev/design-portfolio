@@ -23,7 +23,7 @@ const loginFailure: ActionFunction1<string> = ({ error }) => ({ type: LOGIN_FAIL
 /* ****************************************************************************************************************** */
 type LoginProps = { email: string; password: string };
 
-const login: FormSubmitHandler<LoginProps> = async ({ email, password }, dispatch) => {
+const login: FormSubmitHandler<LoginProps, any> = async ({ email, password }, dispatch) => {
   dispatch(loginRequest());
   try {
     const url = routes.login();
