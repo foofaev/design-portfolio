@@ -32,7 +32,7 @@ const imagesStyles = {
     borderRadius: 'calc(.25rem - 1px)',
   },
   imgCardOverlay: {
-    position: 'absolute' as 'absolute',
+    position: 'absolute' as const,
     top: '0',
     right: '0',
     bottom: '0',

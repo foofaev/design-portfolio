@@ -64,7 +64,7 @@ const saveProjectImage: AsyncActionFunction<SaveProjectImageInput, ProjectOutput
   dispatch(saveProjectImageRequest());
   try {
     const response: AxiosResponse<{ project: Project }> = await axios.patch(
-      routes.projectImageUrl({ id: projectId as string }),
+      routes.projectImageUrl({ id: projectId }),
       { file, ord },
     );
     dispatch(saveProjectImageSuccess({ ...response.data }));
@@ -88,7 +88,7 @@ const updateProjectImageOrd: AsyncActionFunction<UpdateProjectImageOrdInput, Pro
 }) => async (dispatch) => {
   dispatch(updateProjectImageOrdRequest());
   try {
-    const route = routes.projectImageUrl({ id: projectId as string, fileId: fileId as string });
+    const route = routes.projectImageUrl({ id: projectId, fileId });
     const response: AxiosResponse<{ project: Project }> = await axios.patch(route, { ord });
     dispatch(updateProjectImageOrdSuccess({ ...response.data }));
   } catch (error) {

@@ -1,22 +1,23 @@
 /* eslint-disable no-underscore-dangle */
 
-import * as program from 'commander';
 import * as repl from 'repl';
-import * as _ from 'lodash';
+import program from 'commander';
+import _ from 'lodash';
 import { FastifyInstance } from 'fastify';
 import getServer from './backend';
 import seedProjects from './backend/scripts/seedProjects';
 
 process
-  .on('unhandledRejection', (reason, promise) => {
+  .on('unhandledRejection', (reason) => {
     if (reason) {
-      console.error(`Possibly Unhandled Rejection at: Promise ${promise}, reason: ${JSON.stringify(reason)}`);
+      console.error(`Possibly Unhandled Rejection with reason: ${JSON.stringify(reason)}`);
     }
   });
 
 process
   .on('uncaughtException', (error) => {
-    console.error(`Exception: ${error.toString()} ${error.stack}`);
+    console.error(`Exception: ${error.toString()}`);
+    if (error.stack) console.error(error.stack);
     setTimeout(() => process.exit(-1), 200);
   });
 

@@ -23,7 +23,6 @@ const rollbar = new Rollbar({
   captureUnhandledRejections: true,
 });
 
-
 export default async (): Promise<Fastify.FastifyInstance> => {
   dotenv.config({ path: '../.env' });
 

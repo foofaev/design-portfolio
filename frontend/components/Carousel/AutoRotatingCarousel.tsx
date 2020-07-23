@@ -28,7 +28,6 @@ export interface CarouselProps extends Omit<ModalProps, 'children'> {
   label?: string;
   landscape?: boolean;
   mobile?: boolean;
-  onSlideChange?: Function;
   onStart?: (event: React.SyntheticEvent) => void;
   hideArrows?: boolean;
   children: CarouselChild[];
@@ -46,7 +45,6 @@ function AutoRotatingCarousel(props: CarouselProps) {
     landscape,
     onClose,
     onStart,
-    onSlideChange,
     autoplay = true,
     interval = 3000,
     mobile = false,

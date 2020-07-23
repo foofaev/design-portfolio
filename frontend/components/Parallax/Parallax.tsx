@@ -16,7 +16,6 @@ type ParallaxProps = {
   className?: string;
 };
 
-
 function Parallax({ filter, children, image, small, project, className }: ParallaxProps) {
   const windowScrollTop = window.innerWidth >= 768 ? (window.pageYOffset / 3) : 0;
 

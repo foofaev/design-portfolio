@@ -28,8 +28,8 @@ type Props = {
 
 const Content: React.FC<Props> = ({ project }: Props) => {
   const classes = useStyles();
-  const { images = [], description, preview, rooms, tenants, square, draftUrl } = project;
-  const draftImage = draftUrl || require('../../../../assets/draft.png'); // eslint-disable-line
+  const { images = [], description, preview, rooms, tenants, square, draftUrl = '' } = project;
+  const draftImage = draftUrl || require('../../../../assets/draft.png') as string; // eslint-disable-line
   const allImages = compact([draftImage, ...images]);
 
   const Features = () => (

@@ -79,7 +79,7 @@ const updateUser: FormSubmitHandler<UserInput> = async ({ ...user }, dispatch) =
     dispatch(updateUserSuccess({ ...response.data }));
   } catch (error) {
     dispatch(updateUserFailure());
-    throw new SubmissionError({ _error: error });
+    throw new SubmissionError({ _error: error as Error });
   }
 };
 
@@ -95,7 +95,7 @@ const changePassword: FormSubmitHandler<{
     dispatch(updatePasswordSuccess());
   } catch (error) {
     dispatch(updatePasswordFailure());
-    throw new SubmissionError({ _error: error });
+    throw new SubmissionError({ _error: error as Error });
   }
 };
 
@@ -117,7 +117,7 @@ const saveUserImage: FormSubmitHandler<{ avatar: File }> = async ({ avatar }, di
   try {
     const body = new FormData();
     body.append('file', avatar);
-    const response: AxiosResponse<{ user: UserOutput }> = await axios({
+    const response: AxiosResponse<{ user: UserOutput }> = await axios.request({
       method: 'PATCH',
       url: routes.userImageUrl(),
       data: body,
@@ -130,7 +130,7 @@ const saveUserImage: FormSubmitHandler<{ avatar: File }> = async ({ avatar }, di
 };
 
 /* ****************************************************************************************************************** */
-const removeUserImage: AsyncActionFunction<void, { user: UserOutput }> = () => async (dispatch) => {
+const removeUserImage: AsyncActionFunction0<UserOutput> = () => async (dispatch) => {
   dispatch(removeUserImageRequest());
   try {
     const response: AxiosResponse<{ user: UserOutput }> = await axios.delete(routes.userImageUrl());

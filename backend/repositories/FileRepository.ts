@@ -26,7 +26,6 @@ type PreviewParams = {
   top: number;
 };
 
-
 @EntityRepository(File)
 export default class FileRepository extends Repository<File> {
   async createFromFileIfNotExists(rawFileRequest: RawFile): Promise<File> {
@@ -51,7 +50,7 @@ export default class FileRepository extends Repository<File> {
       md5,
       name: rawFileRequest.name,
       size: Buffer.byteLength(fileData),
-      contentType: _.get(rawFileRequest, 'headers.content-type')
+      contentType: _.get(rawFileRequest, 'headers.content-type') as string
         || rawFileRequest.contentType
         || 'application/octet-stream',
       filePath,

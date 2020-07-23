@@ -5,7 +5,7 @@ const contentLarge = {
   width: '80%',
   height: 'calc(100% - 96px)',
   margin: '-16px auto 0',
-  position: 'relative' as 'relative',
+  position: 'relative' as const,
   top: '50%',
   transform: 'translateY(-50%)',
 };
@@ -98,6 +98,5 @@ const styles = () => createStyles({
   },
   closed: {},
 });
-
 
 export default styles;

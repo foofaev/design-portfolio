@@ -1,7 +1,7 @@
 /* ****************************************************************************************************************** */
 
 import * as React from 'react';
-import { WrappedFieldProps } from 'redux-form';
+import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LockIcon from '@material-ui/icons/Lock';
@@ -12,6 +12,13 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import CustomInput, { CustomInputProps } from '../../../components/CustomInput';
 
 /* ****************************************************************************************************************** */
+interface FormInputProps extends WrappedFieldInputProps { value: string }
+interface FormMetaProps extends WrappedFieldMetaProps { error?: string | Error }
+
+export interface WrappedFieldProps {
+    input: FormInputProps;
+    meta: FormMetaProps;
+}
 
 type InputProps = WrappedFieldProps & CustomInputProps & { className: string };
 
@@ -45,7 +52,7 @@ const PasswordField: React.FC<InputProps> = (props: InputProps) => {
         value,
         onChange,
         inputProps: {
-          'aria-label': touched && error,
+          'aria-label': touched && error ? error.toString() : undefined, /* TODO: had to use undefined for type compatibility */
         },
         startAdornment: (
           <InputAdornment position="start">

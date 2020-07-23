@@ -7,7 +7,6 @@ const enChars: string[] = ['shh', 'yo', 'zh', 'ch', 'sh', '``', 'y`', 'e`', 'yu'
 // cspell:disable-next-line
 const ruChars: string[] = ['щ', 'ё', 'ж', 'ч', 'ш', 'ъ', 'ы', 'э', 'ю', 'я', ...'абвгдезийклмнопрстуфхць'.split('')];
 
-
 if (enChars.length !== ruChars.length) {
   throw new Error(
     `libs / translit: expected enChars.length (${enChars.length}) to equal ruChars.length (${ruChars.length})`,
@@ -46,7 +45,7 @@ function toURI(str: string, separator = '_'): string {
     fp.replace(new RegExp(`(${separator})+`, 'g'))(separator), // Multiple dashes
     fp.replace(/-([+_])-/g)('$1'),
     fp.replace(/^[-_]+|[-_]+$/g)(''), // Trim text for specific chars
-  )(str);
+  )(str) as string;
 }
 
 export {

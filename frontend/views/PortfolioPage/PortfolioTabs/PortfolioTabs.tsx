@@ -70,8 +70,8 @@ const PortfolioTabs: React.FC<Props> = ({ projects }: Props) => {
 
   const cards = (
     <GridContainer justify="center" className={classes.container}>
-      {inColumns.map((column, index) => (
-        <GridItem key={get(column, '0.imageUrl', index)} xs={12} sm={6} md={6} lg={4}>
+      {inColumns.map((column: Project[], index) => (
+        <GridItem key={get(column, '0.imageUrl') as string || index} xs={12} sm={6} md={6} lg={4}>
           {column.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}

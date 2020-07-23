@@ -23,10 +23,12 @@ const processOne = (
   return { ...project, imageUrl, files, images, draftUrl };
 };
 
-const projectsToJSON = (fastify: FastifyInstance, projects: Project | Project[]) => {
+function projectsToJSON(fastify: FastifyInstance, project: Project): ProjectOutput;
+function projectsToJSON(fastify: FastifyInstance, projects: Project[]): ProjectOutput[];
+function projectsToJSON(fastify: FastifyInstance, projects: Project | Project[]): ProjectOutput | ProjectOutput[] {
   if (!Array.isArray(projects)) return processOne(fastify, projects);
   return projects.map((project) => processOne(fastify, project));
-};
+}
 
 const userToJSON = (fastify: FastifyInstance, { image, password, ...user }: User) => {
   const { fileReferenceRepository } = fastify;

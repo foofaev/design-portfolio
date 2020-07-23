@@ -14,7 +14,8 @@ export default fp((fastify, __, next) => {
     fastify.addSchema(userOutput);
     next();
   } catch (error) {
-    fastify.log.error(`Error adding schemas, reason: ${error.toString()} ${error.stack}`);
+    fastify.log.error(`Error adding schemas, reason: ${(error as Error).toString()}`);
+    fastify.log.error(JSON.stringify((error as Error).stack, null, 2));
     next(error);
   }
 });

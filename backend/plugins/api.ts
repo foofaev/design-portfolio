@@ -18,7 +18,8 @@ export default fp((fastify, __, next) => {
     routes.forEach((route) => route(fastify));
     next();
   } catch (error) {
-    fastify.log.error(`Error building routes, reason: ${error.toString()} ${error.stack}`);
+    fastify.log.error(`Error building routes, reason: ${(error as Error).toString()}`);
+    fastify.log.error(JSON.stringify((error as Error).stack, null, 2));
     next(error);
   }
 });

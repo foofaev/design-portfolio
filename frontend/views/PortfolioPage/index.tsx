@@ -61,7 +61,7 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, c
 
   // TODO: load from static
   // eslint-disable-next-line
-  const background = require('../../../assets/img/bg2.jpg');
+  const background = require('../../../assets/img/bg2.jpg') as string;
 
   // TODO: add skeletons
 

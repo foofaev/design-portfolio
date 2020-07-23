@@ -13,7 +13,7 @@ type Props = {
   count: number;
   index: number;
   style?: React.CSSProperties;
-  onDotClick?: Function;
+  onDotClick?: (dotIndex: number, event: React.SyntheticEvent) => void;
   className: string;
 };
 

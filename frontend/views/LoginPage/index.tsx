@@ -2,7 +2,7 @@
 
 import React from 'react';
 import cn from 'classnames';
-import { connect, ConnectedProps } from 'react-redux';
+import { connect } from 'react-redux';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { useHistory, Link } from 'react-router-dom';
 
@@ -29,20 +29,26 @@ import * as actions from '../../actions/session';
 import styles from './styles';
 
 /* ****************************************************************************************************************** */
+type StateProps = Pick<State, 'isLoggedIn' | 'loggingInState'>;
+
+/* ****************************************************************************************************************** */
 const mapStateToProps = ({ isLoggedIn, loggingInState }: State) => ({
   isLoggedIn,
   loggingInState,
 });
 
-const actionCreators = {};
+type InputProps = { email: string; password: string };
 
-const connector = connect(mapStateToProps, actionCreators);
+const connector = connect<StateProps, null, InjectedFormProps<InputProps>, State>(
+  mapStateToProps,
+  null,
+);
 
 /* ****************************************************************************************************************** */
-export type LoginProps = ConnectedProps<typeof connector> & InjectedFormProps;
+export type LoginProps = StateProps & InjectedFormProps<InputProps>;
 
 // TODO: take from static
-const backgroundImage = require('../../../assets/img/login.jpg'); // eslint-disable-line
+const backgroundImage = require('../../../assets/img/login.jpg') as string; // eslint-disable-line
 
 const useStyles = makeStyles(styles);
 
@@ -95,7 +101,7 @@ function LoginPage(props: LoginProps) {
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
               <Card>
-                <form className={classes.form} onSubmit={handleSubmit(actions.login)}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                   <CardHeader color="primary" signup className={classes.cardHeader}>
                     <h4 className={classes.cardTitle}>Логин</h4>
                   </CardHeader>
@@ -132,9 +138,9 @@ function LoginPage(props: LoginProps) {
 const ConnectedLoginPage = connector(LoginPage);
 
 /* ****************************************************************************************************************** */
-
-export default reduxForm({
+export default reduxForm<InputProps>({
   form: 'loginForm',
+  onSubmit: actions.login,
 })(ConnectedLoginPage);
 
 /* ****************************************************************************************************************** */
