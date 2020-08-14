@@ -29,7 +29,7 @@ export type CustomInputProps = {
 const useStyles = makeStyles(styles);
 
 /* ****************************************************************************************************************** */
-function CustomInput(props: CustomInputProps) {
+const CustomInput: React.FC<CustomInputProps> = (props: CustomInputProps) => {
   const {
     formControlProps,
     labelText,
@@ -83,7 +83,7 @@ function CustomInput(props: CustomInputProps) {
       {success && <Check className={`${classes.feedback} ${classes.labelRootSuccess}`} />}
     </FormControl>
   );
-}
+};
 
 /* ****************************************************************************************************************** */
 export default CustomInput;

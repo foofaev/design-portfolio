@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import CustomInput, { CustomInputProps } from '../../../components/CustomInput';
+import CustomInput, { CustomInputProps } from './CustomInput';
 
 /* ****************************************************************************************************************** */
 interface FormInputProps extends WrappedFieldInputProps { value: string }

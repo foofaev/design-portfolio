@@ -38,8 +38,7 @@ const index = (fastify: FastifyInstance) => fastify.route<GetProjectsQuery>({
   preHandler: fastify.checkSession(),
   handler: async (request) => {
     const { offset: skip, limit: take } = request.query;
-    const projects = await fastify
-      .projectRepository
+    const projects = await fastify.projectRepository
       .find({ relations: ['mainImage', 'images', 'draft'], skip, take })
       .then((projectsRaw) => projectsToJSON(fastify, projectsRaw));
     return { projects };
@@ -72,8 +71,7 @@ const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, D
   preHandler: fastify.checkSession(),
   handler: (request) => {
     const { urlKey } = request.params;
-    return fastify
-      .projectRepository
+    return fastify.projectRepository
       .findOneOrFail({ urlKey }, { relations: ['mainImage', 'images', 'draft'] })
       .then((projectRaw) => projectsToJSON(fastify, projectRaw))
       .then((project) => ({ project }));
@@ -381,7 +379,9 @@ const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
   preHandler: fastify.checkSession(true),
   handler: async (request) => {
     const { projectRepository, fileReferenceRepository } = fastify;
-    const { params: { projectId, fileId: fileRefId } } = request;
+    const {
+      params: { projectId, fileId: fileRefId },
+    } = request;
 
     const project = await projectRepository.findOneOrFail(projectId);
     const fileref = await fileReferenceRepository.findOneOrFail(fileRefId);
@@ -399,15 +399,7 @@ const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
 
 // TODO: buildRelations() =>
 /* ****************************************************************************************************************** */
-export {
-  index,
-  show,
-  save,
-  remove,
-  update,
-  saveProjectImage,
-  updateProjectImageOrd,
-  removeProjectImage,
-};
+export { index, show, save, remove, update, saveProjectImage, updateProjectImageOrd, removeProjectImage };
 
 /* ****************************************************************************************************************** */
+

@@ -1,5 +1,5 @@
 import { createStyles } from '@material-ui/core/styles';
-import { boxShadow } from '../../theme/theme';
+import { boxShadow } from '../../../theme/theme';
 // import {  } from '../../theme/images';
 
 const styles = () => createStyles({

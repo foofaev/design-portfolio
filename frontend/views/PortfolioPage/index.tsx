@@ -52,7 +52,7 @@ type Props = ConnectedProps<typeof connector>;
 /* ****************************************************************************************************************** */
 const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, checkSession, isLoggedIn }: Props) => {
   React.useEffect(() => {
-    fetchProjects({ offset: 0, limit: 20 });
+    fetchProjects({ offset: 0, limit: 100 });
     showUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

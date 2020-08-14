@@ -1,6 +1,6 @@
 import { createStyles } from '@material-ui/core/styles';
 
-import { primaryColor, dangerColor, successColor, whiteColor, grayColor, defaultFont } from '../../theme/theme';
+import { primaryColor, dangerColor, successColor, whiteColor, grayColor, defaultFont } from '../../../theme/theme';
 
 const styles = () => createStyles({
   disabled: {

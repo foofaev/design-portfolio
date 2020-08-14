@@ -13,7 +13,7 @@ import CardFooter from '../../../components/Card/CardFooter';
 import CardIcon from '../../../components/Card/CardIcon';
 import GridItem from '../../../components/Grid/GridItem';
 import GridContainer from '../../../components/Grid/GridContainer';
-import PasswordField from './PasswordInput';
+import PasswordField from '../../../components/Inputs/PasswordInput';
 
 import styles from './styles';
 
