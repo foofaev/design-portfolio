@@ -13,7 +13,7 @@ import {
 
 /* ****************************************************************************************************************** */
 const loggingInState = (
-  state = { error: '', status: 'none' as 'none' },
+  state = { error: '', status: 'none' as const },
   action: Action<LoggingInState>,
 ): LoggingInState => {
   switch (action.type) {
@@ -22,7 +22,7 @@ const loggingInState = (
     case LOGIN_SUCCESS:
       return { status: 'finished', error: '' };
     case LOGIN_FAILURE:
-      return { status: 'failed', error: get(action, 'payload.error', '') };
+      return { status: 'failed', error: get(action, 'payload.error', '') as string };
     default:
       return state;
   }

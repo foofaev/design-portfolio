@@ -60,17 +60,10 @@ const saveProjectImage = (projectId: string): FormSubmitHandler<{ file: File }> 
 }, dispatch) => {
   dispatch(saveProjectImageRequest());
   try {
-    const body = new FormData();
-    // const response: AxiosResponse<{ project: Project }> = await axios.patch(
-    //   routes.projectImageUrl({ id: projectId as string }),
-    //   { file, ord },
-    // );
-    body.append('file', file);
-    const response: AxiosResponse<{ project: Project }> = await axios({
-      method: 'PATCH',
-      url: routes.projectImageUrl({ id: projectId as string }),
-      data: body,
-    });
+    const response: AxiosResponse<{ project: Project }> = await axios.patch(
+      routes.projectImageUrl({ id: projectId }),
+      { file, ord },
+    );
     dispatch(saveProjectImageSuccess({ ...response.data }));
   } catch (error) {
     dispatch(saveProjectImageFailure());
@@ -92,7 +85,7 @@ const updateProjectImageOrd: AsyncActionFunction<UpdateProjectImageOrdInput, Pro
 }) => async (dispatch) => {
   dispatch(updateProjectImageOrdRequest());
   try {
-    const route = routes.projectImageUrl({ id: projectId as string, fileId: fileId as string });
+    const route = routes.projectImageUrl({ id: projectId, fileId });
     const response: AxiosResponse<{ project: Project }> = await axios.patch(route, { ord });
     dispatch(updateProjectImageOrdSuccess({ ...response.data }));
   } catch (error) {

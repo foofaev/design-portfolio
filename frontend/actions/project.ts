@@ -49,7 +49,7 @@ const updateProject: FormSubmitHandler<{ project: ProjectInput }> = async ({ pro
     dispatch(updateProjectSuccess({ ...response.data }));
   } catch (error) {
     dispatch(updateProjectFailure());
-    throw new SubmissionError({ _error: error });
+    throw new SubmissionError({ _error: error as Error });
   }
 };
 

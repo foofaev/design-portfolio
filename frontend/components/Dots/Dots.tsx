@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
@@ -13,7 +13,7 @@ type Props = {
   count: number;
   index: number;
   style?: React.CSSProperties;
-  onDotClick?: Function;
+  onDotClick?: (dotIndex: number, event: React.SyntheticEvent) => void;
   className: string;
 };
 

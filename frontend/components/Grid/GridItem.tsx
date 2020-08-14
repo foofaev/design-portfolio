@@ -1,10 +1,13 @@
-import * as React from 'react';
+/* ****************************************************************************************************************** */
+
+import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid, { GridProps } from '@material-ui/core/Grid';
 
+/* ****************************************************************************************************************** */
 const styles = {
   grid: {
-    position: 'relative' as 'relative',
+    position: 'relative' as const,
     width: '100%',
     minHeight: '1px',
     paddingRight: '15px',
@@ -13,12 +16,15 @@ const styles = {
   },
 };
 
+/* ****************************************************************************************************************** */
 const useStyles = makeStyles(() => createStyles(styles));
 
+/* ****************************************************************************************************************** */
 interface Props extends GridProps {
   className?: string;
 }
 
+/* ****************************************************************************************************************** */
 function GridItem({ children, className = '', ...rest }: Props) {
   const classes = useStyles();
   return (
@@ -29,4 +35,7 @@ function GridItem({ children, className = '', ...rest }: Props) {
   );
 }
 
+/* ****************************************************************************************************************** */
 export default GridItem;
+
+/* ****************************************************************************************************************** */

@@ -13,8 +13,8 @@ import styles from './styles';
 /* ****************************************************************************************************************** */
 // TODO: take from static
 
-const defaultImage = require('../../../../assets/img/image_placeholder.jpg'); // eslint-disable-line
-const defaultAvatar = require('../../../../assets/img/placeholder.jpg'); // eslint-disable-line
+import defaultImage from '../../../assets/img/image_placeholder.jpg';
+import defaultAvatar from '../../../assets/img/placeholder.jpg';
 
 /* ****************************************************************************************************************** */
 export type ImageUploadProps = {
@@ -33,8 +33,7 @@ const useStyles = makeStyles(styles);
 
 /* ****************************************************************************************************************** */
 const ImageUpload: React.FC<Props> = ({
-  input: { value, onChange },
-  meta: { touched, error, invalid },
+  input: { onChange },
   avatar,
   addButtonProps = {},
   changeButtonProps = {},
@@ -42,8 +41,8 @@ const ImageUpload: React.FC<Props> = ({
   imageUrl = '',
 }: Props) => {
   const [file, setFile] = React.useState<File | null>(null);
-  const defaultPreviewUrl = imageUrl || (avatar ? defaultAvatar : defaultImage);
-  const [imagePreviewUrl, setImagePreviewUrl] = React.useState(defaultPreviewUrl);
+  const defaultPreviewUrl = imageUrl || (avatar ? defaultAvatar as string : defaultImage as string);
+  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>(defaultPreviewUrl);
 
   const classes = useStyles();
 
@@ -57,7 +56,7 @@ const ImageUpload: React.FC<Props> = ({
     reader.onloadend = (): void => {
       setFile(fileFromInput); // sets input
       onChange(fileFromInput);
-      setImagePreviewUrl(reader.result); // sets preview image
+      if (reader.result) setImagePreviewUrl(reader.result as string); // sets preview image
     };
     reader.readAsDataURL(fileFromInput);
   };

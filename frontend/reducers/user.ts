@@ -1,4 +1,3 @@
-
 /* ****************************************************************************************************************** */
 
 import get from 'lodash/get';
@@ -102,16 +101,16 @@ const userPasswordChangeState = (state = 'none', action: Action<string>) => {
 const user = (state = { user: {} }, action: Action<{ user: UserOutput }>) => {
   switch (action.type) {
     case USER_SHOW_SUCCESS: {
-      return get(action, 'payload.user');
+      return get(action, 'payload.user') as UserOutput;
     }
     case USER_UPDATE_SUCCESS: {
-      return get(action, 'payload.user');
+      return get(action, 'payload.user') as UserOutput;
     }
     case USER_IMAGE_SAVE_SUCCESS: {
-      return get(action, 'payload.user');
+      return get(action, 'payload.user') as UserOutput;
     }
     case USER_IMAGE_REMOVE_SUCCESS: {
-      return get(action, 'payload.user');
+      return get(action, 'payload.user') as UserOutput;
     }
     default: {
       return state;

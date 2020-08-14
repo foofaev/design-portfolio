@@ -234,10 +234,9 @@ const cardSubtitle = {
   marginTop: '-.375rem',
 };
 
-
 const main = {
   background: whiteColor,
-  position: 'relative' as 'relative',
+  position: 'relative' as const,
   zIndex: 3,
 };
 
@@ -262,7 +261,7 @@ const coloredShadow = {
   transform: 'scale(0.94)',
   top: '12px',
   filter: 'blur(12px)',
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   width: '100%',
   height: '100%',
   backgroundSize: 'cover',

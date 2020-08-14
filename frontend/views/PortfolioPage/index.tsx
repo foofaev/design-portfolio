@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import * as React from 'react';
+import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import cn from 'classnames';
 
@@ -17,6 +17,9 @@ import * as projectActions from '../../actions/projects';
 import * as userActions from '../../actions/user';
 import * as sessionsActions from '../../actions/session';
 import { State } from '../../types';
+
+// TODO: load from static
+import backgroundImage from '../../../assets/img/bg2.jpg';
 
 /* ****************************************************************************************************************** */
 const useStyles = makeStyles(styles);
@@ -59,15 +62,11 @@ const Portfolio: React.FC<Props> = ({ fetchProjects, projects, user, showUser, c
 
   const classes = useStyles();
 
-  // TODO: load from static
-  // eslint-disable-next-line
-  const background = require('../../../assets/img/bg2.jpg');
-
   // TODO: add skeletons
 
   return (
     <div>
-      <Parallax image={background} filter className={classes.parallax} />
+      <Parallax image={backgroundImage as string} filter className={classes.parallax} />
       <div className={cn(classes.main, classes.mainRaised)}>
         {user && <About avatar={user.imageUrl} user={user} />}
         <div className={cn(classes.description, classes.textCenter)}>

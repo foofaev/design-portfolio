@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import pickBy from 'lodash/pickBy';
@@ -15,7 +15,6 @@ type ParallaxProps = {
   project?: React.ReactNode;
   className?: string;
 };
-
 
 function Parallax({ filter, children, image, small, project, className }: ParallaxProps) {
   const windowScrollTop = window.innerWidth >= 768 ? (window.pageYOffset / 3) : 0;

@@ -1,7 +1,7 @@
-import * as _ from 'lodash';
-import * as moment from 'moment';
-import * as cookieSigner from 'cookie-signature';
-import * as bcrypt from 'bcryptjs';
+import _ from 'lodash';
+import moment from 'moment';
+import cookieSigner from 'cookie-signature';
+import bcrypt from 'bcryptjs';
 import { extension } from 'mime-types';
 
 const timestampFormat = 'YYYY-MM-DD HH:mm:ss.SSS';

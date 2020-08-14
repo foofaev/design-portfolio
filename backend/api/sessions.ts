@@ -1,7 +1,7 @@
 /* ****************************************************************************************************************** */
 
 import { FastifyInstance } from 'fastify';
-import * as moment from 'moment';
+import moment from 'moment';
 import helpers from '../libs/helpers';
 import { userToJSON } from '../libs/toJSON';
 
@@ -13,9 +13,9 @@ export const checkSession = (fastify: FastifyInstance): FastifyInstance => fasti
   method: 'GET',
   url: '/api/session/check',
   preHandler: fastify.checkSession(true),
-  handler: async (request) => {
+  handler: (request, reply) => {
     const { user } = request;
-    return { user: userToJSON(fastify, user) };
+    reply.send({ user: userToJSON(fastify, user) });
   },
 });
 

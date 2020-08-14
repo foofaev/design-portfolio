@@ -1,12 +1,20 @@
 /* ****************************************************************************************************************** */
 
 import { FastifyInstance } from 'fastify';
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 
 import getServer from '../backend';
-import Project, { ProjectOutput } from '../backend/entities/Project';
+import Project, { ProjectOutput, ProjectType } from '../backend/entities/Project';
 import User, { UserOutput } from '../backend/entities/User';
+import { projectsToJSON } from '../backend/libs/toJSON';
 
+/* ****************************************************************************************************************** */
+/* TODO:
+  - move fixtures to separate file
+  - run tests in transaction
+  - TestProject type is just project input type, remove
+  - these helpers for backend only
+*/
 /* ****************************************************************************************************************** */
 
 const TEST_USERS = {
@@ -20,12 +28,19 @@ const TEST_USERS = {
 };
 
 /* ****************************************************************************************************************** */
-type TEST_PROJECTS_TYPE = {
-  [key: string]: Partial<Project>;
+type TestProject = Partial<ProjectOutput> & {
+    id: string;
+    title: string;
+    urlKey: string;
+    type: ProjectType;
+    isVisible: boolean;
+};
+type TestProjects = {
+  [key: string]: TestProject;
 };
 
 /* ****************************************************************************************************************** */
-const TEST_PROJECTS: TEST_PROJECTS_TYPE = {
+const TEST_PROJECTS: TestProjects = {
   project: {
     id: '63cdd5f8-29dd-41c2-97d9-09c46fe4b9e8',
     title: 'testProject',
@@ -50,20 +65,24 @@ async function syncTestUser(fastify: FastifyInstance): Promise<User> {
 }
 
 /* ****************************************************************************************************************** */
-async function syncTestProjects(fastify: FastifyInstance): Promise<{ [key: string]: Project }> {
+async function syncTestProjects(fastify: FastifyInstance): Promise<{ [key: string]: ProjectOutput }> {
   const { projectRepository } = fastify;
 
-  const project = await projectRepository
+  const project: ProjectOutput = await projectRepository
     .findOneOrFail(TEST_PROJECTS.project.id)
+    .then((instance) => projectsToJSON(fastify, instance))
     .catch(() => projectRepository
-      .save(TEST_PROJECTS.project)
-      .then((instance) => projectRepository.generateUrlKey(instance, -1, true)));
+      .save(TEST_PROJECTS.project as Partial<Project>)
+      .then((instance: Project) => projectRepository.generateUrlKey(instance, -1, true))
+      .then((instance: Project) => projectsToJSON(fastify, instance)));
 
-  const otherProject = await projectRepository
+  const otherProject: ProjectOutput = await projectRepository
     .findOneOrFail(TEST_PROJECTS.otherProject.id)
+    .then((instance) => projectsToJSON(fastify, instance))
     .catch(() => projectRepository
-      .save(TEST_PROJECTS.otherProject)
-      .then((instance) => projectRepository.generateUrlKey(instance, -1, true)));
+      .save(TEST_PROJECTS.otherProject as Partial<Project>)
+      .then((instance: Project) => projectRepository.generateUrlKey(instance, -1, true))
+      .then((instance: Project) => projectsToJSON(fastify, instance)));
 
   return { project, otherProject };
 }
@@ -74,7 +93,8 @@ async function getCookie(fastify: FastifyInstance, user: Partial<User>): Promise
     .put('/api/session')
     .send(user)
     .expect(200);
-  return authRes.header['set-cookie'];
+  // TODO:
+  return authRes.header['set-cookie']; // eslint-disable-line
 }
 
 /* ****************************************************************************************************************** */

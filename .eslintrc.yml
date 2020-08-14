@@ -16,6 +16,7 @@ extends:
   - 'plugin:jest/recommended'
   - 'plugin:security/recommended'
   - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
 rules:
   no-console:
     - 2
@@ -53,3 +54,6 @@ rules:
       ImportDeclaration: 1
       flatTernaryExpressions: false
       ignoreComments: false
+  react/prop-types: 0
+  react/require-default-props: 0
+  no-shadow: [2, {allow: ['error', 'callback', 'context', 'ctx']}]

@@ -1,8 +1,8 @@
-import * as path from 'path';
-import * as fs from 'fs';
+import path from 'path';
+import fs from 'fs';
 import { createHash } from 'crypto';
-import * as _ from 'lodash';
-import * as sharp from 'sharp';
+import _ from 'lodash';
+import sharp from 'sharp';
 import { Repository, EntityRepository, ObjectLiteral } from 'typeorm';
 import File from '../entities/File';
 
@@ -25,7 +25,6 @@ type PreviewParams = {
   left: number;
   top: number;
 };
-
 
 @EntityRepository(File)
 export default class FileRepository extends Repository<File> {
@@ -51,7 +50,7 @@ export default class FileRepository extends Repository<File> {
       md5,
       name: rawFileRequest.name,
       size: Buffer.byteLength(fileData),
-      contentType: _.get(rawFileRequest, 'headers.content-type')
+      contentType: _.get(rawFileRequest, 'headers.content-type') as string
         || rawFileRequest.contentType
         || 'application/octet-stream',
       filePath,

@@ -21,17 +21,18 @@ const checkSessionFailure: ActionFunction0 = () => ({ type: CHECK_SESSION_FAILUR
 const loginFailure: ActionFunction1<string> = ({ error }) => ({ type: LOGIN_FAILURE, payload: { error } });
 
 /* ****************************************************************************************************************** */
-type LoginProps = { email?: string; password?: string };
+type LoginProps = { email: string; password: string };
 
-const login: FormSubmitHandler<LoginProps> = async ({ email, password }, dispatch) => {
+const login: FormSubmitHandler<LoginProps, any> = async ({ email, password }, dispatch) => {
   dispatch(loginRequest());
   try {
     const url = routes.login();
     await axios.put(url, { email, password });
     dispatch(loginSuccess());
   } catch (error) {
-    dispatch(loginFailure({ error: error.message }));
-    throw new SubmissionError({ _error: error.message, email: error.message, password: error.message });
+    const message = (error as Error).toString();
+    dispatch(loginFailure({ error: message }));
+    throw new SubmissionError({ _error: message, email: message, password: message });
   }
 };
 

@@ -6,7 +6,6 @@ import * as projectFilesReducers from './projectFiles';
 import * as sessionReducers from './session';
 import * as userReducers from './user';
 
-
 export default combineReducers({
   form: formReducer,
   ...projectsReducers,

@@ -1,5 +1,5 @@
 import 'jest-extended';
-import * as path from 'path';
+import path from 'path';
 import { SuperTest, Test } from 'supertest';
 import { FastifyInstance } from 'fastify';
 import { startServer, stopServer, TEST_PROJECTS, Project, ProjectOutput } from '../../helpers';
@@ -14,7 +14,7 @@ const newProjectData: Partial<Project> = {
 };
 
 describe('PROJECTS / public', () => {
-  let PROJECT: Partial<Project>;
+  let PROJECT: ProjectOutput;
   let callAPI: SuperTest<Test>;
   let fastify: FastifyInstance;
   let cookie: string;
@@ -24,7 +24,7 @@ describe('PROJECTS / public', () => {
     fastify = instance;
     callAPI = request;
     cookie = session;
-    PROJECT = TEST_PROJECTS.project;
+    PROJECT = TEST_PROJECTS.project as ProjectOutput;
   });
   afterAll(async () => {
     await fastify.fileReferenceRepository.delete(newProject.files.map(({ id }) => id));
@@ -33,11 +33,12 @@ describe('PROJECTS / public', () => {
   });
 
   it('GET /projects', async () => {
-    const { body: { projects } } = await callAPI
+    const result: { body: { projects: ProjectOutput[] } } = await callAPI
       .get('/api/projects')
       .query({ offset: 0, limit: 100 });
+    const { body: { projects } } = result;
     projects.forEach(
-      (obj: Project) => {
+      (obj: ProjectOutput) => {
         expect(obj.urlKey).toBeString();
         expect(obj.title).toBeString();
         expect(obj.description).toBeString();
@@ -47,13 +48,14 @@ describe('PROJECTS / public', () => {
   });
 
   it('GET /projects/:urlKey', async () => {
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .get(`/api/projects/${PROJECT.urlKey}`);
+    const { body: { project } } = result;
     expect(project).toHaveProperty('id', PROJECT.id);
   });
 
   it('PUT /projects returns error without session', async () => {
-    const res = await callAPI
+    const res: { body: { message: string } } = await callAPI
       .put('/api/projects')
       .send(newProjectData)
       .expect(401);
@@ -61,45 +63,49 @@ describe('PROJECTS / public', () => {
   });
 
   it('PUT /projects', async () => {
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .put('/api/projects')
       .send(newProjectData)
       .set('Cookie', cookie)
       .expect(200);
+    const { body: { project } } = result;
     expect(project).toMatchObject(newProjectData);
 
     newProject = project;
   });
 
   it('PATCH /projects/:id - set title', async () => {
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .patch(`/api/projects/${newProject.id}`)
       .send({ title: 'updated title' })
       .set('Cookie', cookie)
       .expect(200);
+    const { body: { project } } = result;
     expect(project).toHaveProperty('title', 'updated title');
 
     newProject = project;
   });
 
   it('PATCH /projects/:id - set ord', async () => {
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .patch(`/api/projects/${newProject.id}`)
       .send({ ord: 100 })
       .set('Cookie', cookie)
       .expect(200);
+    const { body: { project } } = result;
     expect(project).toHaveProperty('ord', 100);
 
     newProject = project;
   });
 
   it('PATCH /projects/image/:id - save image', async () => {
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .patch(`/api/projects/image/${newProject.id}`)
       .field('ord', 100)
       .attach('file', path.resolve('__tests__/slowpoke.jpg'))
       .set('Cookie', cookie)
       .expect(200);
+    const { body: { project } } = result;
 
     expect(project.imageUrl).toBeString();
 
@@ -116,12 +122,14 @@ describe('PROJECTS / public', () => {
   });
 
   it('PATCH /projects/image/:id - save another image', async () => {
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .patch(`/api/projects/image/${newProject.id}`)
       .field('ord', 50)
       .attach('file', path.resolve('__tests__/other_slowpoke.png'))
       .set('Cookie', cookie)
       .expect(200);
+
+    const { body: { project } } = result;
 
     expect(project.imageUrl).toBeString();
     expect(project.files).toBeArrayOfSize(2);
@@ -140,11 +148,12 @@ describe('PROJECTS / public', () => {
 
   it('PATCH /projects/image/:id/fileId', async () => {
     const fileToUpdateOrd = newProject.files[1];
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .patch(`/api/projects/image/${newProject.id}/${fileToUpdateOrd.id}`)
       .send({ ord: 200 })
       .set('Cookie', cookie)
       .expect(200);
+    const { body: { project } } = result;
 
     expect(project.imageUrl).toBeString();
     expect(project.imageUrl).not.toEqual(newProject.imageUrl);
@@ -154,10 +163,11 @@ describe('PROJECTS / public', () => {
 
   it('DELETE /projects/image/:projectId/fileId', async () => {
     const fileToRemove = newProject.files[0];
-    const { body: { project } } = await callAPI
+    const result: { body: { project: ProjectOutput } } = await callAPI
       .delete(`/api/projects/image/${newProject.id}/${fileToRemove.id}`)
       .set('Cookie', cookie)
       .expect(200);
+    const { body: { project } } = result;
 
     expect(project.imageUrl).toBeString();
     expect(project.imageUrl).not.toEqual(newProject.imageUrl);

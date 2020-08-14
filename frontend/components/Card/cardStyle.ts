@@ -44,7 +44,7 @@ const cardStyle = () => createStyles({
   cardBackground: {
     backgroundPosition: '50%',
     backgroundSize: 'cover',
-    textAlign: 'center' as 'center',
+    textAlign: 'center' as const,
     color: whiteColor,
     '& h3': {
       color: `${whiteColor} !important`,
@@ -53,7 +53,7 @@ const cardStyle = () => createStyles({
       color: `rgba(${rgbWhite},0.7)!important`,
     },
     '&:after': {
-      position: 'absolute' as 'absolute',
+      position: 'absolute' as const,
       zIndex: 1,
       width: '100%',
       height: '100%',

@@ -1,13 +1,19 @@
 /* ****************************************************************************************************************** */
 
-import * as React from 'react';
-import { WrappedFieldProps, Field } from 'redux-form';
+import React from 'react';
+import { WrappedFieldInputProps, WrappedFieldMetaProps, Field } from 'redux-form';
 
 import CustomInput, { CustomInputProps } from './CustomInput';
 
 /* ****************************************************************************************************************** */
 type FieldProps = CustomInputProps & { className?: string };
+interface FormInputProps extends WrappedFieldInputProps { value: string }
+interface FormMetaProps extends WrappedFieldMetaProps { error?: string }
 
+export interface WrappedFieldProps {
+    input: FormInputProps;
+    meta: FormMetaProps;
+}
 /* ****************************************************************************************************************** */
 type InputProps = WrappedFieldProps & FieldProps;
 
@@ -17,7 +23,7 @@ const TextField: React.FC<InputProps> = (props: InputProps & WrappedFieldProps) 
   const {
     className,
     input: { value, onChange },
-    meta: { touched, error, invalid },
+    meta: { touched, error = '', invalid },
     inputProps = {},
     formControlProps = {},
     ...rest
@@ -33,9 +39,6 @@ const TextField: React.FC<InputProps> = (props: InputProps & WrappedFieldProps) 
         ...inputProps,
         value,
         onChange,
-        inputProps: {
-          'aria-label': touched && error,
-        },
       }}
       {...rest}
     />

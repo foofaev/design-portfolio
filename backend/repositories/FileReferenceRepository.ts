@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Repository, EntityRepository, ObjectLiteral } from 'typeorm';
 import helpers from '../libs/helpers';
 

@@ -1,4 +1,4 @@
-import * as _ from 'lodash'; // TODO: ts-node somehow not using tsconfig
+import _ from 'lodash';
 import { FastifyInstance } from 'fastify';
 import { Repository, Not, EntityRepository } from 'typeorm';
 import { toURI } from '../libs/translit';

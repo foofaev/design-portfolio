@@ -1,7 +1,6 @@
 import { createStyles } from '@material-ui/core/styles';
 import { whiteColor } from './theme';
 
-
 const rgbGrey = '85,85,85';
 const rgbBlack = '0, 0, 0';
 

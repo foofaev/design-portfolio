@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
@@ -55,7 +55,7 @@ const ProjectPage: React.FC<Props> = ({
   isLoggedIn,
 }: Props) => {
   const { pathname } = useLocation();
-  const { urlKey } = useParams();
+  const { urlKey = '' } = useParams();
   const [speedDialHidden, setSpeedDialHidden] = React.useState(!isLoggedIn);
 
   React.useEffect(() => {

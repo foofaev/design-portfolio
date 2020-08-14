@@ -12,7 +12,6 @@ type RawFile = {
   ext?: string;
 };
 
-
 @EntityRepository(User)
 export default class ProjectRepository extends Repository<User> {
   async updateImage(container: Container, userId: string, rawFileRequest: RawFile): Promise<UpdateResult> {

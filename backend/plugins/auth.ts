@@ -1,11 +1,11 @@
 /* ****************************************************************************************************************** */
 
 import { FastifyInstance, FastifyRequest, FastifyMiddlewareWithPayload, FastifyMiddlewareWithOpts } from 'fastify';
-import * as fp from 'fastify-plugin';
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import fp from 'fastify-plugin';
+import _ from 'lodash';
+import moment from 'moment';
 
-import * as fastifyCookie from 'fastify-cookie';
+import fastifyCookie from 'fastify-cookie';
 // import fastifyCsurf from 'fastify-csrf';
 
 import helpers from '../libs/helpers';
@@ -29,7 +29,7 @@ const checkSession: CheckSession = (fastify) => (strict) => async (request, repl
     return;
   }
 
-  const encryptedSessionId = _.get(request, `cookies.${cookieSessionName}`);
+  const encryptedSessionId = _.get(request, `cookies.${cookieSessionName}`) as string;
 
   if (!encryptedSessionId && !strict) return;
   if (!encryptedSessionId) {
@@ -107,7 +107,8 @@ const setSession: FastifyMiddlewareWithPayload = (request, reply, __, next) => {
     );
     return next();
   } catch (error) {
-    request.log.error(`Error setting session to cookie, reason: ${error.toString()} ${error.stack}`);
+    request.log.error(`Error setting session to cookie, reason: ${(error as Error).toString()}`);
+    if ((error as Error).stack) request.log.error(JSON.stringify((error as Error).stack, null, 2));
     return next(error);
   }
 };

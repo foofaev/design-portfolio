@@ -1,7 +1,7 @@
 /* ****************************************************************************************************************** */
 
-import * as React from 'react';
-import { WrappedFieldProps } from 'redux-form';
+import React from 'react';
+import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Email from '@material-ui/icons/Email';
@@ -9,8 +9,17 @@ import Email from '@material-ui/icons/Email';
 import CustomInput, { CustomInputProps } from '../../../components/Inputs/CustomInput';
 
 /* ****************************************************************************************************************** */
+interface FormInputProps extends WrappedFieldInputProps { value: string }
+interface FormMetaProps extends WrappedFieldMetaProps { error?: string | Error }
+
+export interface WrappedFieldProps {
+    input: FormInputProps;
+    meta: FormMetaProps;
+}
+/* ****************************************************************************************************************** */
 type InputProps = WrappedFieldProps & CustomInputProps & { className: string };
 
+/* ****************************************************************************************************************** */
 const EmailField: React.FC<InputProps> = (props: InputProps) => {
   const {
     className,
@@ -30,7 +39,7 @@ const EmailField: React.FC<InputProps> = (props: InputProps) => {
         value,
         onChange,
         inputProps: {
-          'aria-label': touched && error,
+          'aria-label': touched && error ? error.toString() : undefined, /* TODO: had to use undefined for type compatibility */
         },
         startAdornment: (
           <InputAdornment position="start">

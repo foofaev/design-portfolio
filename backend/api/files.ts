@@ -5,8 +5,8 @@ import { readFileSync } from 'fs';
 import { ServerResponse } from 'http';
 import { FastifyInstance, FastifyReply } from 'fastify';
 
-import * as _ from 'lodash';
-import * as sharp from 'sharp';
+import _ from 'lodash';
+import sharp from 'sharp';
 import validator from 'validator';
 import File from '../entities/File';
 
@@ -50,25 +50,26 @@ const prepareFileImageContent = (
     }
 
     const task = sharp(filepath);
-    const quality = query.quality && _.inRange(query.quality, 0, 101)
-      ? query.quality
-      : DEFAULT_QUALITY;
+    const quality = query.quality && _.inRange(query.quality, 0, 101) ? query.quality : DEFAULT_QUALITY;
 
     if (query.noColor === true) task.grayscale();
-    const resizeOptions: sharp.ResizeOptions = _.pickBy({
-      fit: query.fit || (query.keepAspect && 'contain'),
-      width: (query.width && Math.min(MAX_WIDTH, query.width)) || null,
-      height: (query.height && Math.min(MAX_HEIGHT, query.height)) || null,
-      withoutEnlargement: query.noUpscale === true,
-    }, (val) => !_.isNil(val));
+    const resizeOptions: sharp.ResizeOptions = _.pickBy(
+      {
+        fit: query.fit || (query.keepAspect && 'contain'),
+        width: (query.width && Math.min(MAX_WIDTH, query.width)) || null,
+        height: (query.height && Math.min(MAX_HEIGHT, query.height)) || null,
+        withoutEnlargement: query.noUpscale === true,
+      },
+      (val) => !_.isNil(val),
+    );
 
     if (!_.isEmpty(resizeOptions)) task.resize(null, null, resizeOptions);
 
-    return task
-      .toFormat(imageFormat, { quality, adaptiveFiltering: true })
-      .toBuffer();
+    return task.toFormat(imageFormat, { quality, adaptiveFiltering: true }).toBuffer();
   } catch (error) {
-    fastify.log.error(`getFile: SHARP ${error} (fileId: ${fileId} | query: ${JSON.stringify(query)})`);
+    fastify.log.error(
+      `getFile: SHARP ${(error as Error).toString()} (fileId: ${fileId} | query: ${JSON.stringify(query)})`,
+    );
     return readFileSync(filepath);
   }
 };
@@ -80,11 +81,9 @@ const getImageFormat = (contentType: string) => _.find(
 );
 
 /* ****************************************************************************************************************** */
-const fileWhereQueryIsIncorrect = (fileWhere: FileWhere) => _.some([
-  !fileWhere.id && !fileWhere.num,
-  fileWhere.id && !validator.isUUID(fileWhere.id),
-]);
-
+const fileWhereQueryIsIncorrect = (fileWhere: FileWhere) => _.some(
+  [!fileWhere.id && !fileWhere.num, fileWhere.id && !validator.isUUID(fileWhere.id)],
+);
 
 /* ****************************************************************************************************************** */
 const prepareFileResponse = async (fastify: FastifyInstance, file: File, query: Query) => {
@@ -132,7 +131,13 @@ const handleFileRequest = async (
 
     return response.status(200).send(responseInfo.content);
   } catch (error) {
-    fastify.log.error(`getFile: ${error} (file: ${fileWhere} \\ query: ${JSON.stringify(query)})`);
+    fastify.log.error(
+      `getFile: ${(error as Error).toString()} (file: ${JSON.stringify(fileWhere, null, 2)} \\ query: ${JSON.stringify(
+        query,
+        null,
+        2,
+      )})`,
+    );
     return response.status(500).send('Server side error');
   }
 };

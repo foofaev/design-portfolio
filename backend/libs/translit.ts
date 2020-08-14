@@ -1,12 +1,11 @@
-import * as _ from 'lodash';
-import * as fp from 'lodash/fp';
+import _ from 'lodash';
+import fp from 'lodash/fp';
 
 // substrings with larger length goes at first due to #translit implementation
 // cspell:disable-next-line
 const enChars: string[] = ['shh', 'yo', 'zh', 'ch', 'sh', '``', 'y`', 'e`', 'yu', 'ya', ...'abvgdezijklmnoprstufхc`'.split('')];
 // cspell:disable-next-line
 const ruChars: string[] = ['щ', 'ё', 'ж', 'ч', 'ш', 'ъ', 'ы', 'э', 'ю', 'я', ...'абвгдезийклмнопрстуфхць'.split('')];
-
 
 if (enChars.length !== ruChars.length) {
   throw new Error(
@@ -46,7 +45,7 @@ function toURI(str: string, separator = '_'): string {
     fp.replace(new RegExp(`(${separator})+`, 'g'))(separator), // Multiple dashes
     fp.replace(/-([+_])-/g)('$1'),
     fp.replace(/^[-_]+|[-_]+$/g)(''), // Trim text for specific chars
-  )(str);
+  )(str) as string;
 }
 
 export {
