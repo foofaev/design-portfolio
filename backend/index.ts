@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import path from 'path';
 
-import Fastify from 'fastify';
+import Fastify, { FastifyInstance } from 'fastify';
 import dotenv from 'dotenv';
 
 import fastifySensible from 'fastify-sensible';
@@ -23,15 +23,10 @@ const rollbar = new Rollbar({
   captureUnhandledRejections: true,
 });
 
-export default async (): Promise<Fastify.FastifyInstance> => {
+export default async (): Promise<FastifyInstance> => {
   dotenv.config({ path: '../.env' });
 
-  const fastify = Fastify({
-    logger: {
-      level: 'info',
-      prettyPrint: { colorize: true, levelFirst: true, translateTime: true },
-    },
-  });
+  const fastify = Fastify({ logger: true });
 
   // const parcelEntryPoint = path.join(__dirname, '..', 'frontend', 'index.html');
   // const parcelOptions = { hmr: process.env.NODE_ENV !== 'production' };

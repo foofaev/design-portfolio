@@ -1,5 +1,6 @@
 import { callbackify } from 'util';
-import fastifyPlugin from 'fastify-plugin';
+import { FastifyPluginCallback } from 'fastify';
+import fp from 'fastify-plugin';
 import { createConnection, getConnectionOptions, ConnectionOptions } from 'typeorm';
 import ProjectRepository from '../repositories/ProjectRepository';
 import FileRepository from '../repositories/FileRepository';
@@ -11,7 +12,7 @@ import Session from '../entities/Session';
 const createConnectionCb = callbackify((connectionOptions: ConnectionOptions) => createConnection(connectionOptions));
 const getConnectionOptionsCb = callbackify(() => getConnectionOptions());
 
-export default fastifyPlugin((fastify, __, next) => {
+const dbConnectorPlugin: FastifyPluginCallback = (fastify, __, next) => {
   getConnectionOptionsCb((error, connectionOptions) => {
     if (error) {
       fastify.log.error(`Error get db connectionOptions, reason: ${error.toString()}`);
@@ -49,4 +50,6 @@ export default fastifyPlugin((fastify, __, next) => {
       next();
     });
   });
-});
+};
+
+export default fp(dbConnectorPlugin);

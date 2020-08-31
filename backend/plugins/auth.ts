@@ -1,6 +1,11 @@
 /* ****************************************************************************************************************** */
 
-import { FastifyInstance, FastifyRequest, FastifyMiddlewareWithPayload, FastifyMiddlewareWithOpts } from 'fastify';
+import {
+  FastifyInstance,
+  FastifyRequest,
+  onSendHookHandler,
+  FastifyPluginCallback,
+} from 'fastify';
 import fp from 'fastify-plugin';
 import _ from 'lodash';
 import moment from 'moment';
@@ -86,7 +91,7 @@ const shouldSetSession = (request: FastifyRequest): boolean => {
 };
 
 /* ****************************************************************************************************************** */
-const setSession: FastifyMiddlewareWithPayload = (request, reply, __, next) => {
+const setSession: onSendHookHandler = (request, reply, __, next) => {
   try {
     const { session } = request;
     if (!shouldSetSession(request)) {
@@ -94,17 +99,13 @@ const setSession: FastifyMiddlewareWithPayload = (request, reply, __, next) => {
     }
     const encryptedSessionId = helpers.signCookie(session.id, cookieSecret);
     const expires = new Date(session.expiresAt);
-    reply.setCookie(
-      cookieSessionName,
-      encryptedSessionId,
-      {
-        path: cookiePath,
-        sameSite: true,
-        httpOnly: true,
-        expires,
-        secure: false, // enable when using https
-      },
-    );
+    reply.setCookie(cookieSessionName, encryptedSessionId, {
+      path: cookiePath,
+      sameSite: true,
+      httpOnly: true,
+      expires,
+      secure: false, // enable when using https
+    });
     return next();
   } catch (error) {
     request.log.error(`Error setting session to cookie, reason: ${(error as Error).toString()}`);
@@ -114,7 +115,7 @@ const setSession: FastifyMiddlewareWithPayload = (request, reply, __, next) => {
 };
 
 /* ****************************************************************************************************************** */
-export default fp((fastify, __, next) => {
+const userSessionPlugin: FastifyPluginCallback = (fastify, __, next) => {
   try {
     fastify
       .register(fastifyCookie)
@@ -126,7 +127,8 @@ export default fp((fastify, __, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
+export default fp(userSessionPlugin);
 /* ****************************************************************************************************************** */
 // .register(fastifyCsurf, { key: cookieCSRFName, ignoreMethods: ['GET', 'HEAD', 'OPTIONS'] });

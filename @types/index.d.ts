@@ -21,11 +21,7 @@ declare module 'fastify' {
     strict?: boolean | void
   ) => FastifyMiddleware;
 
-  interface FastifyInstance<
-    HttpServer = Server,
-    HttpRequest = IncomingMessage,
-    HttpResponse = ServerResponse
-  > {
+  interface FastifyInstance {
     db: Connection;
     projectRepository: ProjectRepository;
     userRepository: UserRepository;
@@ -35,12 +31,7 @@ declare module 'fastify' {
     checkSession: FastifyMiddlewareWithOpts;
   }
 
-  interface FastifyRequest<
-    HttpRequest,
-    Query = DefaultQuery,
-    Params = DefaultParams,
-    Headers = DefaultHeaders,
-  > {
+  interface FastifyRequest {
     session: SessionRequestType;
     user: User;
   }
