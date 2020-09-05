@@ -3,6 +3,7 @@
 import {
   FastifyInstance,
   FastifyRequest,
+  preHandlerHookHandler,
   onSendHookHandler,
   FastifyPluginCallback,
 } from 'fastify';
@@ -23,11 +24,12 @@ const sessionExpiresDays = process.env.SESSION_EXPIRES_DAYS || 30;
 // const cookieCSRFName = process.env.CSRF_COOKIE_NAME || '_csrf';
 
 /* ****************************************************************************************************************** */
-type CheckSession = (fastify: FastifyInstance) => FastifyMiddlewareWithOpts;
+type CheckSessionHook = (strict?: boolean) => preHandlerHookHandler;
+type CheckSession = (fastify: FastifyInstance) => CheckSessionHook;
 
-const checkSession: CheckSession = (fastify) => (strict) => async (request, reply): Promise<void> => {
+const checkSession: CheckSession = (fastify) => (strict = false) => async (request, reply): Promise<void> => {
   const { sessionRepository } = fastify;
-  const { url } = request.req;
+  const { url } = request;
   const { ip } = request;
 
   if (!url || url.indexOf(cookiePath) !== 0) {
@@ -91,10 +93,10 @@ const shouldSetSession = (request: FastifyRequest): boolean => {
 };
 
 /* ****************************************************************************************************************** */
-const setSession: onSendHookHandler = (request, reply, __, next) => {
+const setSession: onSendHookHandler<unknown> = (request, reply, __, next): void => {
   try {
     const { session } = request;
-    if (!shouldSetSession(request)) {
+    if (!shouldSetSession(request) || !session) {
       return next();
     }
     const encryptedSessionId = helpers.signCookie(session.id, cookieSecret);
@@ -130,5 +132,8 @@ const userSessionPlugin: FastifyPluginCallback = (fastify, __, next) => {
 };
 
 export default fp(userSessionPlugin);
+export {
+  CheckSessionHook,
+};
 /* ****************************************************************************************************************** */
 // .register(fastifyCsurf, { key: cookieCSRFName, ignoreMethods: ['GET', 'HEAD', 'OPTIONS'] });

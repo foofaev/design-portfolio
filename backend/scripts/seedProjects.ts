@@ -11,7 +11,7 @@ import FileReferenceRepository from '../repositories/FileReferenceRepository';
 import FileRepository from '../repositories/FileRepository';
 import ProjectRepository from '../repositories/ProjectRepository';
 
-export default async () => {
+export default async (): Promise<void> => {
   const connection = await createConnection();
   try {
     await connection.transaction(async (manager) => {

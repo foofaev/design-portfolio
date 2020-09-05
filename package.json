@@ -18,7 +18,7 @@
     "test": "NODE_ENV=test DEBUG=app npx jest --detectOpenHandles",
     "test:backend": "NODE_ENV=test DEBUG=app npx jest /backend/ --detectOpenHandles",
     "front:dev": "npx parcel watch ./frontend/index.html",
-    "back:dev": "NODE_ENV=development ts-node-dev ./index.ts server",
+    "back:dev": " ts-node-dev --files ./index.ts server",
     "dev": "npm run back:dev & npm run front:dev"
   },
   "jest": {
@@ -95,6 +95,7 @@
     "eslint-plugin-security": "^1.4.0",
     "jest": "^26.4.2",
     "jest-extended": "^0.11.5",
+    "prettier": "^2.1.1",
     "supertest": "^4.0.2",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",

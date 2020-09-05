@@ -19,19 +19,22 @@
     "experimentalDecorators": true,
 
     "strict": true,
+    "strictPropertyInitialization": false,
 
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
 
     "typeRoots": [
-      "node_modules/@types",
-      "@types"
+      "./@types",
+      "./node_modules/@types"
     ],
     "jsx": "react"
   },
   "include": [
+    "@types/*",
+    "./index.ts",
     "backend/**/*",
     "frontend/**/*",
-    "@types/*"
+    "__tests__/**/*"
   ]
 }

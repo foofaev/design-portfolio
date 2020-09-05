@@ -30,7 +30,7 @@ const projectOutput = {
   description: 'ProjectOutput',
   properties: {
     id: { type: 'string', format: 'uuid' },
-    type: 'projectType#',
+    type: { $ref: 'projectType' },
     title: { type: 'string' },
     subtitle: { type: 'string' },
     preview: { type: 'string' },
@@ -65,7 +65,7 @@ const projectInput = {
   description: 'ProjectInput',
   properties: {
     id: { type: 'string', format: 'uuid' },
-    type: 'projectType#',
+    type: { $ref: 'projectType' },
     ord: { type: 'integer' },
     title: { type: 'string' },
     description: { type: 'string', minLength: 0 },

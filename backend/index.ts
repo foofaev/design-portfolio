@@ -38,19 +38,19 @@ export default async (): Promise<FastifyInstance> => {
     .register(fastifyStatic, {
       root: path.join(__dirname, '..', 'dist'),
     })
-    .register(fastifyHelmet, {
-      hidePoweredBy: { setTo: 'PHP 4.2.0' },
-    })
+    // .register(fastifyHelmet, {
+    //   hidePoweredBy: { setTo: 'PHP 4.2.0' },
+    // })
     .register(dbPlugin)
     .register(authPlugin)
     .register(fastifyMultipart, { addToBody: true, sharedSchemaId: 'rawFileSchema' })
     .register(schemasPlugin)
     .register(api)
     .after(() => {
-      fastify.setErrorHandler((error, request, reply) => {
+      fastify.setErrorHandler((error, request) => {
         console.error(error); // TODO: proper error handling
         rollbar.error(error, request);
-        reply.send(error);
+        throw error;
       });
     });
 

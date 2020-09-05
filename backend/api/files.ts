@@ -2,7 +2,6 @@
 
 import { readFileSync } from 'fs';
 
-import { ServerResponse } from 'http';
 import { FastifyInstance, FastifyReply } from 'fastify';
 
 import _ from 'lodash';

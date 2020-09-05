@@ -1,3 +1,5 @@
+/* ****************************************************************************************************************** */
+
 import { callbackify } from 'util';
 import { FastifyPluginCallback } from 'fastify';
 import fp from 'fastify-plugin';
@@ -9,9 +11,11 @@ import UserRepository from '../repositories/UserRepository';
 
 import Session from '../entities/Session';
 
+/* ****************************************************************************************************************** */
 const createConnectionCb = callbackify((connectionOptions: ConnectionOptions) => createConnection(connectionOptions));
 const getConnectionOptionsCb = callbackify(() => getConnectionOptions());
 
+/* ****************************************************************************************************************** */
 const dbConnectorPlugin: FastifyPluginCallback = (fastify, __, next) => {
   getConnectionOptionsCb((error, connectionOptions) => {
     if (error) {
@@ -52,4 +56,7 @@ const dbConnectorPlugin: FastifyPluginCallback = (fastify, __, next) => {
   });
 };
 
+/* ****************************************************************************************************************** */
 export default fp(dbConnectorPlugin);
+
+/* ****************************************************************************************************************** */

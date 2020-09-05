@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import { FastifyInstance, DefaultQuery, DefaultParams, DefaultHeaders, DefaultBody } from 'fastify';
+import { FastifyInstance, FastifyRequest } from 'fastify';
 import helpers from '../libs/helpers';
 import { userToJSON } from '../libs/toJSON';
 
@@ -29,7 +29,7 @@ type UserUpdate = {
 };
 
 export const update = (fastify: FastifyInstance): FastifyInstance => fastify
-  .route<DefaultQuery, DefaultParams, DefaultHeaders, UserUpdate>({
+  .route<{ Body: UserUpdate }>({
     method: 'PATCH',
     url: '/api/user',
     schema: {
@@ -49,8 +49,12 @@ export const update = (fastify: FastifyInstance): FastifyInstance => fastify
       },
     },
     preHandler: fastify.checkSession(true),
-    handler: async (request) => {
+    handler: async (request, reply) => {
       const { body, user } = request;
+      // TODO: user should be required
+      if (!user) {
+        return reply.notFound();
+      }
       const { userRepository } = fastify;
       const updateData = userRepository.merge(user, body);
       await userRepository.save(updateData);
@@ -68,7 +72,7 @@ type UpdatePassword = {
 };
 
 export const updatePassword = (fastify: FastifyInstance): FastifyInstance => fastify
-  .route<DefaultQuery, DefaultParams, DefaultHeaders, UpdatePassword>({
+  .route<{ Body: UpdatePassword }>({
     method: 'PATCH',
     url: '/api/user/password',
     schema: {
@@ -93,18 +97,19 @@ export const updatePassword = (fastify: FastifyInstance): FastifyInstance => fas
     handler: async (request, reply): Promise<void> => {
       const { body, user } = request;
       const { oldPassword, newPassword } = body;
+      // TODO: user should be required
+      if (!user) {
+        return reply.notFound();
+      }
 
       if (!helpers.verifyPassword(oldPassword, user.password)) {
         request.log.info(oldPassword);
         request.log.info(user.password);
-        reply.unauthorized();
-        return;
+        return reply.unauthorized();
       }
       const { userRepository } = fastify;
       await userRepository.update(user.id, { password: newPassword });
-
-      // TODO: check if can use reply in promise
-      reply.code(200).send({});
+      return reply.status(200);
     },
   });
 
@@ -114,14 +119,14 @@ type FileInput = {
 };
 
 export const saveImage = (fastify: FastifyInstance): FastifyInstance => fastify
-  .route<DefaultQuery, DefaultParams, DefaultHeaders, FileInput>({
+  .route<{ Body: FileInput }>({
     method: 'PATCH',
     url: '/api/user/image',
     schema: {
       body: {
         type: 'object',
         properties: {
-          file: { type: 'array', items: 'rawFileSchema#' },
+          file: { type: 'array', items: { $ref: 'rawFileSchema' } },
         },
         required: ['file'],
         additionalProperties: false,
@@ -130,16 +135,20 @@ export const saveImage = (fastify: FastifyInstance): FastifyInstance => fastify
         200: {
           type: 'object',
           properties: {
-            user: 'userOutput#',
+            user: { $ref: 'userOutput' },
           },
           additionalProperties: false,
         },
       },
     },
     preHandler: fastify.checkSession(true),
-    handler: async (request) => {
+    handler: async (request, reply) => {
       const { userRepository } = fastify;
       const { body, user } = request;
+      // TODO: user should be required
+      if (!user) {
+        return reply.notFound();
+      }
       const rawFile = body.file[0];
       const fileData = { name: rawFile.filename, contentType: rawFile.mimetype, data: rawFile.data };
       await userRepository.updateImage(fastify, user.id, fileData);
@@ -160,16 +169,17 @@ export const removeImage = (fastify: FastifyInstance): FastifyInstance => fastif
         200: {
           type: 'object',
           properties: {
-            user: 'userOutput#',
+            user: { $ref: 'userOutput' },
           },
           additionalProperties: false,
         },
       },
     },
     preHandler: fastify.checkSession(true),
-    handler: async (request) => {
+    handler: async (request, reply) => {
       const { userRepository } = fastify;
       const { user } = request;
+      if (!user) return reply.notFound();
 
       await userRepository.removeImage(fastify, user.id);
 

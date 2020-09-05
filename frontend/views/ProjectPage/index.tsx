@@ -55,7 +55,7 @@ const ProjectPage: React.FC<Props> = ({
   isLoggedIn,
 }: Props) => {
   const { pathname } = useLocation();
-  const { urlKey = '' } = useParams();
+  const { urlKey = '' } = useParams<{ urlKey: string }>();
   const [speedDialHidden, setSpeedDialHidden] = React.useState(!isLoggedIn);
 
   React.useEffect(() => {
