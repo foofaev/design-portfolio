@@ -38,9 +38,7 @@ export default async (): Promise<FastifyInstance> => {
     .register(fastifyStatic, {
       root: path.join(__dirname, '..', 'dist'),
     })
-    // .register(fastifyHelmet, {
-    //   hidePoweredBy: { setTo: 'PHP 4.2.0' },
-    // })
+    .register(fastifyHelmet)
     .register(dbPlugin)
     .register(authPlugin)
     .register(fastifyMultipart, { addToBody: true, sharedSchemaId: 'rawFileSchema' })
