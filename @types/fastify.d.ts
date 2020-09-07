@@ -1,7 +1,7 @@
 /* ****************************************************************************************************************** */
 
-import { ServerResponse, IncomingMessage, Server } from 'http';
 import { Connection, Repository } from 'typeorm';
+import { CheckSessionHook } from '../backend/plugins/auth';
 
 import Project from '../backend/entities/Project';
 import User from '../backend/entities/User';
@@ -17,32 +17,19 @@ type SessionRequestType = Omit<Session, 'user'>;
 
 /* ****************************************************************************************************************** */
 declare module 'fastify' {
-  type FastifyMiddlewareWithOpts = (
-    strict?: boolean | void
-  ) => FastifyMiddleware;
-
-  interface FastifyInstance<
-    HttpServer = Server,
-    HttpRequest = IncomingMessage,
-    HttpResponse = ServerResponse
-  > {
+  interface FastifyInstance {
     db: Connection;
     projectRepository: ProjectRepository;
     userRepository: UserRepository;
     sessionRepository: Repository<Session>;
     fileRepository: FileRepository;
     fileReferenceRepository: FileReferenceRepository;
-    checkSession: FastifyMiddlewareWithOpts;
+    checkSession: CheckSessionHook;
   }
 
-  interface FastifyRequest<
-    HttpRequest,
-    Query = DefaultQuery,
-    Params = DefaultParams,
-    Headers = DefaultHeaders,
-  > {
-    session: SessionRequestType;
-    user: User;
+  interface FastifyRequest {
+    session?: SessionRequestType;
+    user?: User;
   }
 }
 

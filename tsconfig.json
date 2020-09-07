@@ -5,6 +5,8 @@
       "dom",
       "esnext"
     ],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
@@ -18,17 +20,21 @@
 
     "strict": true,
     "strictPropertyInitialization": false,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
 
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
 
     "typeRoots": [
-      "node_modules/@types",
-      "@types"
+      "./@types",
+      "./node_modules/@types"
     ],
     "jsx": "react"
-  }
+  },
+  "include": [
+    "@types/*",
+    "./index.ts",
+    "backend/**/*",
+    "frontend/**/*",
+    "__tests__/**/*"
+  ]
 }

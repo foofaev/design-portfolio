@@ -2,7 +2,6 @@
 
 import { readFileSync } from 'fs';
 
-import { ServerResponse } from 'http';
 import { FastifyInstance, FastifyReply } from 'fastify';
 
 import _ from 'lodash';
@@ -19,7 +18,7 @@ const MAX_HEIGHT = 1024;
 
 /* ****************************************************************************************************************** */
 
-interface Query {
+interface Querystring {
   noColor?: boolean;
   width?: number;
   height?: number;
@@ -27,6 +26,15 @@ interface Query {
   fit?: keyof sharp.FitEnum;
   keepAspect?: boolean;
   noUpscale?: boolean;
+}
+
+interface Params {
+  fileUrl: string;
+}
+
+interface FileRequest {
+  Querystring: Querystring,
+  Params: Params,
 }
 
 /* ****************************************************************************************************************** */
@@ -42,7 +50,7 @@ const prepareFileImageContent = (
   fileId: string,
   filepath: string,
   imageFormat: sharp.AvailableFormatInfo | string | undefined,
-  query: Query,
+  query: Querystring,
 ): Promise<Buffer> | Buffer => {
   try {
     if (!imageFormat || !_.some([query.noColor, query.width, query.height, query.quality])) {
@@ -86,7 +94,7 @@ const fileWhereQueryIsIncorrect = (fileWhere: FileWhere) => _.some(
 );
 
 /* ****************************************************************************************************************** */
-const prepareFileResponse = async (fastify: FastifyInstance, file: File, query: Query) => {
+const prepareFileResponse = async (fastify: FastifyInstance, file: File, query: Querystring) => {
   if (!file) return null;
 
   let contentType = file.contentType || 'application/octet-stream';
@@ -107,29 +115,29 @@ const prepareFileResponse = async (fastify: FastifyInstance, file: File, query: 
 const handleFileRequest = async (
   fastify: FastifyInstance,
   fileWhere: FileWhere,
-  query: Query,
-  response: FastifyReply<ServerResponse>,
+  query: Querystring,
+  response: FastifyReply,
 ) => {
   try {
     if (fileWhereQueryIsIncorrect(fileWhere)) {
-      return response.status(404).send('Not found');
+      return response.notFound();
     }
 
     const file = await fastify.fileRepository.findOneOrFail({ where: fileWhere });
     const responseInfo = await prepareFileResponse(fastify, file, query);
     if (!responseInfo) {
-      return response.status(404).send('Not found');
+      return response.notFound();
     }
 
     const encodedFileName = encodeURIComponent(file.name);
-    response.header('content-type', responseInfo.contentType);
-    response.header('cache-control', responseInfo.cacheControl);
-    response.header(
-      'content-disposition',
-      `inline; filename="${encodedFileName}"; filename*=UTF-8''${encodedFileName}`,
-    );
 
-    return response.status(200).send(responseInfo.content);
+    response.headers({
+      'content-type': responseInfo.contentType,
+      'cache-control': responseInfo.cacheControl,
+      'content-disposition': `inline; filename="${encodedFileName}"; filename*=UTF-8''${encodedFileName}`,
+    });
+
+    return responseInfo.content;
   } catch (error) {
     fastify.log.error(
       `getFile: ${(error as Error).toString()} (file: ${JSON.stringify(fileWhere, null, 2)} \\ query: ${JSON.stringify(
@@ -138,12 +146,12 @@ const handleFileRequest = async (
         2,
       )})`,
     );
-    return response.status(500).send('Server side error');
+    return response.internalServerError();
   }
 };
 
 /* ****************************************************************************************************************** */
-export const getFile = (fastify: FastifyInstance) => fastify.route<Query>({
+export const getFile = (fastify: FastifyInstance) => fastify.route<FileRequest>({
   method: 'GET',
   schema: {
     params: {
@@ -175,7 +183,7 @@ export const getFile = (fastify: FastifyInstance) => fastify.route<Query>({
 });
 
 /* ****************************************************************************************************************** */
-export const getImage = (fastify: FastifyInstance) => fastify.route<Query>({
+export const getImage = (fastify: FastifyInstance) => fastify.route<FileRequest>({
   method: 'GET',
   schema: {
     params: {

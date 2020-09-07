@@ -1,3 +1,4 @@
+/// <reference path="../@types/fastify.d.ts" />
 /* ****************************************************************************************************************** */
 
 import { FastifyInstance } from 'fastify';
@@ -92,7 +93,7 @@ async function getCookie(fastify: FastifyInstance, user: Partial<User>): Promise
   const authRes = await supertest(fastify.server)
     .put('/api/session')
     .send(user)
-    .expect(200);
+    .expect(204);
   // TODO:
   return authRes.header['set-cookie']; // eslint-disable-line
 }

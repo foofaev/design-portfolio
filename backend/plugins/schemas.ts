@@ -1,10 +1,14 @@
-import fp from 'fastify-plugin';
+/* ****************************************************************************************************************** */
+
+import fastifyPlugin from 'fastify-plugin';
+import { FastifyPluginCallback } from 'fastify';
 
 import { projectInput, projectOutput, projectTypeSchema } from '../schemas/project';
 import { sessionHeader } from '../schemas/session';
 import { userInput, userOutput } from '../schemas/user';
 
-export default fp((fastify, __, next) => {
+/* ****************************************************************************************************************** */
+const schemaRegisterPlugin: FastifyPluginCallback = (fastify, __, next) => {
   try {
     fastify.addSchema(projectTypeSchema);
     fastify.addSchema(projectInput);
@@ -18,4 +22,9 @@ export default fp((fastify, __, next) => {
     fastify.log.error(JSON.stringify((error as Error).stack, null, 2));
     next(error);
   }
-});
+};
+
+/* ****************************************************************************************************************** */
+export default fastifyPlugin(schemaRegisterPlugin);
+
+/* ****************************************************************************************************************** */

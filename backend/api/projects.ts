@@ -1,5 +1,5 @@
 /* ****************************************************************************************************************** */
-import { FastifyInstance, FastifyRequest, DefaultQuery, DefaultHeaders, DefaultParams } from 'fastify';
+import { FastifyInstance } from 'fastify';
 import { projectsToJSON } from '../libs/toJSON';
 import Project from '../entities/Project';
 /* ****************************************************************************************************************** */
@@ -13,7 +13,7 @@ type GetProjectsQuery = {
   offset: number;
 };
 
-const index = (fastify: FastifyInstance) => fastify.route<GetProjectsQuery>({
+const index = (fastify: FastifyInstance) => fastify.route<{Querystring: GetProjectsQuery}>({
   method: 'GET',
   url: '/api/projects',
   schema: {
@@ -30,7 +30,7 @@ const index = (fastify: FastifyInstance) => fastify.route<GetProjectsQuery>({
       200: {
         type: 'object',
         properties: {
-          projects: { type: 'array', items: 'projectOutput#' },
+          projects: { type: 'array', items: { $ref: 'projectOutput' } },
         },
       },
     },
@@ -47,7 +47,7 @@ const index = (fastify: FastifyInstance) => fastify.route<GetProjectsQuery>({
 });
 
 /* ****************************************************************************************************************** */
-const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, DefaultHeaders>({
+const show = (fastify: FastifyInstance) => fastify.route<{ Params: Params }>({
   method: 'GET',
   url: '/api/projects/:urlKey',
   schema: {
@@ -63,7 +63,7 @@ const show = (fastify: FastifyInstance) => fastify.route<DefaultQuery, Params, D
       200: {
         type: 'object',
         properties: {
-          project: 'projectOutput#',
+          project: { $ref: 'projectOutput' },
         },
         additionalProperties: false,
       },
@@ -90,7 +90,7 @@ type SaveProjectBody = {
 };
 
 const save = (fastify: FastifyInstance) => fastify
-  .route<DefaultQuery, DefaultParams, DefaultHeaders, SaveProjectBody>({
+  .route<{ Body: SaveProjectBody }>({
     method: 'PUT',
     url: '/api/projects',
     schema: {
@@ -110,7 +110,7 @@ const save = (fastify: FastifyInstance) => fastify
         200: {
           type: 'object',
           properties: {
-            project: 'projectOutput#',
+            project: { $ref: 'projectOutput' },
           },
           additionalProperties: false,
         },
@@ -144,7 +144,7 @@ type UpdateProjectBody = {
 };
 
 const update = (fastify: FastifyInstance) => fastify
-  .route<DefaultQuery, UpdateProjectParams, DefaultHeaders, UpdateProjectBody>({
+  .route<{ Params: UpdateProjectParams, Body: UpdateProjectBody }>({
     method: 'PATCH',
     url: '/api/projects/:id',
     schema: {
@@ -171,7 +171,7 @@ const update = (fastify: FastifyInstance) => fastify
         200: {
           type: 'object',
           properties: {
-            project: 'projectOutput#',
+            project: { $ref: 'projectOutput' },
           },
           additionalProperties: false,
         },
@@ -196,7 +196,7 @@ type RemoveProjectParams = {
 };
 
 const remove = (fastify: FastifyInstance) => fastify
-  .route<DefaultQuery, RemoveProjectParams>({
+  .route<{ Params: RemoveProjectParams }>({
     method: 'DELETE',
     url: '/api/projects/:urlKey',
     schema: {
@@ -237,7 +237,7 @@ type SaveProjectImageBody = {
 };
 
 const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify
-  .route<DefaultQuery, SaveProjectImageParams, DefaultHeaders, SaveProjectImageBody>({
+  .route<{ Params: SaveProjectImageParams, Body: SaveProjectImageBody }>({
     method: 'PATCH',
     url: '/api/projects/image/:projectId',
     schema: {
@@ -245,7 +245,7 @@ const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify
         type: 'object',
         properties: {
           ord: { type: 'integer' },
-          file: { type: 'array', items: 'rawFileSchema#' },
+          file: { type: 'array', items: { $ref: 'rawFileSchema' } },
         },
         required: ['file', 'ord'],
         additionalProperties: false,
@@ -262,7 +262,7 @@ const saveProjectImage = (fastify: FastifyInstance): FastifyInstance => fastify
         200: {
           type: 'object',
           properties: {
-            project: 'projectOutput#',
+            project: { $ref: 'projectOutput' },
           },
           additionalProperties: false,
         },
@@ -305,7 +305,7 @@ type UpdateProjectImageOrdParams = {
 };
 
 const updateProjectImageOrd = (fastify: FastifyInstance) => fastify
-  .route<DefaultQuery, UpdateProjectImageOrdParams, DefaultHeaders, UpdateProjectImageOrdBody>({
+  .route<{ Params: UpdateProjectImageOrdParams, Body: UpdateProjectImageOrdBody }>({
     method: 'PATCH',
     url: '/api/projects/image/:projectId/:fileId',
     schema: {
@@ -330,7 +330,7 @@ const updateProjectImageOrd = (fastify: FastifyInstance) => fastify
         200: {
           type: 'object',
           properties: {
-            project: 'projectOutput#',
+            project: { $ref: 'projectOutput' },
           },
           additionalProperties: false,
         },
@@ -355,47 +355,48 @@ const updateProjectImageOrd = (fastify: FastifyInstance) => fastify
   });
 
 /* ****************************************************************************************************************** */
-const removeProjectImage = (fastify: FastifyInstance) => fastify.route({
-  method: 'DELETE',
-  url: '/api/projects/image/:projectId/:fileId',
-  schema: {
-    params: {
-      type: 'object',
-      properties: {
-        projectId: { type: 'string', format: 'uuid' },
-        fileId: { type: 'string', format: 'uuid' },
-      },
-      additionalProperties: false,
-      required: ['projectId', 'fileId'],
-    },
-    response: {
-      200: {
+const removeProjectImage = (fastify: FastifyInstance) => fastify
+  .route<{ Params: { projectId: string; fileId: string } }>({
+    method: 'DELETE',
+    url: '/api/projects/image/:projectId/:fileId',
+    schema: {
+      params: {
         type: 'object',
         properties: {
-          project: 'projectOutput#',
+          projectId: { type: 'string', format: 'uuid' },
+          fileId: { type: 'string', format: 'uuid' },
         },
         additionalProperties: false,
+        required: ['projectId', 'fileId'],
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            project: { $ref: 'projectOutput' },
+          },
+          additionalProperties: false,
+        },
       },
     },
-  },
-  preHandler: fastify.checkSession(true),
-  handler: async (request) => {
-    const { projectRepository, fileReferenceRepository } = fastify;
-    const { params: { projectId, fileId: fileRefId } } = request;
+    preHandler: fastify.checkSession(true),
+    handler: async (request) => {
+      const { projectRepository, fileReferenceRepository } = fastify;
+      const { params: { projectId, fileId: fileRefId } } = request;
 
-    const project = await projectRepository.findOneOrFail(projectId);
-    const fileref = await fileReferenceRepository.findOneOrFail(fileRefId);
+      const project = await projectRepository.findOneOrFail(projectId);
+      const fileref = await fileReferenceRepository.findOneOrFail(fileRefId);
 
-    // TODO: remove file if not referenced
-    await fileReferenceRepository.remove(fileref);
+      // TODO: remove file if not referenced
+      await fileReferenceRepository.remove(fileref);
 
-    await projectRepository.updateMainImageId(fastify, project);
-    const updated = await projectRepository
-      .findOneOrFail(projectId, { relations: ['mainImage', 'images', 'draft'] })
-      .then((projects) => projectsToJSON(fastify, projects));
-    return { project: updated };
-  },
-});
+      await projectRepository.updateMainImageId(fastify, project);
+      const updated = await projectRepository
+        .findOneOrFail(projectId, { relations: ['mainImage', 'images', 'draft'] })
+        .then((projects) => projectsToJSON(fastify, projects));
+      return { project: updated };
+    },
+  });
 
 // TODO: buildRelations() =>
 /* ****************************************************************************************************************** */

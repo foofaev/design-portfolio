@@ -56,3 +56,4 @@ rules:
   react/prop-types: 0
   react/require-default-props: 0
   no-shadow: [2, {allow: ['error', 'callback', 'context', 'ctx']}]
+  '@typescript-eslint/no-floating-promises': 0

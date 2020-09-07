@@ -18,17 +18,17 @@ psql:
 	psql design_portfolio -U design_user -p 5700 -h localhost
 
 # testing commands
-test:
+compose-test:
 	 docker-compose exec -T cli yarn test
-lint:
+compose-lint:
 	 docker-compose exec -T cli yarn run lint
-spellcheck:
+compose-spellcheck:
 	 docker-compose exec -T cli yarn run spellcheck
-migrate:
+compose-migrate:
 	 docker-compose exec -T cli yarn run migrate
 
 # check everything before commit
-docker-prepublish: docker-lint docker-spellcheck docker-test
+compose-prepublish: docker-lint docker-spellcheck docker-test
 
 # start docker for dev env
 docker-up:

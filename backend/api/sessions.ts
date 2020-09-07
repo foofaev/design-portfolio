@@ -1,6 +1,6 @@
 /* ****************************************************************************************************************** */
 
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyReply } from 'fastify';
 import moment from 'moment';
 import helpers from '../libs/helpers';
 import { userToJSON } from '../libs/toJSON';
@@ -9,13 +9,14 @@ import { userToJSON } from '../libs/toJSON';
 const SESSION_EXPIRES_DAYS = process.env.SESSION_EXPIRES_DAYS || 30;
 
 /* ****************************************************************************************************************** */
-export const checkSession = (fastify: FastifyInstance): FastifyInstance => fastify.route({
+const checkSession = (fastify: FastifyInstance): FastifyInstance => fastify.route({
   method: 'GET',
   url: '/api/session/check',
   preHandler: fastify.checkSession(true),
-  handler: (request, reply) => {
+  handler: async (request, reply) => {
     const { user } = request;
-    reply.send({ user: userToJSON(fastify, user) });
+    if (!user) return reply.notFound();
+    return { user: userToJSON(fastify, user) };
   },
 });
 
@@ -26,7 +27,7 @@ type CreateBody = {
 };
 
 /* ****************************************************************************************************************** */
-export const create = (fastify: FastifyInstance) => fastify.route<unknown, unknown, unknown, CreateBody>({
+const create = (fastify: FastifyInstance) => fastify.route<{ Body: CreateBody }>({
   method: 'PUT',
   url: '/api/session',
   schema: {
@@ -59,24 +60,32 @@ export const create = (fastify: FastifyInstance) => fastify.route<unknown, unkno
 
     const session = await sessionRepository.save(sessionData);
     request.session = session;
-    reply.code(200).send({});
+    reply.status(204);
   },
 });
 
 /* ****************************************************************************************************************** */
-export const destroy = (fastify: FastifyInstance) => fastify.route({
+const destroy = (fastify: FastifyInstance) => fastify.route({
   method: 'DELETE',
   url: '/api/session',
   schema: {
-    headers: 'sessionHeader#',
+    headers: { $ref: 'sessionHeader' },
   },
   preHandler: fastify.checkSession(true),
-  handler: async (request, reply) => {
+  handler: async (request) => {
     const { session } = request;
-    await fastify.sessionRepository.delete(session.id);
-    delete request.session;
-    reply.code(200).send();
+    if (session) {
+      await fastify.sessionRepository.delete(session.id);
+      delete request.session;
+    }
   },
 });
+
+/* ****************************************************************************************************************** */
+export {
+  checkSession,
+  create,
+  destroy,
+};
 
 /* ****************************************************************************************************************** */

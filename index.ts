@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-
 import * as repl from 'repl';
 import program from 'commander';
 import _ from 'lodash';
