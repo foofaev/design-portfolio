@@ -890,6 +890,15 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
   integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
 
+"@fastify/csrf@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@fastify/csrf/-/csrf-4.0.0.tgz#fc0ce4b5a8dd1e1678f6af34056faaf49993063d"
+  integrity sha512-7voi8U6xSTFV3+nxK1zBxSrP+zm9QsMI+d03sYZUyeeOhMWm1OSKchUnRhkM4gwpztIyfeOfni3pXxqd+oVZMw==
+  dependencies:
+    rndm "^1.2.0"
+    tsscmp "^1.0.6"
+    uid-safe "^2.1.5"
+
 "@hapi/bourne@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@hapi/bourne/-/bourne-2.0.0.tgz#5bb2193eb685c0007540ca61d166d4e1edaf918d"
@@ -3493,15 +3502,6 @@ cspell@^4.0.47:
     glob "^7.1.6"
     minimatch "^3.0.4"
 
-csrf@^3.0.6:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/csrf/-/csrf-3.1.0.tgz#ec75e9656d004d674b8ef5ba47b41fbfd6cb9c30"
-  integrity sha512-uTqEnCvWRk042asU6JtapDTcJeeailFy4ydOQS28bj1hcLnYRiqi8SsD2jS412AY1I/4qdOwWZun774iqywf9w==
-  dependencies:
-    rndm "1.2.0"
-    tsscmp "1.0.6"
-    uid-safe "2.1.5"
-
 css-color-names@0.0.4, css-color-names@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
@@ -4808,13 +4808,14 @@ fastify-cookie@^3.6.0:
     cookie-signature "^1.1.0"
     fastify-plugin "^1.4.0"
 
-fastify-csrf@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/fastify-csrf/-/fastify-csrf-1.0.3.tgz#07d6c33e0aab27cfe99fb167403591283a683317"
-  integrity sha512-wdfFnF/TL229zom+hwgJ3fu/PtcwRdrCy+yvvKfSqn8hCvnxkHj1BTlO9SLQlaX8VfXdZkHd4HarglkdU1KoHQ==
+fastify-csrf@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/fastify-csrf/-/fastify-csrf-3.1.0.tgz#55d963791cd7c8020238f484d29e3d216fbcac89"
+  integrity sha512-FWcv23mZVECHP2np9ag4W7+BaU3jbWOXgYHD4W4qhxNMLNWgnmOv7vn1zDiYk+t88s5euxmvyFpGj7t5FMXZ6Q==
   dependencies:
-    csrf "^3.0.6"
-    fastify-plugin "^1.4.0"
+    "@fastify/csrf" "^4.0.0"
+    fastify-plugin "^3.0.0"
+    http-errors "^1.8.0"
 
 fastify-helmet@^3.0.2:
   version "3.0.2"
@@ -4853,6 +4854,11 @@ fastify-plugin@^1.2.1, fastify-plugin@^1.4.0, fastify-plugin@^1.5.0, fastify-plu
   integrity sha512-APBcb27s+MjaBIerFirYmBLatoPCgmHZM6XP0K+nDL9k0yX8NJPWDY1RAC3bh6z+AB5ULS2j31BUfLMT3uaZ4A==
   dependencies:
     semver "^6.3.0"
+
+fastify-plugin@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-3.0.0.tgz#cf1b8c8098e3b5a7c8c30e6aeb06903370c054ca"
+  integrity sha512-ZdCvKEEd92DNLps5n0v231Bha8bkz1DjnPP/aEz37rz/q42Z5JVLmgnqR4DYuNn3NXAO3IDCPyRvgvxtJ4Ym4w==
 
 fastify-sensible@^2.1.1:
   version "2.1.1"
@@ -5559,7 +5565,7 @@ htmlparser2@^3.9.1, htmlparser2@^3.9.2:
     inherits "^2.0.1"
     readable-stream "^3.1.1"
 
-http-errors@^1.7.2:
+http-errors@^1.7.2, http-errors@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.8.0.tgz#75d1bbe497e1044f51e4ee9e704a62f28d336507"
   integrity sha512-4I8r0C5JDhT5VkvI47QktDW75rNlGVsUf/8hzjCC/wkWI/jdTRmBb9aI7erSG82r1bjKY3F6k28WnsVxB1C73A==
@@ -9510,7 +9516,7 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rndm@1.2.0:
+rndm@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/rndm/-/rndm-1.2.0.tgz#f33fe9cfb52bbfd520aa18323bc65db110a1b76c"
   integrity sha1-8z/pz7Urv9UgqhgyO8ZdsRCht2w=
@@ -10731,7 +10737,7 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
 
-tsscmp@1.0.6:
+tsscmp@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/tsscmp/-/tsscmp-1.0.6.tgz#85b99583ac3589ec4bfef825b5000aa911d605eb"
   integrity sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==
@@ -10855,7 +10861,7 @@ typescript@^3.8.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
   integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
-uid-safe@2.1.5:
+uid-safe@^2.1.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/uid-safe/-/uid-safe-2.1.5.tgz#2b3d5c7240e8fc2e58f8aa269e5ee49c0857bd3a"
   integrity sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==
